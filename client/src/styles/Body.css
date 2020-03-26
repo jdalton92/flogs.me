@@ -1,0 +1,14 @@
+.body {
+  color: black;
+  text-align: center;
+  min-height: 80vh;
+}
+
+.body-message {
+  font-size: 48px;
+  margin: 150px 0 50px 0;
+}
+
+.loader-wrapper {
+  height: 350px;
+}

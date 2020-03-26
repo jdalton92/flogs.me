@@ -1,0 +1,41 @@
+.footer-wrapper {
+  height: 200px;
+  border-top: solid 1px black;
+  width: 98%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.footer-header,
+.footer-info {
+  width: 175px;
+}
+
+.footer-header {
+  padding-bottom: 5px;
+}
+
+.footer-icon {
+  height: 30px;
+  width: 75px;
+  z-index: 2;
+  background-color: black;
+}
+
+.twitter-icon {
+  -webkit-mask: url(../styles/images/twitter.svg) no-repeat center;
+  mask: url(../styles/images/twitter.svg) no-repeat center;
+}
+.github-icon {
+  -webkit-mask: url(../styles/images/github.svg) no-repeat center;
+  mask: url(../styles/images/github.svg) no-repeat center;
+}
+.email-icon {
+  -webkit-mask: url(../styles/images/email.svg) no-repeat center;
+  mask: url(../styles/images/email.svg) no-repeat center;
+}
+
+.footer-icon:hover {
+  cursor: pointer;
+  background-color: grey;
+}
