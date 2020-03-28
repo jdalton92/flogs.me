@@ -1,14 +1,18 @@
 import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import NotificationContext from "../context/NotificationContext";
-import { v4 as uuid } from "uuid";
 
 const NavItems = ({ viewType }) => {
   const { setNotification } = useContext(NotificationContext);
+  const history = useHistory();
+
+  const handleLink = link => {
+    history.push(link);
+  };
 
   const handleClick = e => {
     e.preventDefault();
     setNotification({
-      id: uuid(),
       type: "fail",
       title: "¯\\_(ツ)_/¯",
       message: "content coming soon"
@@ -21,7 +25,7 @@ const NavItems = ({ viewType }) => {
       <li onClick={handleClick}>lifestyle</li>
       <li onClick={handleClick}>other shit</li>
       <li onClick={handleClick}>merch</li>
-      <li onClick={handleClick}>contact</li>
+      <li onClick={() => handleLink("/contact")}>contact</li>
     </ul>
   );
 };

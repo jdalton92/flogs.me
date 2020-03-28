@@ -9,6 +9,7 @@ mongoose.set("useCreateIndex", true);
 const middleware = require("./utils/middleware");
 
 const subscriptionsRouter = require("./controllers/subscriptions");
+const contactRouter = require("./controllers/contact");
 
 app.use(cors());
 app.use(express.static(__dirname + "/build"));
@@ -36,5 +37,6 @@ app.use(middleware.errorHandler);
 app.use(middleware.requestLogger);
 
 app.use("/api/subscriptions", subscriptionsRouter);
+app.use("/api/contact", contactRouter);
 
 module.exports = app;

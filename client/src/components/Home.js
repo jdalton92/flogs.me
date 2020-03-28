@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
 import NotificationContext from "../context/NotificationContext";
 import subscribeService from "../services/subscription";
-import "../styles/Body.css";
+import "../styles/Home.css";
 
-const Body = () => {
+const Home = () => {
   const [form, setForm] = useState({});
   const [fetching, setFetching] = useState();
   const { setNotification } = useContext(NotificationContext);
@@ -34,7 +34,7 @@ const Body = () => {
   };
 
   return (
-    <section className="body">
+    <section className="home-section">
       <div className="flex-col-center">
         <div className="loader-wrapper">
           <div className="loader-col">Loading...</div>
@@ -74,4 +74,4 @@ const Body = () => {
   );
 };
 
-export default Body;
+export default Home;
