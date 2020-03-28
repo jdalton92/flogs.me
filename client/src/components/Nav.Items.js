@@ -1,17 +1,19 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
-import NotificationContext from "../context/NotificationContext";
+import Context from "../context/Context";
 
 const NavItems = ({ viewType }) => {
-  const { setNotification } = useContext(NotificationContext);
+  const { setNotification, setOpen } = useContext(Context);
   const history = useHistory();
 
   const handleLink = link => {
+    setOpen(false);
     history.push(link);
   };
 
   const handleClick = e => {
     e.preventDefault();
+    setOpen(false);
     setNotification({
       type: "fail",
       title: "¯\\_(ツ)_/¯",

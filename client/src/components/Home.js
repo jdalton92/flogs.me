@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
-import NotificationContext from "../context/NotificationContext";
+import Context from "../context/Context";
 import subscribeService from "../services/subscription";
 import "../styles/Home.css";
 
 const Home = () => {
   const [form, setForm] = useState({});
   const [fetching, setFetching] = useState();
-  const { setNotification } = useContext(NotificationContext);
+  const { setNotification } = useContext(Context);
 
   const handleSubmit = async e => {
     e.preventDefault();

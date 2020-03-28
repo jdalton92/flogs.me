@@ -1,12 +1,12 @@
 import React, { useState, useContext } from "react";
 import contactService from "../services/email";
-import NotificationContext from "../context/NotificationContext";
+import Context from "../context/Context";
 import "../styles/Contact.scss";
 
 const Contact = () => {
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({});
-  const { setNotification } = useContext(NotificationContext);
+  const { setNotification } = useContext(Context);
 
   const formHandler = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -39,7 +39,7 @@ const Contact = () => {
     <section className="contact-section flex-col">
       <div className="flex-col-center form-wrapper">
         {loading ? (
-          <div className="loader">Loading...</div>
+          <div className="loader-spinner">Loading...</div>
         ) : (
           <form onSubmit={handleSubmit}>
             <div className="form-field">

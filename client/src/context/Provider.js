@@ -1,24 +1,32 @@
 import React, { useState } from "react";
-import NotificationContext from "./NotificationContext";
+import Context from "./Context";
 import { v4 as uuid } from "uuid";
 
-const NotificationProvider = ({ children }) => {
+const Provider = ({ children }) => {
   const [notifications, setMessage] = useState([]);
+  const [open, setOpen] = useState(false);
 
   const setNotification = data =>
     setMessage([...notifications, { ...data, id: uuid() }]);
+
   const removeNotification = id => {
     const newNotifications = notifications.filter(n => n.id !== id);
     setMessage(newNotifications);
   };
 
   return (
-    <NotificationContext.Provider
-      value={{ notifications, setNotification, removeNotification }}
+    <Context.Provider
+      value={{
+        notifications,
+        setNotification,
+        removeNotification,
+        open,
+        setOpen
+      }}
     >
       {children}
-    </NotificationContext.Provider>
+    </Context.Provider>
   );
 };
 
-export default NotificationProvider;
+export default Provider;

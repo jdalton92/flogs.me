@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import NotificationContext from "../context/NotificationContext";
+import Context from "../context/Context";
 import NotificationAlert from "./Notification.Alert";
 import "../styles/Notification.css";
 
 const Notification = () => {
-  const { notifications } = useContext(NotificationContext);
+  const { notifications } = useContext(Context);
 
   return (
     <div className="flex-col notification-wrapper m10">

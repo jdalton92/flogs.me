@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import NotificationContext from "../context/NotificationContext";
+import Context from "../context/Context";
 import "../styles/Footer.css";
 
 const Footer = () => {
-  const { setNotification } = useContext(NotificationContext);
+  const { setNotification } = useContext(Context);
 
   const handleTwitter = e => {
     e.preventDefault();

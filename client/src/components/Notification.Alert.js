@@ -1,9 +1,9 @@
 import React, { useContext, useState } from "react";
-import NotificationContext from "../context/NotificationContext";
+import Context from "../context/Context";
 
 const NotificationAlert = ({ notification }) => {
   const [animate, setAnimate] = useState(false);
-  const { removeNotification } = useContext(NotificationContext);
+  const { removeNotification } = useContext(Context);
 
   const handleClose = e => {
     e.preventDefault();
