@@ -8,7 +8,7 @@
 
 .footer-header,
 .footer-info {
-  width: 175px;
+  width: 60%;
 }
 
 .footer-header {
@@ -17,8 +17,8 @@
 
 .footer-icon {
   height: 30px;
-  width: 75px;
-  z-index: 2;
+  min-width: 40px;
+  width: 20%;
   background-color: black;
 }
 

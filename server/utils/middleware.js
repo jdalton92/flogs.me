@@ -1,22 +1,22 @@
 const logger = require("./logger");
 
-const requestLogger = (request, response, next) => {
-  logger.info("Method:", request.method);
-  logger.info("Path:  ", request.path);
-  logger.info("Body:  ", request.body);
+const requestLogger = (req, res, next) => {
+  logger.info("Method:", req.method);
+  logger.info("Path:  ", req.path);
+  logger.info("Body:  ", req.body);
   logger.info("---");
   next();
 };
 
-const errorHandler = (error, request, response, next) => {
+const errorHandler = (e, req, res, next) => {
   if (error.name === "ValidationError" || "ValidatorError") {
-    return response.status(400).json({ error: error.message });
+    return res.status(400).json({ error: e.message });
   } else if (error.name === "Error") {
-    return response.status(400).json({ error: "invalid request" });
+    return res.status(400).json({ error: "invalid request" });
   }
 
-  logger.error(error.message);
-  next(error);
+  logger.error(e.message);
+  next(e);
 };
 
 module.exports = {

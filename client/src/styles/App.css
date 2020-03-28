@@ -47,6 +47,26 @@
   flex: 5;
 }
 
+.flex-6 {
+  flex: 6;
+}
+
+.flex-7 {
+  flex: 7;
+}
+
+.flex-8 {
+  flex: 8;
+}
+
+.flex-9 {
+  flex: 9;
+}
+
+.flex-10 {
+  flex: 10;
+}
+
 .w100 {
   width: 100%;
 }
@@ -239,16 +259,16 @@
   padding: 50px;
 }
 
-.loader,
-.loader:before,
-.loader:after {
+.loader-col,
+.loader-col:before,
+.loader-col:after {
   background: black;
   -webkit-animation: load1 1s infinite ease-in-out;
   animation: load1 1s infinite ease-in-out;
   width: 1em;
   height: 4em;
 }
-.loader {
+.loader-col {
   color: black;
   text-indent: -9999em;
   margin: 88px auto;
@@ -260,18 +280,18 @@
   -webkit-animation-delay: -0.16s;
   animation-delay: -0.16s;
 }
-.loader:before,
-.loader:after {
+.loader-col:before,
+.loader-col:after {
   position: absolute;
   top: 0;
   content: "";
 }
-.loader:before {
+.loader-col:before {
   left: -1.5em;
   -webkit-animation-delay: -0.32s;
   animation-delay: -0.32s;
 }
-.loader:after {
+.loader-col:after {
   left: 1.5em;
 }
 @-webkit-keyframes load1 {
@@ -296,5 +316,77 @@
   40% {
     box-shadow: 0 -2em;
     height: 5em;
+  }
+}
+
+.loader-spinner {
+  font-size: 10px;
+  margin: 30px auto;
+  text-indent: -9999em;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: black;
+  background: -moz-linear-gradient(
+    left,
+    #ffffff 10%,
+    rgba(255, 255, 255, 0) 42%
+  );
+  background: -webkit-linear-gradient(
+    left,
+    black 10%,
+    rgba(255, 255, 255, 0) 42%
+  );
+  background: -o-linear-gradient(left, black 10%, rgba(255, 255, 255, 0) 42%);
+  background: -ms-linear-gradient(left, black 10%, rgba(255, 255, 255, 0) 42%);
+  background: linear-gradient(to right, black 10%, rgba(255, 255, 255, 0) 42%);
+  position: relative;
+  -webkit-animation: load3 1.4s infinite linear;
+  animation: load3 1.4s infinite linear;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+.loader-spinner:before {
+  width: 50%;
+  height: 50%;
+  background: black;
+  border-radius: 100% 0 0 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+}
+.loader-spinner:after {
+  background: white;
+  width: 75%;
+  height: 75%;
+  border-radius: 50%;
+  content: "";
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+@-webkit-keyframes load3 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes load3 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }

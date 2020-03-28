@@ -6,9 +6,58 @@
 
 .body-message {
   font-size: 48px;
-  margin: 150px 0 50px 0;
+  margin: 50px 0 50px 0;
 }
 
 .loader-wrapper {
-  height: 350px;
+  height: 150px;
+  margin: 50px 0 50px 0;
+}
+
+.subscribe-box {
+  border: solid black;
+  width: 60%;
+  padding: 30px;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.subscribe-form {
+  padding: 15px 0 15px 0;
+  width: 300px;
+  min-height: 150px;
+  margin: auto;
+}
+
+.subscribe-form button,
+.subscribe-form input {
+  margin-top: 15px;
+}
+
+.subscribe-form input {
+  padding: 5px;
+  width: 100%;
+}
+
+.subscribe-form button {
+  width: 100%;
+  height: 30px;
+  color: white;
+  background-color: black;
+  border: solid 1px black;
+}
+
+.subscribe-form button:hover {
+  cursor: pointer;
+  color: black;
+  background-color: white;
+}
+
+@media screen and (max-width: 768px) {
+  .subscribe-form,
+  .subscribe-box {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }

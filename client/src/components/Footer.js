@@ -1,21 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
+import NotificationContext from "../context/NotificationContext";
 import "../styles/Footer.css";
 
 const Footer = () => {
+  const { setNotification } = useContext(NotificationContext);
+
   const handleTwitter = e => {
     e.preventDefault();
-    const win = window.open(
-      "https://au.linkedin.com/in/james-dalton-b786a876",
-      "_blank"
-    );
-    if (win != null) {
-      win.focus();
-    }
+    setNotification({
+      type: "fail",
+      title: "¯\\_(ツ)_/¯",
+      message: "nope"
+    });
   };
 
   const handleGitHub = e => {
     e.preventDefault();
-    const win = window.open("https://github.com/jdalton92/", "_blank");
+    const win = window.open("https://github.com/jdalton92/flogs.me", "_blank");
     if (win != null) {
       win.focus();
     }
@@ -23,14 +24,18 @@ const Footer = () => {
 
   const handleEmail = e => {
     e.preventDefault();
-    window.location.href =
-      "mailto:jamesdalton7648@gmail.com?subject=jamesdalton.io%20message";
+    setNotification({
+      type: "fail",
+      title: "¯\\_(ツ)_/¯",
+      message: "not yet"
+    });
   };
+
   return (
     <footer className="">
       <div className="p15 m-auto footer-wrapper flex-row-center">
         <div className="flex-1 h100 flex-col-center">
-          <h4 className="footer-header">flogs.me info</h4>
+          <h4 className="footer-header">flogs.me</h4>
           <p className="footer-info">made for your face</p>
         </div>
         <div className="flex-1 h100 flex-col-center">
