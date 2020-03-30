@@ -37,35 +37,35 @@ export const Burger = styled.button`
   }
 `;
 export const Menu = styled.nav`
-position: fixed;
-background: white;
-transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-100%)")};
-height: 100vh;
-padding: 2rem;
-top: 0;
-left: 0;
-z-index: 1;
-transition: transform 0.6s ease-in-out;
-overflow: hidden;
-.menu-link-container {
-    display: flex;
-    flex-direction: column;
-    height: 80%;
-    justify-content: space-evenly;
-    align-items: center;
-}
-.dropdown-menu {
-    display: flex;
-    flex-direction: column;
-}
-.dropdown-burger-item {
-    align-text: center;
-}
-@media (max-width: 768px) {
-    width: 50%;
-    }
-@media (max-width: 500px) {
-    width: 100%;
-    }  
-}
+  position: fixed;
+  background: white;
+  transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-100%)")};
+  height: 100vh;
+  padding: 2rem;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  transition: transform 0.6s ease-in-out;
+  overflow: hidden;
+  .menu-link-container {
+      display: flex;
+      flex-direction: column;
+      height: 80%;
+      justify-content: space-evenly;
+      align-items: center;
+  }
+  .dropdown-menu {
+      display: flex;
+      flex-direction: column;
+  }
+  .dropdown-burger-item {
+      align-text: center;
+  }
+  @media (max-width: 768px) {
+      width: 50%;
+      }
+  @media (max-width: 500px) {
+      width: 100%;
+      }  
+  }
 `;

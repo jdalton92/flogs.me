@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import contactService from "../services/email";
+import contactService from "../services/contact";
 import Context from "../context/Context";
 import "../styles/Contact.scss";
 
@@ -25,7 +25,7 @@ const Contact = () => {
         message: "email sent"
       });
     } catch (e) {
-      console.log(e);
+      console.log(e.response);
       setNotification({
         type: "fail",
         title: "¯\\_(ツ)_/¯",

@@ -54,7 +54,10 @@
 }
 
 @media screen and (max-width: 768px) {
-  .subscribe-form,
+  .subscribe-form {
+    width: 100%;
+  }
+
   .subscribe-box {
     width: 80%;
     margin-left: auto;

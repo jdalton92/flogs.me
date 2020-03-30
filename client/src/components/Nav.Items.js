@@ -23,7 +23,7 @@ const NavItems = ({ viewType }) => {
 
   return (
     <ul className={`w100 nav-items-${viewType}`}>
-      <li onClick={handleClick}>personal finance</li>
+      <li onClick={handleClick}>money</li>
       <li onClick={handleClick}>lifestyle</li>
       <li onClick={handleClick}>other shit</li>
       <li onClick={handleClick}>merch</li>
