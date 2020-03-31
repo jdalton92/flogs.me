@@ -17,15 +17,15 @@ const NavItems = ({ viewType }) => {
     setNotification({
       type: "fail",
       title: "¯\\_(ツ)_/¯",
-      message: "content coming soon"
+      message: "merch coming soon"
     });
   };
 
   return (
-    <ul className={`w100 nav-items-${viewType}`}>
-      <li onClick={handleClick}>money</li>
-      <li onClick={handleClick}>lifestyle</li>
-      <li onClick={handleClick}>other shit</li>
+    <ul className={`nav-items-${viewType}`}>
+      <li onClick={() => handleLink("/money")}>money</li>
+      <li onClick={() => handleLink("/lifestyle")}>lifestyle</li>
+      <li onClick={() => handleLink("/other-shit")}>other shit</li>
       <li onClick={handleClick}>merch</li>
       <li onClick={() => handleLink("/contact")}>contact</li>
     </ul>

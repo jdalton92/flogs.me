@@ -14,7 +14,7 @@ const NotificationAlert = ({ notification }) => {
   const { title, message, type } = notification;
   return (
     <div
-      className={`flex-col-center p10 notification-alert-wrapper ${
+      className={`flex-col-center p10 box-shadow-hover notification-alert-wrapper ${
         animate ? "notification-alert-close" : ""
       }`}
     >

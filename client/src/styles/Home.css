@@ -15,8 +15,7 @@
 }
 
 .subscribe-box {
-  border: solid black;
-  width: 60%;
+  border: solid 1px black;
   padding: 30px;
   margin-top: 100px;
   margin-bottom: 100px;
@@ -24,7 +23,7 @@
 
 .subscribe-form {
   padding: 15px 0 15px 0;
-  width: 300px;
+  width: 350px;
   min-height: 150px;
   margin: auto;
 }

@@ -15,6 +15,11 @@
   padding-bottom: 5px;
 }
 
+.footer-header:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .footer-icon {
   height: 30px;
   min-width: 40px;

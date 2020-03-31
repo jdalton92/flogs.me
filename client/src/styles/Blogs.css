@@ -1,0 +1,40 @@
+.blog-section,
+.blogs-section {
+  min-height: 80vh;
+}
+
+.blogcard-wrapper {
+  border: solid 1px black;
+  transition: box-shadow 0.2s ease;
+}
+
+.blogcard-header-wrapper {
+  margin-bottom: 10px;
+}
+
+.blogcard-link {
+  margin-top: 10px;
+}
+
+.blogcard-link:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.blog-wrapper {
+  padding-top: 50px;
+}
+
+.blog-header-wrapper {
+  text-align: center;
+  margin: 50px 0 100px 0;
+}
+
+.blog-header-wrapper h2 {
+  font-size: 36px;
+  margin-bottom: 50px;
+}
+
+.blog-details {
+  font-size: 12px;
+}

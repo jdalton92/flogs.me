@@ -29,7 +29,7 @@ const Nav = () => {
           </div>
           <NavItems viewType={"mobile"} />
         </Menu>
-        <ul className="w100 nav-items">
+        <ul className="w100 flex-row-center nav-items">
           <NavItems viewType={"desktop"} />
         </ul>
       </div>

@@ -1,16 +1,22 @@
 import React, { useContext } from "react";
 import Context from "../context/Context";
+import { useHistory } from "react-router-dom";
 import "../styles/Footer.css";
 
 const Footer = () => {
   const { setNotification } = useContext(Context);
+  const history = useHistory();
+
+  const handleLink = link => {
+    history.push(link);
+  };
 
   const handleTwitter = e => {
     e.preventDefault();
     setNotification({
       type: "fail",
       title: "¯\\_(ツ)_/¯",
-      message: "nope"
+      message: "twitter lol NAH"
     });
   };
 
@@ -35,7 +41,9 @@ const Footer = () => {
     <footer className="">
       <div className="p15 m-auto footer-wrapper flex-row-center">
         <div className="flex-1 h100 flex-col-center">
-          <h4 className="footer-header">flogs.me</h4>
+          <h4 className="footer-header" onClick={() => handleLink("/")}>
+            flogs.me
+          </h4>
           <p className="footer-info">made for your face</p>
         </div>
         <div className="flex-1 h100 flex-col-center">
