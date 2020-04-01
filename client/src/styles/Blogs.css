@@ -3,9 +3,22 @@
   min-height: 80vh;
 }
 
+.blogs-left-col-wrapper {
+  padding: 50px 25px 50px 50px;
+}
+
+.blogs-right-col-wrapper {
+  padding: 50px 50px 50px 25px;
+}
+
+.blog-search-form button {
+  width: 200px;
+}
+
 .blogcard-wrapper {
   border: solid 1px black;
   transition: box-shadow 0.2s ease;
+  margin: 20px 0 20px 0;
 }
 
 .blogcard-header-wrapper {
@@ -22,7 +35,7 @@
 }
 
 .blog-wrapper {
-  padding-top: 50px;
+  padding: 50px 0 50px 0;
 }
 
 .blog-header-wrapper {
@@ -37,4 +50,70 @@
 
 .blog-details {
   font-size: 12px;
+}
+
+.blog-details span {
+  font-weight: bold;
+}
+
+.blog-body-image,
+.blog-body-content {
+  margin: 30px 0 30px 0;
+}
+
+.blog-comments-header {
+  margin: 10px 0 10px 0;
+}
+
+.blog-comment-wrapper {
+  border: solid 1px black;
+  margin: 10px 0 10px 0;
+}
+
+.blog-comment-header {
+  position: relative;
+}
+
+.blog-comment-title {
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+
+.blog-like-wrapper {
+  position: absolute;
+  right: 5px;
+}
+
+.blog-comment-like {
+  margin-right: 5px;
+}
+
+.blog-comment-dislike {
+  margin-left: 5px;
+}
+
+.blog-comment-like,
+.blog-comment-dislike {
+  height: 20px;
+  width: 20px;
+  transition: transform 0.2s ease;
+}
+
+.blog-comment-like:hover,
+.blog-comment-dislike:hover {
+  cursor: pointer;
+  transform: translateY(-2px);
+}
+
+.blog-comment-subheader {
+  font-size: 12px;
+}
+
+.blog-comment-detail {
+  margin: 15px 0 15px 0;
+}
+
+.blog-comment-likes {
+  font-size: 12px;
+  padding-right: 10px;
 }

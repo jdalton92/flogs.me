@@ -59,7 +59,7 @@ export const blogs = [
     },
     comments: [
       {
-        _id: 12345,
+        _id: 1,
         date: new Intl.DateTimeFormat("en-US").format(new Date()),
         title: "comment",
         author: "author",
@@ -68,7 +68,7 @@ export const blogs = [
         dislikes: 2
       },
       {
-        _id: 12345,
+        _id: 2,
         date: new Intl.DateTimeFormat("en-US").format(new Date()),
         title: "comment2.2",
         author: "author2.2",

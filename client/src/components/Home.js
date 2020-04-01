@@ -12,7 +12,7 @@ const Home = () => {
         <div className="flex-row-center body-message">
           coming soon you fucks.
         </div>
-        <SignUp />
+        <SignUp type={"homepage"} />
       </div>
     </section>
   );

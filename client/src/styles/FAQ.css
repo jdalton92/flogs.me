@@ -1,0 +1,16 @@
+.FAQ-section {
+  min-height: 120vh;
+  align-items: center;
+}
+
+.FAQ-wrapper h2 {
+  margin-bottom: 15px;
+}
+
+.FAQ-link {
+  text-decoration: underline;
+}
+
+.FAQ-link:hover {
+  cursor: pointer;
+}

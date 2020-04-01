@@ -18,11 +18,19 @@
   padding-top: 10px;
 }
 
+.form-field textarea {
+  height: 150px;
+  padding-top: 20px;
+}
+
+.form-field input {
+  height: 60px;
+}
+
 .form-field textarea,
 .form-field input {
   display: block;
   width: 100%;
-  height: 60px;
   background-color: transparent;
   margin: 0 auto;
   border: none;
@@ -46,14 +54,6 @@
       transform: translateY(-20px);
     }
   }
-}
-
-.form-field textarea {
-  padding-top: 20px;
-}
-
-#form-message {
-  height: 75px;
 }
 
 .form-button-container {

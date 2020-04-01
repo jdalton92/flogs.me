@@ -259,6 +259,36 @@
   padding: 50px;
 }
 
+.primary-btn,
+.secondary-btn {
+  transition: background-color 0.2s ease;
+  height: 30px;
+}
+
+.primary-btn {
+  color: white;
+  background-color: black;
+  border: solid 1px black;
+}
+
+.primary-btn:hover {
+  cursor: pointer;
+  color: black;
+  background-color: white;
+}
+
+.secondary-btn {
+  color: black;
+  background-color: white;
+  border: solid 1px black;
+}
+
+.secondary-btn:hover {
+  cursor: pointer;
+  color: white;
+  background-color: black;
+}
+
 .box-shadow-on-hover:hover,
 .box-shadow-hover,
 .box-shadow-1 {
@@ -335,7 +365,7 @@
 
 .loader-spinner {
   font-size: 10px;
-  margin: 30px auto;
+  margin: 20px auto;
   text-indent: -9999em;
   width: 50px;
   height: 50px;
@@ -406,15 +436,15 @@
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 1);
   border-radius: 8px;
 }

@@ -12,6 +12,7 @@ import Blog from "./components/Blog";
 // import OtherShit from "./components/OtherShit";
 // import Merch from "./components/Merch";
 import Contact from "./components/Contact";
+import FAQ from "./components/FAQ";
 import Footer from "./components/Footer";
 
 import "./styles/App.css";
@@ -40,6 +41,7 @@ const App = () => {
           <Route path="/blog/:id" render={() => <Blog />} />
           {/* <Route path="/merch" render={() => <Merch />} /> */}
           <Route path="/contact" render={() => <Contact />} />
+          <Route path="/FAQ" render={() => <FAQ />} />
         </Switch>
         <Footer />
       </Router>

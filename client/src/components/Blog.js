@@ -2,11 +2,12 @@ import React from "react";
 import BlogComments from "./Blog.Comments";
 import { useParams } from "react-router-dom";
 
-import { blog } from "../utils/sampleBlogs";
+import { blogs } from "../utils/blogs";
 
 const Blog = () => {
-  const id = useParams().id;
-  console.log(id);
+  const id = parseInt(useParams().id);
+
+  const blog = blogs.filter(b => b._id === id);
 
   const {
     title,
@@ -18,7 +19,7 @@ const Blog = () => {
     topic,
     body,
     _id
-  } = blog;
+  } = blog[0];
 
   return (
     <section className="blog-section w100 h100">
@@ -29,11 +30,17 @@ const Blog = () => {
             posted to: <span>{category}</span> | posted on: <span>{date}</span>{" "}
             | posted by: <span>{author}</span> | with:{" "}
             <span>
-              {comments.length} {comments.length <= 1 ? "comment" : "comments"}
+              {comments.length} {comments.length === 1 ? "comment" : "comments"}
             </span>
+            <br />
+            {tags.length > 0 ? (
+              <>
+                tags: <b>{tags.join(", ")}</b>{" "}
+              </>
+            ) : null}
           </div>
         </div>
-        <div className="blog-body-wrapper">
+        <div className="w80 blog-body-wrapper">
           <div className="blog-body-image">{body.image}</div>
           <div className="blog-body-content">{body.content}</div>
         </div>

@@ -7,7 +7,7 @@ const Notification = () => {
   const { notifications } = useContext(Context);
 
   return (
-    <div className="flex-col notification-wrapper m20">
+    <div className="flex-col notification-wrapper m10">
       {notifications.length > 0
         ? notifications.map((n, i) => (
             <NotificationAlert key={i} notification={n} />

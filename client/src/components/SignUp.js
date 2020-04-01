@@ -1,8 +1,9 @@
 import React, { useState, useContext } from "react";
 import Context from "../context/Context";
 import subscribeService from "../services/subscription";
+import "../styles/SignUp.css";
 
-const SignUp = () => {
+const SignUp = ({ type }) => {
   const [form, setForm] = useState({});
   const [fetching, setFetching] = useState();
   const { setNotification } = useContext(Context);
@@ -33,16 +34,21 @@ const SignUp = () => {
   };
 
   return (
-    <div className="subscribe-box">
-      <div className="subscribe-header">
+    <div id="subscribe-box" className={`subscribe-box-${type}`}>
+      <div id="subscribe-header" className={`subscribe-header-${type}`}>
         subscribe to be notified of updates
       </div>
-      <form onSubmit={handleSubmit} className="flex-col-center subscribe-form">
+      <form
+        id="subscribe-form"
+        onSubmit={handleSubmit}
+        className={`flex-col-center subscribe-form-${type}`}
+      >
         {fetching ? (
           <div className="loader-spinner">loading...</div>
         ) : (
           <>
             <input
+              id="subscribe-form-input"
               name="email"
               placeholder="your@email.com"
               type="email"
@@ -50,8 +56,12 @@ const SignUp = () => {
               onChange={formHandler}
               required
             />
-            <button type="submit" className="subscribe-button">
-              submit
+            <button
+              id="subscribe-form-btn"
+              className="primary-btn"
+              type="submit"
+            >
+              subscribe
             </button>
           </>
         )}

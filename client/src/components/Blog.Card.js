@@ -10,7 +10,7 @@ const BlogCard = ({ blog }) => {
   };
 
   return (
-    <div className="p20 m20 flex-col box-shadow-on-hover blogcard-wrapper">
+    <div className="p20 flex-col box-shadow-on-hover blogcard-wrapper">
       <div className="blogcard-header-wrapper">
         <h2 className="blogcard-title">{title}</h2>
       </div>

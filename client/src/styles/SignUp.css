@@ -1,0 +1,54 @@
+.subscribe-box-blogs {
+  position: sticky !important;
+}
+
+.subscribe-box-homepage {
+  padding: 20px;
+}
+
+.subscribe-box-footer {
+  padding: 20px 20px 0 20px;
+}
+
+.subscribe-box-homepage {
+  border: solid 1px black;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.subscribe-form-homepage {
+  padding: 15px 0 15px 0;
+  width: 350px;
+  min-height: 150px;
+  margin: auto;
+}
+
+#subscribe-form-btn,
+#subscribe-form-input {
+  margin-top: 15px;
+}
+
+#subscribe-form-btn {
+  transition: background-color 0.2s ease;
+}
+
+#subscribe-form-input {
+  padding: 5px;
+  width: 100%;
+}
+
+#subscribe-form-btn {
+  width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .subscribe-form-homepage {
+    width: 100%;
+  }
+
+  .subscribe-box-homepage {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

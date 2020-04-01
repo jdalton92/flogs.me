@@ -1,5 +1,9 @@
+.footer-section {
+  height: 250px;
+}
+
 .footer-wrapper {
-  height: 200px;
+  height: 100%;
   border-top: solid 1px black;
   width: 98%;
   margin-left: auto;
@@ -28,16 +32,16 @@
 }
 
 .twitter-icon {
-  -webkit-mask: url(../styles/images/twitter.svg) no-repeat center;
-  mask: url(../styles/images/twitter.svg) no-repeat center;
+  -webkit-mask: url(./images/twitter.svg) no-repeat center;
+  mask: url(./images/twitter.svg) no-repeat center;
 }
 .github-icon {
-  -webkit-mask: url(../styles/images/github.svg) no-repeat center;
-  mask: url(../styles/images/github.svg) no-repeat center;
+  -webkit-mask: url(./images/github.svg) no-repeat center;
+  mask: url(./images/github.svg) no-repeat center;
 }
 .email-icon {
-  -webkit-mask: url(../styles/images/email.svg) no-repeat center;
-  mask: url(../styles/images/email.svg) no-repeat center;
+  -webkit-mask: url(./images/email.svg) no-repeat center;
+  mask: url(./images/email.svg) no-repeat center;
 }
 
 .footer-icon:hover {
