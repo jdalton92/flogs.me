@@ -78,7 +78,7 @@ const Contact = () => {
             </div>
             <div className="form-button-container">
               <button
-                className="form-button"
+                className="primary-btn form-button"
                 id="form-submit"
                 type="submit"
                 variant="primary"

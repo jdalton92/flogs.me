@@ -5,10 +5,8 @@ export const blog = {
   tags: ["money", "finance", "flogs"],
   date: new Intl.DateTimeFormat("en-US").format(new Date()),
   author: "author",
-  body: {
-    content: "content",
-    image: "image" //TO DO
-  },
+  content: "content",
+  image: "imageURL", //Store URL
   comments: [
     {
       _id: 12345,
@@ -26,14 +24,12 @@ export const blogs = [
   {
     _id: 1,
     title: "blog 1",
-    category: "",
+    category: "category",
     tags: ["money", "finance", "flogs"],
     date: new Intl.DateTimeFormat("en-US").format(new Date()),
     author: "author",
-    body: {
-      content: "content",
-      image: "image" //TO DO
-    },
+    content: "content",
+    image: "imageURL", //Store URL
     comments: [
       {
         _id: 12345,
@@ -49,14 +45,12 @@ export const blogs = [
   {
     _id: 2,
     title: "blog 2",
-    category: "",
+    category: "category",
     tags: ["money", "finance", "flogs"],
     date: new Intl.DateTimeFormat("en-US").format(new Date()),
     author: "author2",
-    body: {
-      content: "content2",
-      image: "image2" //TO DO
-    },
+    content: "content",
+    image: "imageURL", //Store URL
     comments: [
       {
         _id: 1,

@@ -1,0 +1,83 @@
+import React, { useContext } from "react";
+import { OutsideAlerter } from "../../utils/hooks";
+import Context from "../../context/Context";
+
+const NavLanding = () => {
+  const {
+    setToken,
+    dropdown,
+    setDropdown,
+    setLoginView,
+    meData,
+    meLoading
+  } = useContext(Context);
+
+  const handleDropdown = e => {
+    e.preventDefault();
+    setDropdown(!dropdown);
+  };
+
+  const handleLogout = e => {
+    e.preventDefault();
+    setToken(null);
+    localStorage.removeItem("flogsToken");
+  };
+
+  if (meLoading) {
+    return (
+      <div className="login-wrapper loading-wrapper">
+        <div className="loader-spinner">loading...</div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      {meData ? (
+        <div className="h100 nav-user-wrapper">
+          <OutsideAlerter>
+            <div
+              onClick={handleDropdown}
+              className="flex-row nav-user-container"
+            >
+              <div alt="user" title="user" className="user-icon" />
+              <i className="navbar-arrow-down"></i>
+            </div>
+            <div
+              className={`${
+                dropdown ? "nav-dropdown-show" : "nav-dropdown-shrink"
+              } flex-col-center nav-dropdown`}
+            >
+              <div className="flex-1 w100 flex-row-center nav-link">
+                settings
+              </div>
+              <div
+                onClick={handleLogout}
+                className="flex-1 w100 flex-row-center nav-link"
+              >
+                logout
+              </div>
+            </div>
+          </OutsideAlerter>
+        </div>
+      ) : (
+        <>
+          <button
+            className="primary-btn login-btn"
+            onClick={() => setLoginView("login")}
+          >
+            login
+          </button>
+          <button
+            className="secondary-btn signup-btn"
+            onClick={() => setLoginView("signUp")}
+          >
+            sign up
+          </button>
+        </>
+      )}
+    </>
+  );
+};
+
+export default NavLanding;

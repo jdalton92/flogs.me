@@ -4,7 +4,7 @@ import ReactGA from "react-ga";
 
 import ScrollToTop from "./utils/ScrollToTop";
 import Notification from "./components/Notification";
-import Nav from "./components/Nav";
+import Nav from "./components/Nav/Nav";
 import Home from "./components/Home";
 import Blogs from "./components/Blogs";
 import Blog from "./components/Blog";
@@ -16,7 +16,6 @@ import FAQ from "./components/FAQ";
 import Footer from "./components/Footer";
 
 import "./styles/App.css";
-
 const App = () => {
   ReactGA.initialize("UA-158975814-4");
   ReactGA.pageview(window.location.pathname + window.location.search);
@@ -41,7 +40,7 @@ const App = () => {
           <Route path="/blog/:id" render={() => <Blog />} />
           {/* <Route path="/merch" render={() => <Merch />} /> */}
           <Route path="/contact" render={() => <Contact />} />
-          <Route path="/FAQ" render={() => <FAQ />} />
+          <Route path="/faq" render={() => <FAQ />} />
         </Switch>
         <Footer />
       </Router>

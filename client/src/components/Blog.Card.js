@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 const BlogCard = ({ blog }) => {
-  const { title, category, date, author, comments, tags, body, _id } = blog;
+  const { title, category, date, author, comments, tags, _id } = blog;
   const history = useHistory();
 
   const handleLink = link => {
@@ -43,7 +43,7 @@ const BlogCard = ({ blog }) => {
           className="blogcard-link"
           onClick={() => handleLink(`blog/${_id}`)}
         >
-          view...
+          read me...
         </div>
       </div>
     </div>

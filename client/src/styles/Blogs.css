@@ -35,7 +35,7 @@
 }
 
 .blog-wrapper {
-  padding: 50px 0 50px 0;
+  padding: 50px 25px 50px 25px;
 }
 
 .blog-header-wrapper {
@@ -59,6 +59,10 @@
 .blog-body-image,
 .blog-body-content {
   margin: 30px 0 30px 0;
+}
+
+.blog-comments-wrapper {
+  width: 80%;
 }
 
 .blog-comments-header {
@@ -116,4 +120,18 @@
 .blog-comment-likes {
   font-size: 12px;
   padding-right: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .blogs-right-col-wrapper {
+    display: none;
+  }
+
+  .blogs-left-col-wrapper {
+    padding-right: 50px;
+  }
+
+  .blog-comments-wrapper {
+    width: 100%;
+  }
 }

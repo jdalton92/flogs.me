@@ -262,7 +262,7 @@
 .primary-btn,
 .secondary-btn {
   transition: background-color 0.2s ease;
-  height: 30px;
+  height: 35px;
 }
 
 .primary-btn {

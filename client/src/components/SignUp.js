@@ -34,21 +34,20 @@ const SignUp = ({ type }) => {
   };
 
   return (
-    <div id="subscribe-box" className={`subscribe-box-${type}`}>
-      <div id="subscribe-header" className={`subscribe-header-${type}`}>
+    <div className={`subscribe-box subscribe-box-${type}`}>
+      <div className={`subscribe-header subscribe-header-${type}`}>
         subscribe to be notified of updates
       </div>
       <form
-        id="subscribe-form"
         onSubmit={handleSubmit}
-        className={`flex-col-center subscribe-form-${type}`}
+        className={`flex-col-center subscribe-form subscribe-form-${type}`}
       >
         {fetching ? (
           <div className="loader-spinner">loading...</div>
         ) : (
           <>
             <input
-              id="subscribe-form-input"
+              className="subscribe-form-input"
               name="email"
               placeholder="your@email.com"
               type="email"
@@ -56,11 +55,7 @@ const SignUp = ({ type }) => {
               onChange={formHandler}
               required
             />
-            <button
-              id="subscribe-form-btn"
-              className="primary-btn"
-              type="submit"
-            >
+            <button className="subscribe-form-btn primary-btn" type="submit">
               subscribe
             </button>
           </>

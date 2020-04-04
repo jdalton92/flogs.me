@@ -3,6 +3,8 @@
   height: 175px;
   font-size: 28px;
   position: relative;
+  justify-content: center;
+  align-items: center;
 }
 
 .logo-wrapper h1 {
@@ -15,6 +17,7 @@
 }
 
 .login-wrapper {
+  display: flex;
   width: 250px;
   position: absolute;
   right: 30px;
@@ -26,12 +29,95 @@
   width: 50%;
 }
 
+.loading-wrapper .loader-spinner {
+  width: 30px;
+  height: 30px;
+  left: 85px;
+  top: -35px;
+}
+
 .login-btn {
   margin-right: 5px;
 }
 
 .signup-btn {
   margin-left: 5px;
+}
+
+.login-wrapper input {
+  margin-top: 5px;
+  padding: 5px;
+  width: 185px;
+}
+
+.login-wrapper form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.nav-cancel-btn {
+  margin-left: 5px;
+}
+
+.nav-signup-form button,
+.nav-login-form button {
+  margin-top: 5px;
+  width: 90px;
+}
+
+.user-icon {
+  -webkit-mask: url(../styles/images/user.svg) no-repeat center;
+  mask: url(../styles/images/user.svg) no-repeat center;
+  height: 30px;
+  width: 30px;
+  background-color: black;
+}
+
+.navbar-arrow-down {
+  border: solid 1px black;
+  margin-bottom: 3px;
+  margin-left: 2px;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.nav-user-wrapper {
+  position: relative;
+  font-size: 16px;
+}
+
+.nav-user-container {
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.nav-user-container:hover {
+  cursor: pointer;
+}
+
+.nav-dropdown {
+  background-color: white;
+  z-index: 1;
+  position: absolute;
+  right: 0px;
+  height: 150px;
+  width: 150px;
+  overflow: hidden;
+  border: solid 1px black;
+}
+
+.nav-dropdown-shrink {
+  height: 0px;
+  border: none;
+}
+
+.nav-link:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .nav-items-wrapper {
@@ -81,7 +167,27 @@
   display: none;
 }
 
+@media screen and (max-width: 1000px) {
+  .login-wrapper {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .login-btn {
+    margin: 0 0 5px 0;
+  }
+
+  .signup-btn {
+    margin: 5px 0 0 0;
+  }
+}
+
 @media screen and (max-width: 768px) {
+  .logo-wrapper {
+    justify-content: flex-start;
+    padding-left: 50px;
+  }
+
   .nav-burger-wrapper {
     display: initial;
   }

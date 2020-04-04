@@ -4,15 +4,17 @@ import dislike from "../styles/images/dislike.png";
 
 const BlogComments = ({ comments }) => {
   const handleLike = e => {
+    e.preventDefault();
     console.log("like");
   };
 
   const handleDislike = e => {
+    e.preventDefault();
     console.log("dislike");
   };
 
   return (
-    <div className="flex-1 w80 m20 blog-comments-wrapper">
+    <div className="flex-1 m20 blog-comments-wrapper">
       <div className="blog-comments-header">comments</div>
       {comments.map(c => (
         <div key={c._id} className="p10 blog-comment-wrapper">
@@ -21,12 +23,14 @@ const BlogComments = ({ comments }) => {
               <div className="blog-comment-title">{c.title}</div>
               <div className="blog-like-wrapper">
                 <img
+                  alt="like"
                   className="blog-comment-like"
                   onClick={handleLike}
                   title="like"
                   src={like}
                 />
                 <img
+                  alt="dislike"
                   className="blog-comment-dislike"
                   onClick={handleDislike}
                   title="dislike"

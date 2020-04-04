@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
-import Context from "../context/Context";
+import Context from "../../context/Context";
 
 const NavItems = ({ viewType }) => {
   const { setNotification, setOpen } = useContext(Context);
@@ -27,7 +27,7 @@ const NavItems = ({ viewType }) => {
       <li onClick={() => handleLink("/lifestyle")}>lifestyle</li>
       <li onClick={() => handleLink("/other-shit")}>other shit</li>
       <li onClick={handleClick}>merch</li>
-      <li onClick={() => handleLink("/FAQ")}>FAQ</li>
+      <li onClick={() => handleLink("/faq")}>faq</li>
       <li onClick={() => handleLink("/contact")}>contact</li>
     </ul>
   );

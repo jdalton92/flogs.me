@@ -17,7 +17,8 @@ const Blog = () => {
     comments,
     tags,
     topic,
-    body,
+    content,
+    img,
     _id
   } = blog[0];
 
@@ -41,8 +42,8 @@ const Blog = () => {
           </div>
         </div>
         <div className="w80 blog-body-wrapper">
-          <div className="blog-body-image">{body.image}</div>
-          <div className="blog-body-content">{body.content}</div>
+          <div className="blog-body-image">{img}</div>
+          <div className="blog-body-content">{content}</div>
         </div>
         <BlogComments comments={comments} />
       </div>

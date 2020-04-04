@@ -1,22 +1,17 @@
-const bodyParser = require("body-parser");
-const express = require("express");
-const app = express();
-const cors = require("cors");
+const { ApolloServer } = require("apollo-server");
+const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const logger = require("./utils/logger");
-mongoose.set("useCreateIndex", true);
-
-const middleware = require("./utils/middleware");
-
-const subscriptionsRouter = require("./controllers/subscriptions");
-const contactRouter = require("./controllers/contact");
-
-app.use(cors());
-app.use(express.static(__dirname + "/build"));
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
-app.use(bodyParser.json());
+
+const typeDefs = require("./schema/schema");
+const resolvers = require("./resolvers/resolvers");
+const User = require("./models/user");
+
+mongoose.set("useFindAndModify", false);
+mongoose.set("useCreateIndex", true);
 
 const databaseConnection = async () => {
   try {
@@ -33,10 +28,19 @@ const databaseConnection = async () => {
 };
 databaseConnection();
 
-app.use(middleware.errorHandler);
-app.use(middleware.requestLogger);
+const app = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: async ({ req }) => {
+    const auth = req ? req.headers.authorization : null;
+    if (auth && auth.toLowerCase().startsWith("bearer ")) {
+      const decodedToken = jwt.verify(auth.substring(7), process.env.SECRET);
 
-app.use("/api/subscriptions", subscriptionsRouter);
-app.use("/api/contact", contactRouter);
+      const currentUser = await User.findById(decodedToken.id);
+
+      return { currentUser };
+    }
+  }
+});
 
 module.exports = app;

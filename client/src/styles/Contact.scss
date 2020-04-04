@@ -63,17 +63,7 @@
 }
 
 .form-button {
-  border: 1px solid black;
-  color: white;
-  background-color: black;
-  height: 35px;
   width: 200px;
-}
-
-.form-button:hover {
-  background-color: white;
-  color: black;
-  cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {
