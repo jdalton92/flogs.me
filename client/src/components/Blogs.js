@@ -11,16 +11,13 @@ const Blogs = ({ topic }) => {
 
   return (
     <section className="blogs-section flex-row">
-      <div className="flex-col flex-3 blogs-left-col-wrapper">
+      <div className="flex-col m-auto w80">
         <Search topic={{ topic }} />
         <div className="blogs-wrapper">
           {blogs.map(b => (
             <BlogsCard key={b._id} blog={b} />
           ))}
         </div>
-      </div>
-      <div className="blogs-right-col-wrapper flex-1">
-        <SignUp type={"blogs"} />
       </div>
     </section>
   );

@@ -1,14 +1,7 @@
 .blog-section,
 .blogs-section {
   min-height: 80vh;
-}
-
-.blogs-left-col-wrapper {
-  padding: 50px 25px 50px 50px;
-}
-
-.blogs-right-col-wrapper {
-  padding: 50px 50px 50px 25px;
+  padding-top: 20px;
 }
 
 .blog-search-form button {
@@ -49,11 +42,13 @@
 }
 
 .blog-details {
+  max-width: 80%;
   font-size: 12px;
+  flex-wrap: wrap;
 }
 
 .blog-details span {
-  font-weight: bold;
+  flex: 1;
 }
 
 .blog-body-image,
@@ -78,6 +73,7 @@
 .blog-add-comment-form button {
   margin-top: 5px;
   width: 250px;
+  max-width: 100%;
 }
 
 .blog-comments-wrapper {

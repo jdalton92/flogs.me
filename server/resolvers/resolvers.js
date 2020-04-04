@@ -14,6 +14,8 @@ const Blog = require("../models/blog");
 const User = require("../models/user");
 const Subscription = require("../models/Subscription");
 
+const pubsub = new PubSub();
+
 module.exports = {
   Query: {
     allBlogs: async (root, { category, search }) => {
@@ -116,12 +118,18 @@ module.exports = {
         tags,
         content,
         img,
-        author: currentUser.id
+        author: currentUser._id
       });
 
-      //CONCAT BLOG ID TO USER MONGOOSE OBJECT
-
       try {
+        const user = await User.findById(currentUser._id);
+
+        await User.findByIdAndUpdate(
+          currentUser._id,
+          { blogs: [...user.blogs, blog._id] },
+          { new: true }
+        );
+
         await blog.save();
       } catch (e) {
         throw new UserInputError(e.message, {
@@ -130,7 +138,6 @@ module.exports = {
       }
 
       blog = await Blog.findById(blog._id).populate("author");
-      pubsub.publish("BLOG_ADDED", { blogAdded: blog });
 
       return blog;
     },
@@ -140,7 +147,7 @@ module.exports = {
       }
 
       let newComment = new Comment({
-        author: currentUser.id,
+        author: currentUser._id,
         likes: 0,
         dislikes: 0,
         blog: blogId,
@@ -148,14 +155,19 @@ module.exports = {
         comment
       });
 
-      //CONCAT COMMENT ID TO USER MONGOOSE OBJECT
-      //CONCAT COMMENT ID TO BLOG MONGOOSE OBJECT
-
       try {
+        const blog = await Blog.findById(blogId);
+
+        await Blog.findByIdAndUpdate(
+          blogId,
+          { comments: [...blog.comments, newComment._id] },
+          { new: true }
+        );
+
         await newComment.save();
       } catch (e) {
         throw new UserInputError(e.message, {
-          invalidArgs: { title, author, published, genres }
+          invalidArgs: { blogId, title, comment }
         });
       }
 
@@ -171,11 +183,11 @@ module.exports = {
         throw new AuthenticationError("not authenticated");
       }
 
-      let comment = await Comment.findbyId(commentId);
+      let comment = await Comment.findById(commentId);
 
       const updatedComment = { likes: comment.likes + 1 };
 
-      const newComment = await User.findByIdAndUpdate(
+      const newComment = await Comment.findByIdAndUpdate(
         commentId,
         updatedComment,
         {
@@ -190,11 +202,11 @@ module.exports = {
         throw new AuthenticationError("not authenticated");
       }
 
-      let comment = await Comment.findbyId(commentId);
+      let comment = await Comment.findById(commentId);
 
       const updatedComment = { dislikes: comment.dislikes + 1 };
 
-      const newComment = await User.findByIdAndUpdate(
+      const newComment = await Comment.findByIdAndUpdate(
         commentId,
         updatedComment,
         {
@@ -340,6 +352,11 @@ module.exports = {
       const token = { value: jwt.sign(userForToken, process.env.SECRET) };
 
       return token;
+    }
+  },
+  Subscription: {
+    commentAdded: {
+      subscribe: () => pubsub.asyncIterator(["COMMENT_ADDED"])
     }
   }
 };

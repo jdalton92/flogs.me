@@ -23,6 +23,8 @@ const Nav = () => {
     }
   }, [token, setToken]);
 
+  console.log("token", token);
+
   const handleLink = link => {
     history.push(link);
   };

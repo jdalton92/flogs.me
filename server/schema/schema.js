@@ -29,6 +29,8 @@ module.exports = gql`
     blog: Blog!
     title: String!
     comment: String!
+    likes: Int!
+    dislikes: Int!
     id: ID!
   }
 
@@ -71,5 +73,9 @@ module.exports = gql`
     editPassword(password: String!, newPassword: String!): User
 
     login(email: String!, password: String!): Token
+  }
+
+  type Subscription {
+    commentAdded: Comment!
   }
 `;

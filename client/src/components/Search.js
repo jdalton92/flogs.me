@@ -10,7 +10,7 @@ const Search = ({ topic }) => {
     setNotification({
       type: "fail",
       title: "¯\\_(ツ)_/¯",
-      message: "coming soon"
+      message: "not working lol"
     });
   };
 

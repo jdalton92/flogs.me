@@ -171,6 +171,11 @@
   height: 100%;
 }
 
+.m-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .m0 {
   margin: 0px;
 }

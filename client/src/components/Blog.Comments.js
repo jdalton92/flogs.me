@@ -1,16 +1,25 @@
 import React from "react";
+import { useMutation } from "@apollo/client";
+import { LIKE_COMMENT, DISLIKE_COMMENT } from "../queries/commentQueries";
 import like from "../styles/images/like.png";
 import dislike from "../styles/images/dislike.png";
 
 const BlogComments = ({ comments }) => {
-  const handleLike = e => {
-    e.preventDefault();
-    console.log("like");
+  const [
+    likeComment,
+    { loading: likeLoading, error: likeError, data: likeData }
+  ] = useMutation(LIKE_COMMENT);
+  const [
+    dislikeComment,
+    { loading: dislikeLoading, error: dislikeError, data: dislikeData }
+  ] = useMutation(DISLIKE_COMMENT);
+
+  const handleLike = id => {
+    likeComment(id);
   };
 
-  const handleDislike = e => {
-    e.preventDefault();
-    console.log("dislike");
+  const handleDislike = id => {
+    dislikeComment(id);
   };
 
   return (
@@ -22,20 +31,26 @@ const BlogComments = ({ comments }) => {
             <div className="flex-row blog-comment-header">
               <div className="blog-comment-title">{c.title}</div>
               <div className="blog-like-wrapper">
-                <img
-                  alt="like"
-                  className="blog-comment-like"
-                  onClick={handleLike}
-                  title="like"
-                  src={like}
-                />
-                <img
-                  alt="dislike"
-                  className="blog-comment-dislike"
-                  onClick={handleDislike}
-                  title="dislike"
-                  src={dislike}
-                />
+                {likeLoading || dislikeLoading ? (
+                  <div className="loader-spinner">loading...</div>
+                ) : (
+                  <>
+                    <img
+                      alt="like"
+                      className="blog-comment-like"
+                      onClick={() => handleLike(c._id)}
+                      title="like"
+                      src={like}
+                    />
+                    <img
+                      alt="dislike"
+                      className="blog-comment-dislike"
+                      onClick={() => handleDislike(c._id)}
+                      title="dislike"
+                      src={dislike}
+                    />
+                  </>
+                )}
               </div>
             </div>
             <div className="flex-row blog-comment-subheader">

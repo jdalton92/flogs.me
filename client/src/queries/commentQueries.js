@@ -1,37 +1,29 @@
 import { gql } from "@apollo/client";
 
-const AUTHOR_DETAILS = gql`
-  fragment AuthorDetails on Author {
-    name
-    bookCount
-    born
-    id
+export const ADD_COMMENT = gql`
+  mutation addComment($blogId: ID!, $title: String!, $comment: String!) {
+    addComment(blogId: $blogId, title: $title, comment: $comment) {
+      title
+      author {
+        name
+      }
+      comment
+    }
   }
 `;
 
-export const ALL_AUTHORS = gql`
-  query {
-    allAuthors {
-      ...AuthorDetails
+export const LIKE_COMMENT = gql`
+  mutation likeComment($commentId: ID!) {
+    likeComment(commentId: $commentId) {
+      likes
     }
   }
-  ${AUTHOR_DETAILS}
 `;
 
-export const EDIT_AUTHOR = gql`
-  mutation exitAuthor($name: String!, $setBornTo: Int!) {
-    editAuthor(name: $name, setBornTo: $setBornTo) {
-      ...AuthorDetails
+export const DISLIKE_COMMENT = gql`
+  mutation dislikeComment($commentId: ID!) {
+    dislikeComment(commentId: $commentId) {
+      dislikes
     }
   }
-  ${AUTHOR_DETAILS}
-`;
-
-export const BOOK_ADDED = gql`
-  subscription {
-    bookAdded {
-      ...BookDetails
-    }
-  }
-  ${BOOK_DETAILS}
 `;

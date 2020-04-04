@@ -28,18 +28,31 @@ const Blog = () => {
       <div className="flex-col-center blog-wrapper">
         <div className="blog-header-wrapper">
           <h2 className="blog-title">{title}</h2>
-          <div className="blog-details">
-            posted to: <span>{category}</span> | posted on: <span>{date}</span>{" "}
-            | posted by: <span>{author}</span> | with:{" "}
+          <div className="m-auto blog-details">
             <span>
-              {comments.length} {comments.length === 1 ? "comment" : "comments"}
+              posted to: <b>{category}</b> |{" "}
             </span>
-            <br />
-            {tags.length > 0 ? (
-              <>
-                tags: <b>{tags.join(", ")}</b>{" "}
-              </>
-            ) : null}
+            <span>
+              posted on: <b>{date}</b> |{" "}
+            </span>
+            <span>
+              posted by: <b>{author}</b> |{" "}
+            </span>
+            <span>
+              with:{" "}
+              <b>
+                {comments.length}{" "}
+                {comments.length === 1 ? "comment" : "comments"}
+              </b>{" "}
+              |{" "}
+            </span>
+            <span>
+              {tags.length > 0 ? (
+                <>
+                  tags: <b>{tags.join(", ")}</b>
+                </>
+              ) : null}
+            </span>
           </div>
         </div>
         <div className="w80 blog-body-wrapper">
