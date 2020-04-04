@@ -28,11 +28,11 @@ const databaseConnection = async () => {
 };
 databaseConnection();
 
-const app = new ApolloServer({
+const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: async ({ req }) => {
-    const auth = req ? req.headers.authorization : null;
+    const auth = req ? req.headers.authorization : "";
     if (auth && auth.toLowerCase().startsWith("bearer ")) {
       const decodedToken = jwt.verify(auth.substring(7), process.env.SECRET);
 
@@ -43,4 +43,4 @@ const app = new ApolloServer({
   }
 });
 
-module.exports = app;
+module.exports = server;

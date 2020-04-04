@@ -1,44 +1,42 @@
 import React, { useState, useContext } from "react";
-import contactService from "../services/contact";
+import { useMutation } from "@apollo/client";
+import { CONTACT } from "../queries/contactQueries";
 import Context from "../context/Context";
 import "../styles/Contact.scss";
 
 const Contact = () => {
-  const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({});
+  const [variables, setVariables] = useState({});
   const { setNotification } = useContext(Context);
+  const [contact, { loading: contactLoading }] = useMutation(CONTACT);
 
   const formHandler = e => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setVariables({ ...variables, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async e => {
     e.preventDefault();
-    setLoading(true);
     try {
-      await contactService.sendEmail(form);
-      setForm({});
-      setLoading(false);
+      await contact({ variables });
+      setVariables({});
       setNotification({
         type: "success",
-        title: "¯\\_(ツ)_/¯",
+        title: "ヽ(•‿•)ノ",
         message: "email sent"
       });
     } catch (e) {
-      console.log(e.response);
+      console.log(e);
       setNotification({
         type: "fail",
         title: "¯\\_(ツ)_/¯",
         message: "email failed"
       });
-      setLoading(false);
     }
   };
 
   return (
     <section className="contact-section flex-col">
       <div className="flex-col-center form-wrapper">
-        {loading ? (
+        {contactLoading ? (
           <div className="loader-spinner">Loading...</div>
         ) : (
           <form onSubmit={handleSubmit}>

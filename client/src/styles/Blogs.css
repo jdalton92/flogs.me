@@ -61,7 +61,27 @@
   margin: 30px 0 30px 0;
 }
 
+.blog-add-comment-wrapper {
+  margin-top: 20px;
+}
+
+.blog-add-comment-form textarea,
+.blog-add-comment-form input {
+  padding: 5px;
+  margin-top: 5px;
+}
+
+.blog-add-comment-form textarea {
+  height: 75px;
+}
+
+.blog-add-comment-form button {
+  margin-top: 5px;
+  width: 250px;
+}
+
 .blog-comments-wrapper {
+  margin-top: 20px;
   width: 80%;
 }
 

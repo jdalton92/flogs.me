@@ -32,13 +32,23 @@ module.exports = gql`
     id: ID!
   }
 
+  type Contact {
+    fullName: String!
+    email: String!
+    message: String!
+  }
+
   type Query {
     allBlogs(category: String, search: String): [Blog!]!
-    blogDetail(id: Int!): Blog
+    blogDetail(id: ID!): Blog
     me: User
   }
 
   type Mutation {
+    contact(fullName: String!, email: String!, message: String!): Contact
+
+    subscribe(email: String!): User
+
     addBlog(
       authorId: ID!
       title: String!

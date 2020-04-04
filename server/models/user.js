@@ -7,6 +7,11 @@ const schema = new mongoose.Schema({
     minlength: 3,
     required: true
   },
+  userType: {
+    type: String,
+    required: true,
+    default: "standard"
+  },
   email: {
     type: String,
     unique: true,

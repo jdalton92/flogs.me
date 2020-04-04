@@ -1,26 +1,24 @@
 import React, { useState, useContext } from "react";
+import { useMutation } from "@apollo/client";
+import { SUBSCRIBE } from "../queries/subscribeQueries";
 import Context from "../context/Context";
-import subscribeService from "../services/subscription";
 import "../styles/SignUp.css";
 
 const SignUp = ({ type }) => {
   const [form, setForm] = useState({});
-  const [fetching, setFetching] = useState();
   const { setNotification } = useContext(Context);
+  const [subscribe, { loading: subscribeLoading }] = useMutation(SUBSCRIBE);
 
   const handleSubmit = async e => {
     e.preventDefault();
-    setFetching(true);
     try {
-      await subscribeService.subscribe(form);
+      await subscribe({ variables: form });
       setNotification({
         type: "success",
         title: "ヽ(ヅ)ノ",
         message: "subscribed"
       });
-      setFetching(false);
     } catch (e) {
-      setFetching(false);
       setNotification({
         type: "fail",
         title: "¯\\_(ツ)_/¯",
@@ -42,7 +40,7 @@ const SignUp = ({ type }) => {
         onSubmit={handleSubmit}
         className={`flex-col-center subscribe-form subscribe-form-${type}`}
       >
-        {fetching ? (
+        {subscribeLoading ? (
           <div className="loader-spinner">loading...</div>
         ) : (
           <>

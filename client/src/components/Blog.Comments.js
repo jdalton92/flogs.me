@@ -14,8 +14,8 @@ const BlogComments = ({ comments }) => {
   };
 
   return (
-    <div className="flex-1 m20 blog-comments-wrapper">
-      <div className="blog-comments-header">comments</div>
+    <div className="w100 blog-comments-wrapper">
+      <h2 className="blog-comments-header">comments</h2>
       {comments.map(c => (
         <div key={c._id} className="p10 blog-comment-wrapper">
           <div className="flex-col">

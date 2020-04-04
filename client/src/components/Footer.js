@@ -34,7 +34,7 @@ const Footer = () => {
     setNotification({
       type: "fail",
       title: "¯\\_(ツ)_/¯",
-      message: "not yet"
+      message: "use the contact page bru"
     });
   };
 

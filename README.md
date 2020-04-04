@@ -4,7 +4,7 @@ A blog for your entire life
 
 ## Prototype
 
-> [https://flogs.herokuapp.com/](https://flogs.herokuapp.com/)
+> [https://flogs.me/](https://flogs.me/)
 
 ## Authors
 

@@ -1,6 +1,6 @@
-const app = require("./app");
+const server = require("./app");
 
-app.listen().then(({ url, subscriptionsUrl }) => {
+server.listen({ port: process.env.PORT }).then(({ url, subscriptionsUrl }) => {
   console.log(`Server ready at ${url}`);
   console.log(`Subscriptions ready at ${subscriptionsUrl}`);
 });

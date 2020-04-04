@@ -1,14 +1,18 @@
 const {
   UserInputError,
   AuthenticationError,
+  ApolloError,
   PubSub
 } = require("apollo-server");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
+const mailGun = require("nodemailer-mailgun-transport");
 
 const Comment = require("../models/Comment");
 const Blog = require("../models/blog");
 const User = require("../models/user");
+const Subscription = require("../models/Subscription");
 
 module.exports = {
   Query: {
@@ -29,7 +33,9 @@ module.exports = {
     },
     blogDetail: async (root, { id }) => {
       try {
-        blog = await Blog.findbyId(id);
+        blog = await Blog.findbyId(id)
+          .populate("author")
+          .populate("comments");
         return blog;
       } catch (e) {
         throw new UserInputError(e.message, {
@@ -38,11 +44,63 @@ module.exports = {
       }
     },
     me: (root, args, context) => {
-      console.log("me query context.currentUser", context.currentUser);
       return context.currentUser;
     }
   },
   Mutation: {
+    contact: async (root, { fullName, email, message }) => {
+      const date = new Intl.DateTimeFormat("en-GB").format(Date.now());
+
+      if (!fullName || !email || !message) {
+        throw new UserInputError("full name, email, and message required");
+      }
+
+      const auth = {
+        auth: {
+          api_key: process.env.API_KEY,
+          domain: process.env.DOMAIN
+        }
+      };
+
+      try {
+        const transporter = nodemailer.createTransport(mailGun(auth));
+        const mailOptions = {
+          from: `"${fullName}" <${email}>`,
+          to: process.env.EMAIL,
+          subject: "flogs.me: New Message",
+          text: `
+          Date: ${date}
+          Name: ${fullName}
+          Email: ${email}
+          Message: 
+          ${message}
+          `
+        };
+        await transporter.sendMail(mailOptions);
+        return { fullName, message, email };
+      } catch (e) {
+        throw new ApolloError(e.message);
+      }
+    },
+    subscribe: async (root, { email }) => {
+      try {
+        existingSubscriber = await Subscription.find({ email });
+
+        if (existingSubscriber.length > 0) {
+          throw new UserInputError("already subscribed");
+        }
+
+        const subscriber = new Subscription({
+          email
+        });
+
+        await subscriber.save();
+
+        return { email };
+      } catch (e) {
+        throw new ApolloError(e.message);
+      }
+    },
     addBlog: async (
       root,
       { title, author, category, tags, content, img },
@@ -146,8 +204,12 @@ module.exports = {
 
       return newComment;
     },
-    createUser: async (root, { name, email, password }) => {
-      const existingUser = await User.find({ email: email });
+    createUser: async (root, { name, email, password }, { currentUser }) => {
+      if (currentUser) {
+        throw new AuthenticationError("logout first to create user");
+      }
+
+      const existingUser = await User.find({ email });
 
       if (!name || name.length < 3) {
         throw new UserInputError("name must be more than 3 characters");

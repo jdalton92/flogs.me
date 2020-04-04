@@ -9,7 +9,9 @@ const NavLanding = () => {
     setDropdown,
     setLoginView,
     meData,
-    meLoading
+    meLoading,
+    loginLoading,
+    meRefetch
   } = useContext(Context);
 
   const handleDropdown = e => {
@@ -19,11 +21,14 @@ const NavLanding = () => {
 
   const handleLogout = e => {
     e.preventDefault();
-    setToken(null);
+    setToken("");
     localStorage.removeItem("flogsToken");
+    meRefetch();
+    setDropdown(false);
+    setLoginView("landing");
   };
 
-  if (meLoading) {
+  if (meLoading || loginLoading) {
     return (
       <div className="login-wrapper loading-wrapper">
         <div className="loader-spinner">loading...</div>
@@ -33,7 +38,7 @@ const NavLanding = () => {
 
   return (
     <>
-      {meData ? (
+      {meData !== undefined && meData.me ? (
         <div className="h100 nav-user-wrapper">
           <OutsideAlerter>
             <div

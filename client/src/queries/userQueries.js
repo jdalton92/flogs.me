@@ -10,7 +10,7 @@ const USER_DETAILS = gql`
 
 export const CREATE_USER = gql`
   mutation createUser($name: String!, $email: String!, $password: String!) {
-    addBlog(name: $name, email: $email, password: $password) {
+    createUser(name: $name, email: $email, password: $password) {
       ...UserDetails
     }
   }

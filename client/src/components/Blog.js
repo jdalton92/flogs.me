@@ -1,5 +1,6 @@
 import React from "react";
 import BlogComments from "./Blog.Comments";
+import BlogAddComment from "./Blog.AddComment";
 import { useParams } from "react-router-dom";
 
 import { blogs } from "../utils/blogs";
@@ -45,7 +46,10 @@ const Blog = () => {
           <div className="blog-body-image">{img}</div>
           <div className="blog-body-content">{content}</div>
         </div>
-        <BlogComments comments={comments} />
+        <div className="w80 blog-comments-wrapper">
+          <BlogAddComment />
+          <BlogComments comments={comments} />
+        </div>
       </div>
     </section>
   );

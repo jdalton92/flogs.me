@@ -24,6 +24,12 @@ const NavLogin = () => {
           password
         }
       });
+      setLoginView("landing");
+      setNotification({
+        type: "success",
+        title: "ヽ(•‿•)ノ",
+        message: "account created"
+      });
     } catch (e) {
       console.log(e);
       setNotification({

@@ -1,6 +1,6 @@
 import React from "react";
 import Search from "./Search";
-import BlogCard from "./Blog.Card.js";
+import BlogsCard from "./Blogs.Card.js";
 import SignUp from "./SignUp.js";
 import "../styles/Blogs.css";
 
@@ -15,7 +15,7 @@ const Blogs = ({ topic }) => {
         <Search topic={{ topic }} />
         <div className="blogs-wrapper">
           {blogs.map(b => (
-            <BlogCard key={b._id} blog={b} />
+            <BlogsCard key={b._id} blog={b} />
           ))}
         </div>
       </div>

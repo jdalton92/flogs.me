@@ -10,7 +10,7 @@ import Context from "../../context/Context";
 import "../../styles/Nav.css";
 
 const Nav = () => {
-  const { open, loginView, setToken } = useContext(Context);
+  const { open, loginView, token, setToken, meRefetch } = useContext(Context);
   const history = useHistory();
 
   //Init user on page render if logged in previously
@@ -18,9 +18,10 @@ const Nav = () => {
     const existingToken = localStorage.getItem("flogsToken");
     if (existingToken) {
       setToken(existingToken);
+      meRefetch();
       return;
     }
-  }, [setToken]);
+  }, [token, setToken]);
 
   const handleLink = link => {
     history.push(link);
