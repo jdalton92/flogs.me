@@ -1,0 +1,46 @@
+.blog-add-section {
+  min-height: 80vh;
+}
+
+.blog-add-wrapper {
+  padding-top: 35px;
+  padding-bottom: 35px;
+}
+
+.blog-add-form select,
+.blog-add-form textarea,
+.blog-add-form input {
+  margin-top: 10px;
+  padding: 5px;
+}
+
+.blog-add-input {
+  width: 100%;
+}
+
+.blog-add-tags-wrapper input {
+  width: 100%;
+}
+
+.blog-add-tags-btn {
+  height: 30px !important;
+}
+
+.blog-add-tags-list {
+  margin-top: 10px;
+}
+
+.blog-add-form textarea {
+  height: 300px;
+}
+
+.blog-add-form button {
+  margin-top: 10px;
+  width: 175px;
+}
+
+@media screen and (max-width: 768px) {
+  .blog-add-form button {
+    width: 100%;
+  }
+}

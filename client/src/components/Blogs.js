@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import { ALL_BLOGS } from "../queries/blogQueries";
-import Search from "./Search";
+import BlogsSearch from "./Blogs.Search";
 import BlogsCard from "./Blogs.Card";
 import "../styles/Blogs.css";
 
@@ -12,6 +12,7 @@ const Blogs = ({ topic }) => {
 
   useEffect(() => {
     refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topic]);
 
   // const updateCacheWith = addedComment => {
@@ -36,15 +37,15 @@ const Blogs = ({ topic }) => {
 
   return (
     <section className="blogs-section flex-row">
-      <div className="flex-col m-auto w80">
-        <Search topic={{ topic }} />
-        <div className="blogs-wrapper">
+      <div className="flex-col m-auto blogs-wrapper">
+        <BlogsSearch topic={{ topic }} />
+        <div className="blogs-result-wrapper">
           {loading ? (
             <div className="loader-spinner">loading...</div>
           ) : (
             <>
               {data.allBlogs.length === 0 && (
-                <div style={{ paddingTop: "25px" }}>coming soon...</div>
+                <div style={{ paddingTop: "25px" }}>content coming soon...</div>
               )}
               {error && <div style={{ paddingTop: "25px" }}>error...</div>}
               {data.allBlogs.length > 0 &&

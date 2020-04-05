@@ -5,6 +5,7 @@ const schema = gql`
     name: String!
     email: String!
     passwordHash: String!
+    userType: String!
     _id: ID!
   }
 
@@ -53,7 +54,6 @@ const schema = gql`
     subscribe(email: String!): User
 
     addBlog(
-      authorId: ID!
       title: String!
       category: String!
       tags: [String]!

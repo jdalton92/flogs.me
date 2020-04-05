@@ -30,6 +30,7 @@ export const ME = gql`
     me {
       name
       email
+      userType
       _id
     }
   }

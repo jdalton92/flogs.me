@@ -4,11 +4,13 @@ import ReactGA from "react-ga";
 import Context from "./context/Context";
 
 import ScrollToTop from "./utils/ScrollToTop";
+import NoMatch from "./components/NoMatch";
 import Notification from "./components/Notification";
 import Nav from "./components/Nav/Nav";
 import Home from "./components/Home";
 import Blogs from "./components/Blogs";
 import Blog from "./components/Blog";
+import BlogAdd from "./components/Blog.Add";
 // import Lifestyle from "./components/Lifestyle";
 // import OtherShit from "./components/OtherShit";
 // import Merch from "./components/Merch";
@@ -17,6 +19,7 @@ import FAQ from "./components/FAQ";
 import Footer from "./components/Footer";
 
 import "./styles/App.css";
+
 const App = () => {
   const { token, setToken, meRefetch } = useContext(Context);
 
@@ -28,6 +31,7 @@ const App = () => {
       meRefetch();
       return;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token, setToken]);
 
   // Google analytics
@@ -55,6 +59,8 @@ const App = () => {
           {/* <Route path="/merch" render={() => <Merch />} /> */}
           <Route path="/contact" render={() => <Contact />} />
           <Route path="/faq" render={() => <FAQ />} />
+          <Route path="/add-blog" render={() => <BlogAdd />} />
+          <Route render={() => <NoMatch />} />
         </Switch>
         <Footer />
       </Router>

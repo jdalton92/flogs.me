@@ -13,6 +13,7 @@ const Blog = () => {
 
   useEffect(() => {
     refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   let title;
@@ -21,10 +22,8 @@ const Blog = () => {
   let author = { name: "" };
   let comments;
   let tags;
-  let topic;
   let content;
   let img;
-  let _id;
 
   if (!loading && !error) {
     title = data.blogDetail.title;
@@ -33,10 +32,8 @@ const Blog = () => {
     author = data.blogDetail.author;
     comments = data.blogDetail.comments;
     tags = data.blogDetail.tags;
-    topic = data.blogDetail.topic;
     content = data.blogDetail.content;
     img = data.blogDetail.img;
-    _id = data.blogDetail._id;
   }
 
   return (
@@ -75,11 +72,18 @@ const Blog = () => {
                 </span>
               </div>
             </div>
-            <div className="w80 blog-body-wrapper">
-              <div className="blog-body-image">{img}</div>
-              <div className="blog-body-content">{content}</div>
+            <div className="w80 flex-col blog-body-wrapper">
+              {img ? (
+                <div className="w100 blog-body-image-wrapper">
+                  <img className="blog-body-image" alt="img" src={img} />
+                </div>
+              ) : null}
+              <div
+                className="w100 flex-row blog-body-content"
+                dangerouslySetInnerHTML={{ __html: content }}
+              ></div>
             </div>
-            <div className="w80 blog-comments-wrapper">
+            <div className="blog-comments-wrapper">
               <BlogAddComment id={id} />
               <BlogComments comments={comments} />
             </div>

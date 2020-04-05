@@ -39,7 +39,7 @@ const BlogCard = ({ blog }) => {
         <p>
           <b>with: </b>
           <span>
-            {comments.length} {comments.length <= 1 ? "comment" : "comments"}
+            {comments.length} {comments.length === 1 ? "comment" : "comments"}
           </span>
         </p>
       </div>

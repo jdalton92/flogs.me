@@ -49,7 +49,6 @@ export const GET_BLOG = gql`
 
 export const ADD_BLOG = gql`
   mutation addBlog(
-    $authorId: ID!
     $title: String!
     $category: String!
     $tags: [String!]!
@@ -57,7 +56,6 @@ export const ADD_BLOG = gql`
     $img: String
   ) {
     addBlog(
-      author: $authorId
       title: $title
       category: $category
       tags: $tags

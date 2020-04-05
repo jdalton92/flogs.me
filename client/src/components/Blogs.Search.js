@@ -1,12 +1,13 @@
 import React, { useState, useContext } from "react";
 import Context from "../context/Context";
 
-const Search = ({ topic }) => {
+const BlogsSearch = ({ topic }) => {
   const { setNotification } = useContext(Context);
   const [search, setSearch] = useState("");
 
   const handleSubmit = e => {
     e.preventDefault();
+    console.log("search", search);
     setNotification({
       type: "fail",
       title: "¯\\_(ツ)_/¯",
@@ -36,4 +37,4 @@ const Search = ({ topic }) => {
   );
 };
 
-export default Search;
+export default BlogsSearch;

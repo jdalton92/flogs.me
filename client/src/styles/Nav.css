@@ -29,11 +29,11 @@
   width: 50%;
 }
 
-.loading-wrapper .loader-spinner {
-  width: 30px;
-  height: 30px;
-  left: 85px;
-  top: -35px;
+.loading-wrapper {
+  width: 30px !important;
+  height: 30px !important;
+  top: 5px;
+  right: -100px;
 }
 
 .login-btn {
@@ -107,7 +107,7 @@
   background-color: white;
   z-index: 1;
   position: absolute;
-  top: 30px;
+  top: 35px;
   right: 0px;
   height: 175px;
   width: 200px;
@@ -218,20 +218,47 @@
 
 @media screen and (max-width: 400px) {
   .logo-wrapper {
-    height: 220px;
+    height: 100%;
     flex-direction: column;
     position: initial;
+    padding: 0px;
   }
 
   .logo-wrapper h1 {
     padding-top: 15px;
-    flex: 1;
   }
 
   .login-wrapper {
+    height: 155px;
     position: initial;
-    flex: 3;
     align-items: center;
     justify-content: center;
+  }
+
+  .login-wrapper-loggedin {
+    height: 90px !important;
+  }
+
+  .loading-wrapper {
+    left: 0px;
+    top: 0px;
+  }
+
+  .nav-user-container {
+    margin-top: 20px;
+    justify-content: center;
+    position: static;
+  }
+
+  .user-icon {
+    height: 40px;
+    width: 40px;
+  }
+
+  .nav-dropdown {
+    position: relative;
+    z-index: 2;
+    left: 15px;
+    top: 5px;
   }
 }

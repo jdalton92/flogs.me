@@ -4,12 +4,52 @@
   min-height: 80vh;
 }
 
-.body-message {
-  font-size: 48px;
-  margin: 50px 0 50px 0;
+.home-content-wrapper {
+  padding-top: 35px;
+  display: flex;
+  margin: 0 auto 0 auto;
+  max-width: 1200px;
 }
 
-.loader-wrapper {
-  height: 150px;
+.home-content-wrapper h2 {
+  padding: 0 20px 0 20px;
+}
+
+.home-content-left h2,
+.home-content-right h2 {
+  text-align: center;
+}
+
+.home-content-right,
+.home-content-left {
+  margin: 20px;
+}
+
+.home-img-happy,
+.home-img-unhappy {
+  padding: 20px;
+  height: 500px;
+  width: auto;
+  object-fit: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.home-img-unhappy {
+  margin-bottom: 50px;
+}
+
+.home-content-wrapper h2 {
+  margin-bottom: 35px;
+}
+
+.home-caption {
   margin: 50px 0 50px 0;
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .home-content-wrapper {
+    flex-direction: column;
+  }
 }

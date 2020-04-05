@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { OutsideAlerter } from "../../utils/hooks";
 import Context from "../../context/Context";
 
@@ -14,9 +15,16 @@ const NavLanding = () => {
     loginLoading,
     meRefetch
   } = useContext(Context);
+  const history = useHistory();
+
+  const handleLink = link => {
+    setDropdown(false);
+    history.push(link);
+  };
 
   const handleClick = e => {
     e.preventDefault();
+    setDropdown(false);
     setNotification({
       type: "fail",
       title: "¯\\_(ツ)_/¯",
@@ -39,11 +47,7 @@ const NavLanding = () => {
   };
 
   if (meLoading || loginLoading) {
-    return (
-      <div className="login-wrapper loading-wrapper">
-        <div className="loader-spinner">loading...</div>
-      </div>
-    );
+    return <div className="loader-spinner loading-wrapper">loading...</div>;
   }
 
   return (
@@ -53,16 +57,27 @@ const NavLanding = () => {
           <OutsideAlerter>
             <div
               onClick={handleDropdown}
-              className="flex-row nav-user-container"
+              className="flex-col-center nav-user-container"
             >
-              <div alt="user" title="user" className="user-icon" />
-              <i className="navbar-arrow-down"></i>
+              <div className="flex-row-center">
+                <div alt="user" title="user" className="user-icon" />
+                <i className="navbar-arrow-down"></i>
+              </div>
+              <div>{meData.me.name}</div>
             </div>
             <div
               className={`${
                 dropdown ? "nav-dropdown-show" : "nav-dropdown-shrink"
               } flex-col-center nav-dropdown`}
             >
+              {meData.me.userType === "admin" && (
+                <div
+                  onClick={() => handleLink("/add-blog")}
+                  className="flex-1 w100 flex-row-center nav-link"
+                >
+                  add blog
+                </div>
+              )}
               <div
                 onClick={handleClick}
                 className="flex-1 w100 flex-row-center nav-link"

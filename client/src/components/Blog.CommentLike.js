@@ -7,10 +7,9 @@ import dislike from "../styles/images/dislike.png";
 
 const BlogCommentLike = ({ id }) => {
   const { setNotification, meData } = useContext(Context);
-  const [
-    likeComment,
-    { loading: likeLoading, error: likeError, data: likeData }
-  ] = useMutation(LIKE_COMMENT);
+  const [likeComment, { loading: likeLoading, error: likeError }] = useMutation(
+    LIKE_COMMENT
+  );
   const [
     dislikeComment,
     { loading: dislikeLoading, error: dislikeError }

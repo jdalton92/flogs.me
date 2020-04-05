@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import NavItems from "./Nav.Items";
 import NavBurger from "./Nav.Burger";
@@ -10,7 +10,7 @@ import Context from "../../context/Context";
 import "../../styles/Nav.css";
 
 const Nav = () => {
-  const { open, loginView, token, setToken, meRefetch } = useContext(Context);
+  const { open, loginView, meData } = useContext(Context);
   const history = useHistory();
 
   const handleLink = link => {
@@ -23,7 +23,11 @@ const Nav = () => {
         <h1 title="flogs.me" onClick={() => handleLink("/")}>
           flogs.me
         </h1>
-        <div className="login-wrapper">
+        <div
+          className={`login-wrapper ${
+            meData !== undefined && meData.me ? "login-wrapper-loggedin" : ""
+          }`}
+        >
           {loginView === "landing" && <NavLanding />}
           {loginView === "signUp" && <NavSignUp />}
           {loginView === "login" && <NavLogin />}

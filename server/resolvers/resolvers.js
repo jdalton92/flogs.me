@@ -114,7 +114,7 @@ module.exports = {
     },
     addBlog: async (
       root,
-      { title, author, category, tags, content, img },
+      { title, category, tags, content, img },
       { currentUser }
     ) => {
       if (!currentUser) {

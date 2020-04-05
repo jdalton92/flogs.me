@@ -7,11 +7,7 @@ const NavLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { setToken, setLoginView, setNotification } = useContext(Context);
-
-  const [
-    login,
-    { loading: loginLoading, error: loginError, data: loginData }
-  ] = useMutation(LOGIN);
+  const [login, { loading: loginLoading }] = useMutation(LOGIN);
 
   const handleLogin = async e => {
     e.preventDefault();
@@ -38,11 +34,7 @@ const NavLogin = () => {
   };
 
   if (loginLoading) {
-    return (
-      <div className="login-wrapper loading-wrapper">
-        <div className="loader-spinner">loading...</div>
-      </div>
-    );
+    return <div className="loader-spinner loading-wrapper">loading...</div>;
   }
 
   return (

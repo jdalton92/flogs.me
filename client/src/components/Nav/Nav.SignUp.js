@@ -9,10 +9,7 @@ const NavLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [
-    createUser,
-    { loading: createUserLoading, data: createUserData }
-  ] = useMutation(CREATE_USER);
+  const [createUser, { loading: createUserLoading }] = useMutation(CREATE_USER);
 
   const handleSignUp = async e => {
     e.preventDefault();
@@ -44,11 +41,7 @@ const NavLogin = () => {
   };
 
   if (createUserLoading) {
-    return (
-      <div className="login-wrapper loading-wrapper">
-        <div className="loader-spinner">loading...</div>
-      </div>
-    );
+    return <div className="loader-spinner loading-wrapper">loading...</div>;
   }
 
   return (

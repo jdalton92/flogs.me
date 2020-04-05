@@ -3,8 +3,9 @@ import BlogCommentLike from "./Blog.CommentLike";
 
 const BlogComments = ({ comments }) => {
   return (
-    <div className="w100 blog-comments-wrapper">
+    <>
       <h2 className="blog-comments-header">comments</h2>
+      {comments.length === 0 && <div>no comments...</div>}
       {comments.map(c => (
         <div key={c._id} className="p10 blog-comment-wrapper">
           <div className="flex-col">
@@ -25,7 +26,7 @@ const BlogComments = ({ comments }) => {
           </div>
         </div>
       ))}
-    </div>
+    </>
   );
 };
 
