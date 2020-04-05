@@ -3,20 +3,45 @@ import { gql } from "@apollo/client";
 const BLOG_DETAILS = gql`
   fragment BlogDetails on Blog {
     title
+    date
     author {
-      ...AuthorDetails
+      name
     }
-    genres
-    published
-    id
+    category
+    tags
   }
-  ${BLOG_DETAILS}
 `;
 
 export const ALL_BLOGS = gql`
   query allBlogs($category: String, $search: String) {
     allBlogs(category: $category, search: $search) {
-      ...BookDetails
+      ...BlogDetails
+      _id
+      comments {
+        _id
+      }
+    }
+  }
+  ${BLOG_DETAILS}
+`;
+
+export const GET_BLOG = gql`
+  query blogDetail($blogId: ID!) {
+    blogDetail(blogId: $blogId) {
+      ...BlogDetails
+      content
+      img
+      comments {
+        _id
+        author {
+          name
+        }
+        title
+        comment
+        date
+        likes
+        dislikes
+      }
     }
   }
   ${BLOG_DETAILS}
@@ -43,4 +68,12 @@ export const ADD_BLOG = gql`
     }
   }
   ${BLOG_DETAILS}
+`;
+
+export const COMMENT_ADDED = gql`
+  subscription {
+    commentAdded {
+      _id
+    }
+  }
 `;

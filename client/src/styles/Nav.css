@@ -69,8 +69,8 @@
 .user-icon {
   -webkit-mask: url(../styles/images/user.svg) no-repeat center;
   mask: url(../styles/images/user.svg) no-repeat center;
-  height: 30px;
-  width: 30px;
+  height: 20px;
+  width: 20px;
   background-color: black;
 }
 
@@ -86,11 +86,15 @@
 }
 
 .nav-user-wrapper {
+  width: 100%;
   position: relative;
   font-size: 16px;
 }
 
 .nav-user-container {
+  position: absolute;
+  right: 0px;
+  top: -5px;
   align-items: center;
   justify-content: flex-end;
 }
@@ -103,9 +107,10 @@
   background-color: white;
   z-index: 1;
   position: absolute;
+  top: 30px;
   right: 0px;
-  height: 150px;
-  width: 150px;
+  height: 175px;
+  width: 200px;
   overflow: hidden;
   border: solid 1px black;
 }
@@ -185,7 +190,7 @@
 @media screen and (max-width: 768px) {
   .logo-wrapper {
     justify-content: flex-start;
-    padding-left: 50px;
+    padding-left: 25px;
   }
 
   .nav-burger-wrapper {
@@ -208,5 +213,25 @@
     align-items: center;
     justify-content: center;
     height: 15%;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .logo-wrapper {
+    height: 220px;
+    flex-direction: column;
+    position: initial;
+  }
+
+  .logo-wrapper h1 {
+    padding-top: 15px;
+    flex: 1;
+  }
+
+  .login-wrapper {
+    position: initial;
+    flex: 3;
+    align-items: center;
+    justify-content: center;
   }
 }

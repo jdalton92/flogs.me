@@ -19,25 +19,33 @@ const pubsub = new PubSub();
 module.exports = {
   Query: {
     allBlogs: async (root, { category, search }) => {
-      const query = {};
+      let query = {};
+      let blogDetail = {};
 
       if (search) {
-        query.search = { category: search, tags: search, title: search };
+        // TO DO
+        // query = { category: search, tags: search, title: search };
+        // blogDetail = await Blog.find({ $text: { $search: search } }).populate(
+        //   "author"
+        // );
       } else {
-        query = { category, tags, title };
+        query = { category };
+        blogDetail = await Blog.find(query).populate("author");
       }
-
-      blogDetail = await Blog.find(query)
-        .populate("author")
-        .populate("comments");
 
       return blogDetail;
     },
-    blogDetail: async (root, { id }) => {
+    blogDetail: async (root, { blogId }) => {
       try {
-        blog = await Blog.findbyId(id)
-          .populate("author")
-          .populate("comments");
+        blog = await Blog.findById(blogId)
+          .populate("author", "name")
+          .populate("comments")
+          .populate({
+            path: "comments",
+            populate: {
+              path: "author"
+            }
+          });
         return blog;
       } catch (e) {
         throw new UserInputError(e.message, {
@@ -74,6 +82,7 @@ module.exports = {
           Date: ${date}
           Name: ${fullName}
           Email: ${email}
+          
           Message: 
           ${message}
           `
@@ -174,7 +183,7 @@ module.exports = {
       const returnComment = await Comment.findById(newComment._id).populate(
         "author"
       );
-      pubsub.publish("COMMENT_ADDED", { commentAdded: returnComment });
+      //   pubsub.publish("COMMENT_ADDED", { commentAdded: returnComment });
 
       return returnComment;
     },
@@ -353,10 +362,10 @@ module.exports = {
 
       return token;
     }
-  },
-  Subscription: {
-    commentAdded: {
-      subscribe: () => pubsub.asyncIterator(["COMMENT_ADDED"])
-    }
   }
+  //   Subscription: {
+  //     commentAdded: {
+  //       subscribe: () => pubsub.asyncIterator(["COMMENT_ADDED"])
+  //     }
+  //   }
 };

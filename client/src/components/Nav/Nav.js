@@ -13,18 +13,6 @@ const Nav = () => {
   const { open, loginView, token, setToken, meRefetch } = useContext(Context);
   const history = useHistory();
 
-  //Init user on page render if logged in previously
-  useEffect(() => {
-    const existingToken = localStorage.getItem("flogsToken");
-    if (existingToken) {
-      setToken(existingToken);
-      meRefetch();
-      return;
-    }
-  }, [token, setToken]);
-
-  console.log("token", token);
-
   const handleLink = link => {
     history.push(link);
   };

@@ -4,6 +4,7 @@ import Context from "../../context/Context";
 
 const NavLanding = () => {
   const {
+    setNotification,
     setToken,
     dropdown,
     setDropdown,
@@ -13,6 +14,15 @@ const NavLanding = () => {
     loginLoading,
     meRefetch
   } = useContext(Context);
+
+  const handleClick = e => {
+    e.preventDefault();
+    setNotification({
+      type: "fail",
+      title: "¯\\_(ツ)_/¯",
+      message: "coming soon"
+    });
+  };
 
   const handleDropdown = e => {
     e.preventDefault();
@@ -53,7 +63,10 @@ const NavLanding = () => {
                 dropdown ? "nav-dropdown-show" : "nav-dropdown-shrink"
               } flex-col-center nav-dropdown`}
             >
-              <div className="flex-1 w100 flex-row-center nav-link">
+              <div
+                onClick={handleClick}
+                className="flex-1 w100 flex-row-center nav-link"
+              >
                 settings
               </div>
               <div

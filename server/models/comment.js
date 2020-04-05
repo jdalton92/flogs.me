@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
-  dateCreated: {
+  date: {
     type: Date,
     require: true,
     default: Date.now

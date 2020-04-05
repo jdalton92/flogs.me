@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ReactGA from "react-ga";
+import Context from "./context/Context";
 
 import ScrollToTop from "./utils/ScrollToTop";
 import Notification from "./components/Notification";
@@ -17,6 +18,19 @@ import Footer from "./components/Footer";
 
 import "./styles/App.css";
 const App = () => {
+  const { token, setToken, meRefetch } = useContext(Context);
+
+  //Init user on page render if logged in previously
+  useEffect(() => {
+    const existingToken = localStorage.getItem("flogsToken");
+    if (existingToken) {
+      setToken(existingToken);
+      meRefetch();
+      return;
+    }
+  }, [token, setToken]);
+
+  // Google analytics
   ReactGA.initialize("UA-158975814-4");
   ReactGA.pageview(window.location.pathname + window.location.search);
 

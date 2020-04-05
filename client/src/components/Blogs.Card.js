@@ -9,8 +9,13 @@ const BlogCard = ({ blog }) => {
     history.push(link);
   };
 
+  const formatDate = new Intl.DateTimeFormat("en-GB").format(date);
+
   return (
-    <div className="p20 flex-col box-shadow-on-hover blogcard-wrapper">
+    <div
+      onClick={() => handleLink(`blog/${_id.toString()}`)}
+      className="p20 flex-col box-shadow-on-hover blogcard-wrapper"
+    >
       <div className="blogcard-header-wrapper">
         <h2 className="blogcard-title">{title}</h2>
       </div>
@@ -21,11 +26,11 @@ const BlogCard = ({ blog }) => {
         </p>
         <p>
           <b>posted on: </b>
-          <span>{date}</span>
+          <span>{formatDate}</span>
         </p>
         <p>
           <b>posted by: </b>
-          <span>{author}</span>
+          <span>{author.name}</span>
         </p>
         <p>
           <b>tags: </b>
@@ -37,14 +42,6 @@ const BlogCard = ({ blog }) => {
             {comments.length} {comments.length <= 1 ? "comment" : "comments"}
           </span>
         </p>
-      </div>
-      <div className="flex-row">
-        <div
-          className="blogcard-link"
-          onClick={() => handleLink(`blog/${_id}`)}
-        >
-          read me...
-        </div>
       </div>
     </div>
   );

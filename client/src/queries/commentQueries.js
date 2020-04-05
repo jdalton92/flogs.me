@@ -8,6 +8,8 @@ export const ADD_COMMENT = gql`
         name
       }
       comment
+      likes
+      dislikes
     }
   }
 `;

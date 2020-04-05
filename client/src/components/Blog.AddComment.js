@@ -1,15 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import Context from "../context/Context";
+import { useMutation } from "@apollo/client";
+import { ADD_COMMENT } from "../queries/commentQueries";
 
-const BlogAddComment = () => {
-  const [variables, setVariables] = useState({});
-
-  const formHandler = e => {
-    setVariables({ ...variables, [e.target.name]: e.target.value });
-  };
+const BlogAddComment = ({ id }) => {
+  const { setNotification, meData } = useContext(Context);
+  const [title, setTitle] = useState("");
+  const [comment, setComment] = useState("");
+  const [addComment, { error: addCommentError }] = useMutation(ADD_COMMENT);
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log("submit");
+    if (!meData.me) {
+      setNotification({
+        type: "fail",
+        title: "¯\\_(ツ)_/¯",
+        message: "log in to comment"
+      });
+      return;
+    }
+    try {
+      addComment({
+        variables: {
+          blogId: id,
+          title,
+          comment
+        }
+      });
+      setTitle("");
+      setComment("");
+      setNotification({
+        type: "success",
+        title: "ヽ(•‿•)ノ",
+        message: "comment added"
+      });
+    } catch (e) {
+      console.log(addCommentError);
+      setNotification({
+        type: "fail",
+        title: "¯\\_(ツ)_/¯",
+        message: e.message
+      });
+    }
   };
 
   return (
@@ -19,7 +51,8 @@ const BlogAddComment = () => {
         onSubmit={handleSubmit}
       >
         <input
-          onChange={formHandler}
+          value={title}
+          onChange={({ target }) => setTitle(target.value)}
           type="text"
           name="title"
           placeholder="title"
@@ -27,7 +60,8 @@ const BlogAddComment = () => {
           required
         />
         <textarea
-          onChange={formHandler}
+          value={comment}
+          onChange={({ target }) => setComment(target.value)}
           type="text"
           name="comment"
           placeholder="comment"

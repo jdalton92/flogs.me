@@ -4,7 +4,7 @@ const USER_DETAILS = gql`
   fragment UserDetails on User {
     name
     email
-    id
+    _id
   }
 `;
 
@@ -30,7 +30,7 @@ export const ME = gql`
     me {
       name
       email
-      id
+      _id
     }
   }
 `;

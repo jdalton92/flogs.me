@@ -1,11 +1,11 @@
 const { gql } = require("apollo-server");
 
-module.exports = gql`
+const schema = gql`
   type User {
     name: String!
     email: String!
     passwordHash: String!
-    id: ID!
+    _id: ID!
   }
 
   type Token {
@@ -20,7 +20,8 @@ module.exports = gql`
     tags: [String]!
     content: String!
     img: String
-    id: ID!
+    comments: [Comment!]
+    _id: ID!
   }
 
   type Comment {
@@ -31,7 +32,7 @@ module.exports = gql`
     comment: String!
     likes: Int!
     dislikes: Int!
-    id: ID!
+    _id: ID!
   }
 
   type Contact {
@@ -41,8 +42,8 @@ module.exports = gql`
   }
 
   type Query {
-    allBlogs(category: String, search: String): [Blog!]!
-    blogDetail(id: ID!): Blog
+    allBlogs(category: String, search: String): [Blog!]
+    blogDetail(blogId: ID!): Blog!
     me: User
   }
 
@@ -79,3 +80,5 @@ module.exports = gql`
     commentAdded: Comment!
   }
 `;
+
+module.exports = schema;
