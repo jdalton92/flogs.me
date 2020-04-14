@@ -8,20 +8,20 @@ const Footer = () => {
   const { setNotification } = useContext(Context);
   const history = useHistory();
 
-  const handleLink = link => {
+  const handleLink = (link) => {
     history.push(link);
   };
 
-  const handleTwitter = e => {
+  const handleTwitter = (e) => {
     e.preventDefault();
     setNotification({
       type: "fail",
       title: "¯\\_(ツ)_/¯",
-      message: "twitter NAH"
+      message: "twitter NAH",
     });
   };
 
-  const handleGitHub = e => {
+  const handleGitHub = (e) => {
     e.preventDefault();
     const win = window.open("https://github.com/jdalton92/flogs.me", "_blank");
     if (win != null) {
@@ -29,12 +29,12 @@ const Footer = () => {
     }
   };
 
-  const handleEmail = e => {
+  const handleEmail = (e) => {
     e.preventDefault();
     setNotification({
       type: "fail",
       title: "¯\\_(ツ)_/¯",
-      message: "use the contact page bru"
+      message: "use the contact page",
     });
   };
 

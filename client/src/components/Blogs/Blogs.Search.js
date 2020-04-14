@@ -1,17 +1,17 @@
 import React, { useState, useContext } from "react";
-import Context from "../context/Context";
+import Context from "../../context/Context";
 
-const BlogsSearch = ({ topic }) => {
+const BlogsSearch = () => {
   const { setNotification } = useContext(Context);
   const [search, setSearch] = useState("");
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     console.log("search", search);
     setNotification({
       type: "fail",
       title: "¯\\_(ツ)_/¯",
-      message: "not working lol"
+      message: "not working",
     });
   };
 
@@ -24,7 +24,7 @@ const BlogsSearch = ({ topic }) => {
             name="search"
             placeholder="search for title or tags"
             type="text"
-            onChange={e => setSearch(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
             maxLength={50}
             required
           ></input>

@@ -1,5 +1,10 @@
 import React, { useEffect, useContext } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import ReactGA from "react-ga";
 import Context from "./context/Context";
 
@@ -8,20 +13,19 @@ import NoMatch from "./components/NoMatch";
 import Notification from "./components/Notification";
 import Nav from "./components/Nav/Nav";
 import Home from "./components/Home";
-import Blogs from "./components/Blogs";
-import Blog from "./components/Blog";
+import Blogs from "./components/Blogs/Blogs";
+import Blog from "./components/Blog/Blog";
 import BlogAdd from "./components/Blog.Add";
-// import Lifestyle from "./components/Lifestyle";
-// import OtherShit from "./components/OtherShit";
 // import Merch from "./components/Merch";
 import Contact from "./components/Contact";
 import FAQ from "./components/FAQ";
+import User from "./components/User";
 import Footer from "./components/Footer";
 
 import "./styles/App.css";
 
 const App = () => {
-  const { token, setToken, meRefetch } = useContext(Context);
+  const { meLoading, meData, token, setToken, meRefetch } = useContext(Context);
 
   //Init user on page render if logged in previously
   useEffect(() => {
@@ -59,7 +63,12 @@ const App = () => {
           {/* <Route path="/merch" render={() => <Merch />} /> */}
           <Route path="/contact" render={() => <Contact />} />
           <Route path="/faq" render={() => <FAQ />} />
-          <Route path="/add-blog" render={() => <BlogAdd />} />
+          {!meLoading && meData.me !== null ? (
+            <Route path="/add-blog" render={() => <BlogAdd />} />
+          ) : (
+            <Redirect to="/" />
+          )}
+          <Route path="/user/:id" render={() => <User />} />
           <Route render={() => <NoMatch />} />
         </Switch>
         <Footer />

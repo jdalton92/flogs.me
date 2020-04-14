@@ -1,13 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@apollo/client";
-import { ALL_BLOGS } from "../queries/blogQueries";
+import { ALL_BLOGS } from "../../queries/blogQueries";
 import BlogsSearch from "./Blogs.Search";
 import BlogsCard from "./Blogs.Card";
-import "../styles/Blogs.css";
+import "../../styles/Blogs.css";
 
 const Blogs = ({ topic }) => {
+  const [sort, setSort] = useState("newest");
   const { data, error, loading, refetch } = useQuery(ALL_BLOGS, {
-    variables: { category: topic }
+    variables: { category: topic },
   });
 
   useEffect(() => {
@@ -35,12 +36,44 @@ const Blogs = ({ topic }) => {
   //   }
   // });
 
+  const handleSort = (e) => {
+    e.preventDefault();
+    setSort(e.target.value);
+  };
+
+  let sortedBlogs = [];
+  if (!loading && !error) {
+    sortedBlogs = [...data.allBlogs];
+  }
+
+  switch (sort) {
+    case "newest":
+      sortedBlogs.sort((a, b) => b.date - a.date);
+      break;
+    case "oldest":
+      sortedBlogs.sort((a, b) => a.date - b.date);
+      break;
+    case "comments":
+      sortedBlogs.sort((a, b) => b.comments.length - a.comments.length);
+      break;
+    default:
+      sortedBlogs = [];
+      break;
+  }
+
   return (
     <section className="blogs-section flex-row">
       <div className="flex-col m-auto blogs-wrapper">
         <BlogsSearch topic={{ topic }} />
+        <div className="blogs-sort">
+          <select defaultValue="newest" onChange={handleSort}>
+            <option value="newest">newest</option>
+            <option value="oldest">oldest</option>
+            <option value="comments">most comments</option>
+          </select>
+        </div>
         <div className="blogs-result-wrapper">
-          {loading ? (
+          {loading || error ? (
             <div className="loader-spinner">loading...</div>
           ) : (
             <>
@@ -50,7 +83,7 @@ const Blogs = ({ topic }) => {
               {error && <div style={{ paddingTop: "25px" }}>error...</div>}
               {data.allBlogs.length > 0 &&
                 !error &&
-                data.allBlogs.map(b => <BlogsCard key={b._id} blog={b} />)}
+                sortedBlogs.map((b) => <BlogsCard key={b._id} blog={b} />)}
             </>
           )}
         </div>

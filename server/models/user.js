@@ -5,29 +5,41 @@ const schema = new mongoose.Schema({
   name: {
     type: String,
     minlength: 3,
-    required: true
+    required: true,
   },
   userType: {
     type: String,
     required: true,
-    default: "standard"
+    default: "standard",
   },
   email: {
     type: String,
     unique: true,
     minlength: 3,
-    required: true
+    required: true,
   },
   passwordHash: {
     type: String,
-    required: true
+    required: true,
   },
+  savedBlogs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Blog",
+    },
+  ],
   blogs: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Blog"
-    }
-  ]
+      ref: "Blog",
+    },
+  ],
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comment",
+    },
+  ],
 });
 
 schema.plugin(uniqueValidator);

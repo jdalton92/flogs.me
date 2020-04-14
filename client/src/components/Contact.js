@@ -9,11 +9,11 @@ const Contact = () => {
   const { setNotification } = useContext(Context);
   const [contact, { loading: contactLoading }] = useMutation(CONTACT);
 
-  const formHandler = e => {
+  const formHandler = (e) => {
     setVariables({ ...variables, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await contact({ variables });
@@ -21,14 +21,14 @@ const Contact = () => {
       setNotification({
         type: "success",
         title: "ヽ(•‿•)ノ",
-        message: "email sent"
+        message: "email sent",
       });
     } catch (e) {
       console.log(e);
       setNotification({
         type: "fail",
         title: "¯\\_(ツ)_/¯",
-        message: "email failed"
+        message: "email failed",
       });
     }
   };
@@ -47,7 +47,8 @@ const Contact = () => {
                 placeholder="name"
                 className="form-input"
                 type="text"
-                maxLength="50"
+                maxLength={100}
+                autoComplete="off"
                 required
               />
             </div>
@@ -58,7 +59,8 @@ const Contact = () => {
                 name="email"
                 className="form-input"
                 type="email"
-                maxLength="100"
+                maxLength={150}
+                autoComplete="off"
                 required
               />
             </div>
@@ -70,7 +72,8 @@ const Contact = () => {
                 className="form-input"
                 id="form-message"
                 input="text"
-                maxLength="1250"
+                maxLength={1250}
+                autoComplete="off"
                 required
               />
             </div>

@@ -5,6 +5,7 @@ const BLOG_DETAILS = gql`
     title
     date
     author {
+      _id
       name
     }
     category
@@ -25,6 +26,15 @@ export const ALL_BLOGS = gql`
   ${BLOG_DETAILS}
 `;
 
+export const SAVE_BLOG = gql`
+  mutation saveBlog($blogId: ID!) {
+    saveBlog(blogId: $blogId) {
+      _id
+    }
+  }
+  ${BLOG_DETAILS}
+`;
+
 export const GET_BLOG = gql`
   query blogDetail($blogId: ID!) {
     blogDetail(blogId: $blogId) {
@@ -33,14 +43,6 @@ export const GET_BLOG = gql`
       img
       comments {
         _id
-        author {
-          name
-        }
-        title
-        comment
-        date
-        likes
-        dislikes
       }
     }
   }

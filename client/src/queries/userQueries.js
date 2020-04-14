@@ -35,3 +35,34 @@ export const ME = gql`
     }
   }
 `;
+
+export const GET_USER = gql`
+  query getUser($userId: ID!) {
+    getUser(userId: $userId) {
+      ...userDetails
+      userType
+      blogs {
+        _id
+        title
+        category
+        date
+        author {
+          name
+        }
+      }
+      comments {
+        _id
+      }
+      savedBlogs {
+        _id
+        title
+        category
+        date
+        author {
+          name
+        }
+      }
+    }
+  }
+  ${USER_DETAILS}
+`;

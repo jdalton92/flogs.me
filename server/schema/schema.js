@@ -1,4 +1,4 @@
-const { gql } = require("apollo-server");
+const { gql } = require("apollo-server-express");
 
 const schema = gql`
   type User {
@@ -6,6 +6,8 @@ const schema = gql`
     email: String!
     passwordHash: String!
     userType: String!
+    savedBlogs: [Blog]
+    comments: [Comment]
     _id: ID!
   }
 
@@ -45,6 +47,8 @@ const schema = gql`
   type Query {
     allBlogs(category: String, search: String): [Blog!]
     blogDetail(blogId: ID!): Blog!
+    commentDetail(blogId: ID!): [Comment]
+    userDetail(userId: ID!): User!
     me: User
   }
 
@@ -60,6 +64,8 @@ const schema = gql`
       content: String!
       img: String
     ): Blog
+
+    saveBlog(blogId: ID!): Blog
 
     addComment(blogId: ID!, title: String!, comment: String!): Comment
 

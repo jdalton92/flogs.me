@@ -13,31 +13,31 @@ const NavLanding = () => {
     meData,
     meLoading,
     loginLoading,
-    meRefetch
+    meRefetch,
   } = useContext(Context);
   const history = useHistory();
 
-  const handleLink = link => {
+  const handleLink = (link) => {
     setDropdown(false);
     history.push(link);
   };
 
-  const handleClick = e => {
+  const handleClick = (e) => {
     e.preventDefault();
     setDropdown(false);
     setNotification({
       type: "fail",
       title: "¯\\_(ツ)_/¯",
-      message: "coming soon"
+      message: "coming soon",
     });
   };
 
-  const handleDropdown = e => {
+  const handleDropdown = (e) => {
     e.preventDefault();
     setDropdown(!dropdown);
   };
 
-  const handleLogout = e => {
+  const handleLogout = (e) => {
     e.preventDefault();
     setToken("");
     localStorage.removeItem("flogsToken");
@@ -67,28 +67,42 @@ const NavLanding = () => {
             </div>
             <div
               className={`${
-                dropdown ? "nav-dropdown-show" : "nav-dropdown-shrink"
-              } flex-col-center nav-dropdown`}
+                dropdown
+                  ? "nav-dropdown-wrapper-show"
+                  : "nav-dropdown-wrapper-shrink"
+              } nav-dropdown-wrapper`}
             >
-              {meData.me.userType === "admin" && (
+              <div
+                className={`${
+                  dropdown ? "nav-dropdown-show" : "nav-dropdown-shrink"
+                } flex-col-center nav-dropdown`}
+              >
                 <div
-                  onClick={() => handleLink("/add-blog")}
+                  onClick={() => handleLink(`/user/${meData.me._id}`)}
                   className="flex-1 w100 flex-row-center nav-link"
                 >
-                  add blog
+                  user profile
                 </div>
-              )}
-              <div
-                onClick={handleClick}
-                className="flex-1 w100 flex-row-center nav-link"
-              >
-                settings
-              </div>
-              <div
-                onClick={handleLogout}
-                className="flex-1 w100 flex-row-center nav-link"
-              >
-                logout
+                {meData.me.userType === "admin" && (
+                  <div
+                    onClick={() => handleLink("/add-blog")}
+                    className="flex-1 w100 flex-row-center nav-link"
+                  >
+                    add blog
+                  </div>
+                )}
+                <div
+                  onClick={handleClick}
+                  className="flex-1 w100 flex-row-center nav-link"
+                >
+                  settings
+                </div>
+                <div
+                  onClick={handleLogout}
+                  className="flex-1 w100 flex-row-center nav-link"
+                >
+                  logout
+                </div>
               </div>
             </div>
           </OutsideAlerter>

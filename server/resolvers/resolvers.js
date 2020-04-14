@@ -2,17 +2,17 @@ const {
   UserInputError,
   AuthenticationError,
   ApolloError,
-  PubSub
-} = require("apollo-server");
+  PubSub,
+} = require("apollo-server-express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const mailGun = require("nodemailer-mailgun-transport");
 
-const Comment = require("../models/Comment");
+const Comment = require("../models/comment");
 const Blog = require("../models/blog");
 const User = require("../models/user");
-const Subscription = require("../models/Subscription");
+const Subscription = require("../models/subscription");
 
 const pubsub = new PubSub();
 
@@ -43,19 +43,42 @@ module.exports = {
           .populate({
             path: "comments",
             populate: {
-              path: "author"
-            }
+              path: "author",
+            },
           });
         return blog;
       } catch (e) {
         throw new UserInputError(e.message, {
-          invalidArgs: { id }
+          invalidArgs: { blogId },
+        });
+      }
+    },
+    commentDetail: async (root, { blogId }) => {
+      try {
+        comments = await Comment.find({ blog: blogId }).populate(
+          "author",
+          "name"
+        );
+        return comments;
+      } catch (e) {
+        throw new UserInputError(e.message, {
+          invalidArgs: { blogId },
+        });
+      }
+    },
+    userDetail: async (root, { userId }) => {
+      try {
+        user = await User.findById(userId).populate("savedBlogs");
+        return comments;
+      } catch (e) {
+        throw new UserInputError(e.message, {
+          invalidArgs: { blogId },
         });
       }
     },
     me: (root, args, context) => {
       return context.currentUser;
-    }
+    },
   },
   Mutation: {
     contact: async (root, { fullName, email, message }) => {
@@ -68,8 +91,8 @@ module.exports = {
       const auth = {
         auth: {
           api_key: process.env.API_KEY,
-          domain: process.env.DOMAIN
-        }
+          domain: process.env.DOMAIN,
+        },
       };
 
       try {
@@ -85,7 +108,7 @@ module.exports = {
           
           Message: 
           ${message}
-          `
+          `,
         };
         await transporter.sendMail(mailOptions);
         return { fullName, message, email };
@@ -102,7 +125,7 @@ module.exports = {
         }
 
         const subscriber = new Subscription({
-          email
+          email,
         });
 
         await subscriber.save();
@@ -110,6 +133,20 @@ module.exports = {
         return { email };
       } catch (e) {
         throw new ApolloError(e.message);
+      }
+    },
+    saveBlog: async (root, { blogId }, { currentUser }) => {
+      if (!currentUser) {
+        throw new AuthenticationError("not authenticated");
+      }
+      //TO DO
+      try {
+        // TO DO
+      } catch (e) {
+        //TO DO
+        throw new UserInputError(e.message, {
+          invalidArgs: { blogId },
+        });
       }
     },
     addBlog: async (
@@ -127,22 +164,18 @@ module.exports = {
         tags,
         content,
         img,
-        author: currentUser._id
+        author: currentUser._id,
       });
 
       try {
         const user = await User.findById(currentUser._id);
+        user.blogs = user.blogs.concat(blog._id);
 
-        await User.findByIdAndUpdate(
-          currentUser._id,
-          { blogs: [...user.blogs, blog._id] },
-          { new: true }
-        );
-
+        await user.save();
         await blog.save();
       } catch (e) {
         throw new UserInputError(e.message, {
-          invalidArgs: { title, author, published, genres }
+          invalidArgs: { title, author, published, genres },
         });
       }
 
@@ -161,22 +194,22 @@ module.exports = {
         dislikes: 0,
         blog: blogId,
         title,
-        comment
+        comment,
       });
 
       try {
-        const blog = await Blog.findById(blogId);
+        const user = await User.findById(currentUser._id);
+        user.comments = user.comments.concat(newComment._id);
 
-        await Blog.findByIdAndUpdate(
-          blogId,
-          { comments: [...blog.comments, newComment._id] },
-          { new: true }
-        );
+        const blog = await Blog.findById(blogId);
+        blog.comments = blog.comments.concat(newComment._id);
 
         await newComment.save();
+        await user.save();
+        await blog.save();
       } catch (e) {
         throw new UserInputError(e.message, {
-          invalidArgs: { blogId, title, comment }
+          invalidArgs: { blogId, title, comment },
         });
       }
 
@@ -200,7 +233,7 @@ module.exports = {
         commentId,
         updatedComment,
         {
-          new: true
+          new: true,
         }
       );
 
@@ -219,7 +252,7 @@ module.exports = {
         commentId,
         updatedComment,
         {
-          new: true
+          new: true,
         }
       );
 
@@ -246,7 +279,7 @@ module.exports = {
       const user = new User({
         name,
         email,
-        passwordHash
+        passwordHash,
       });
 
       try {
@@ -254,7 +287,7 @@ module.exports = {
         return savedUser;
       } catch (e) {
         throw new UserInputError(e.message, {
-          invalidArgs: { name, email, password }
+          invalidArgs: { name, email, password },
         });
       }
     },
@@ -274,20 +307,20 @@ module.exports = {
 
       const updatedUser = {
         email: newEmail,
-        passwordHash
+        passwordHash,
       };
 
       const newUser = await User.findByIdAndUpdate(
         currentUser.id,
         updatedUser,
         {
-          new: true
+          new: true,
         }
       );
 
       const userForToken = {
         email: newUser.email,
-        id: newUser._id
+        id: newUser._id,
       };
 
       const token = { value: jwt.sign(userForToken, process.env.SECRET) };
@@ -316,20 +349,20 @@ module.exports = {
       passwordHash = await bcrypt.hash(newPassword, saltRounds);
 
       const updatedUser = {
-        passwordHash
+        passwordHash,
       };
 
       const newUser = await User.findByIdAndUpdate(
         currentUser.id,
         updatedUser,
         {
-          new: true
+          new: true,
         }
       );
 
       const userForToken = {
         email: newUser.email,
-        id: newUser._id
+        id: newUser._id,
       };
 
       const token = { value: jwt.sign(userForToken, process.env.SECRET) };
@@ -355,14 +388,14 @@ module.exports = {
 
       const userForToken = {
         email: user.email,
-        id: user._id
+        id: user._id,
       };
 
       const token = { value: jwt.sign(userForToken, process.env.SECRET) };
 
       return token;
-    }
-  }
+    },
+  },
   //   Subscription: {
   //     commentAdded: {
   //       subscribe: () => pubsub.asyncIterator(["COMMENT_ADDED"])
