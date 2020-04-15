@@ -68,11 +68,14 @@ module.exports = {
     },
     userDetail: async (root, { userId }) => {
       try {
-        user = await User.findById(userId).populate("savedBlogs");
-        return comments;
+        user = await User.findById(userId)
+          .populate("savedBlogs")
+          .populate("blogs")
+          .populate("comments");
+        return user;
       } catch (e) {
         throw new UserInputError(e.message, {
-          invalidArgs: { blogId },
+          invalidArgs: { userId },
         });
       }
     },
@@ -139,11 +142,18 @@ module.exports = {
       if (!currentUser) {
         throw new AuthenticationError("not authenticated");
       }
-      //TO DO
+
+      const user = await User.findById(currentUser._id);
+
+      if (user.savedBlogs.includes(blogId)) {
+        throw new ApolloError("blog already saved");
+      }
+
       try {
-        // TO DO
+        user.savedBlogs = user.blogs.concat(blogId);
+        await user.save();
+        return;
       } catch (e) {
-        //TO DO
         throw new UserInputError(e.message, {
           invalidArgs: { blogId },
         });

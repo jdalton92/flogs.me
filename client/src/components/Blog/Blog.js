@@ -57,7 +57,7 @@ const Blog = () => {
     history.push(link);
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
     if (!meData.me) {
       setNotification({
@@ -68,7 +68,7 @@ const Blog = () => {
       return;
     }
     try {
-      saveBlog({
+      await saveBlog({
         variables: {
           blogId: id,
         },
@@ -99,11 +99,27 @@ const Blog = () => {
     // TO DO
   };
 
+  let authorType = "flogs contributor";
+  switch (author.userType) {
+    case "standard":
+      authorType = "flogs contributor";
+      break;
+    case "admin":
+      authorType = "flogs admin";
+      break;
+    default:
+      authorType = "flogs contributor";
+      break;
+  }
+
   return (
     <section className="blog-section w100 h100">
       <div className="flex-col-center blog-wrapper">
-        {blogLoading ? (
-          <div className="loader-spinner">loading...</div>
+        {blogLoading || blogError ? (
+          <>
+            {blogLoading && <div className="loader-spinner">loading...</div>}
+            {blogError && <div>error loading blog...</div>}
+          </>
         ) : (
           <>
             <div className="w100 blog-header-wrapper">
@@ -162,7 +178,7 @@ const Blog = () => {
                 >
                   {author.name}
                 </span>
-                <div className="blog-author-description">flogs contributor</div>
+                <div className="blog-author-description">{authorType}</div>
                 <div className="flex-row blog-author-btn-wrapper">
                   <button onClick={handleSave} className="primary-btn">
                     save

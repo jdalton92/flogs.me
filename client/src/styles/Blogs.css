@@ -61,13 +61,12 @@
 }
 
 .blog-header-wrapper h2 {
-  font-size: 72px;
+  font-size: 56px;
   margin-bottom: 50px;
 }
 
 .blog-details {
   max-width: 80%;
-  font-size: 16px;
   flex-wrap: wrap;
 }
 
@@ -139,7 +138,7 @@
 }
 
 .blog-body-content {
-  margin: 0 0 0 30px;
+  margin: 0 30px 0 30px;
 }
 
 .blog-aside-wrapper {

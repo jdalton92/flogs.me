@@ -1,7 +1,7 @@
 .notification-wrapper {
   position: fixed;
-  top: 0px;
-  right: 0px;
+  top: 10px;
+  right: 25px;
   z-index: 3;
   flex-wrap: wrap;
 }
@@ -19,7 +19,7 @@
   margin-bottom: 10px;
   background-color: white;
   border: solid 1px black;
-  width: 300px;
+  width: 350px;
   transition: all 0.2s ease;
 }
 
@@ -58,8 +58,9 @@
   min-height: 25px;
 }
 
-.notification-close {
+.notification-close-wrapper {
   justify-content: flex-end;
+  align-items: center;
 }
 
 .notification-close:hover {
@@ -74,4 +75,15 @@
 .notification-success {
   color: darkgreen;
   font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
+  .notification-wrapper {
+    top: 0px;
+    right: 0px;
+  }
+
+  .notification-alert-wrapper {
+    width: 300px;
+  }
 }

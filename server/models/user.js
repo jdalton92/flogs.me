@@ -22,6 +22,11 @@ const schema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  createdDate: {
+    type: Date,
+    required: true,
+    default: Date.now,
+  },
   savedBlogs: [
     {
       type: mongoose.Schema.Types.ObjectId,

@@ -103,6 +103,11 @@
   cursor: pointer;
 }
 
+.nav-user-icon-wrapper {
+  justify-content: flex-end;
+  align-items: center;
+}
+
 .nav-dropdown-wrapper-shrink {
   z-index: -1;
 }
@@ -226,7 +231,7 @@
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 500px) {
   .logo-wrapper {
     height: 100%;
     flex-direction: column;
@@ -258,6 +263,10 @@
     margin-top: 20px;
     justify-content: center;
     position: static;
+  }
+
+  .nav-user-icon-wrapper {
+    justify-content: center;
   }
 
   .user-icon {

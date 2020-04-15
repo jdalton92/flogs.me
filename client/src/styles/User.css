@@ -1,9 +1,43 @@
 .user-section {
   color: black;
-  text-align: center;
   min-height: 80vh;
 }
 
-.user-description-wrapper {
-  padding: 50px 0 0 50px;
+.user-profile-wrapper {
+  padding: 50px;
+}
+
+.user-header-wrapper {
+  text-align: center;
+}
+
+.user-header-wrapper h1 {
+  font-size: 36px;
+}
+
+.user-stats-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  padding: 50px 5px 25px 5px;
+}
+
+.user-stat-wrapper {
+  transition: box-shadow 0.2s ease;
+  margin-bottom: 35px;
+  padding: 10px;
+  min-height: 400px;
+  width: 350px;
+  border: 1px solid black;
+}
+
+.user-stat-wrapper h2 {
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  .user-profile-wrapper {
+    padding: 50px 5px 50px 5px;
+  }
 }

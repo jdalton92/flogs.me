@@ -59,7 +59,7 @@ const NavLanding = () => {
               onClick={handleDropdown}
               className="flex-col-center nav-user-container"
             >
-              <div className="flex-row-center">
+              <div className="w100 flex-row nav-user-icon-wrapper">
                 <div alt="user" title="user" className="user-icon" />
                 <i className="navbar-arrow-down"></i>
               </div>

@@ -37,17 +37,17 @@ export const ME = gql`
 `;
 
 export const GET_USER = gql`
-  query getUser($userId: ID!) {
-    getUser(userId: $userId) {
-      ...userDetails
+  query userDetail($userId: ID!) {
+    userDetail(userId: $userId) {
+      ...UserDetails
       userType
       blogs {
         _id
         title
         category
         date
-        author {
-          name
+        comments {
+          _id
         }
       }
       comments {
@@ -58,8 +58,8 @@ export const GET_USER = gql`
         title
         category
         date
-        author {
-          name
+        comments {
+          _id
         }
       }
     }

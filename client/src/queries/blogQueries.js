@@ -32,7 +32,6 @@ export const SAVE_BLOG = gql`
       _id
     }
   }
-  ${BLOG_DETAILS}
 `;
 
 export const GET_BLOG = gql`

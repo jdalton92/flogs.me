@@ -65,25 +65,31 @@ const Blogs = ({ topic }) => {
     <section className="blogs-section flex-row">
       <div className="flex-col m-auto blogs-wrapper">
         <BlogsSearch topic={{ topic }} />
-        <div className="blogs-sort">
-          <select defaultValue="newest" onChange={handleSort}>
-            <option value="newest">newest</option>
-            <option value="oldest">oldest</option>
-            <option value="comments">most comments</option>
-          </select>
-        </div>
         <div className="blogs-result-wrapper">
           {loading || error ? (
-            <div className="loader-spinner">loading...</div>
+            <>
+              {loading && <div className="loader-spinner">loading...</div>}
+              {error && <div>error loading blog data...</div>}
+            </>
           ) : (
             <>
               {data.allBlogs.length === 0 && (
                 <div style={{ paddingTop: "25px" }}>content coming soon...</div>
               )}
-              {error && <div style={{ paddingTop: "25px" }}>error...</div>}
-              {data.allBlogs.length > 0 &&
-                !error &&
-                sortedBlogs.map((b) => <BlogsCard key={b._id} blog={b} />)}
+              {data.allBlogs.length > 0 && (
+                <>
+                  <div className="blogs-sort">
+                    <select defaultValue="newest" onChange={handleSort}>
+                      <option value="newest">newest</option>
+                      <option value="oldest">oldest</option>
+                      <option value="comments">most comments</option>
+                    </select>
+                  </div>
+                  {sortedBlogs.map((b) => (
+                    <BlogsCard key={b._id} blog={b} />
+                  ))}
+                </>
+              )}
             </>
           )}
         </div>

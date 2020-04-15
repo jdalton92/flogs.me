@@ -6,6 +6,7 @@ const schema = gql`
     email: String!
     passwordHash: String!
     userType: String!
+    blogs: [Blog]
     savedBlogs: [Blog]
     comments: [Comment]
     _id: ID!
