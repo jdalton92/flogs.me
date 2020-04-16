@@ -21,7 +21,7 @@ const databaseConnection = async () => {
     await mongoose.connect(process.env.MONGODB_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useFindAndModify: false
+      useFindAndModify: false,
     });
     logger.info("connected to MongoDB");
   } catch (e) {
@@ -31,10 +31,13 @@ const databaseConnection = async () => {
 databaseConnection();
 
 let app = express();
-app.use(express.static("build"));
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "build", "index.html"));
-});
+let environment = process.env.NODE_ENV || "development";
+if (environment === "production") {
+  app.use(express.static("build"));
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "build", "index.html"));
+  });
+}
 
 const server = new ApolloServer({
   typeDefs,
@@ -48,7 +51,7 @@ const server = new ApolloServer({
 
       return { currentUser };
     }
-  }
+  },
 });
 
 server.applyMiddleware({ app });

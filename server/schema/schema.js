@@ -8,6 +8,7 @@ const schema = gql`
     userType: String!
     blogs: [Blog]
     savedBlogs: [Blog]
+    subscribed: Boolean!
     comments: [Comment]
     _id: ID!
   }
@@ -76,9 +77,9 @@ const schema = gql`
 
     createUser(name: String!, email: String!, password: String!): User
 
-    editEmail(newEmail: String!): User
+    editEmail(newEmail: String!): Token
 
-    editPassword(password: String!, newPassword: String!): User
+    editPassword(password: String!, newPassword: String!): Token
 
     login(email: String!, password: String!): Token
   }

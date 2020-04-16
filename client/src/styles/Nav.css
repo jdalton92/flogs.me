@@ -18,6 +18,8 @@
 
 .login-wrapper {
   display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
   width: 250px;
   position: absolute;
   right: 30px;
@@ -30,6 +32,7 @@
 }
 
 .loading-wrapper {
+  align-items: flex-end;
   width: 30px !important;
   height: 30px !important;
   top: 5px;
@@ -47,7 +50,7 @@
 .login-wrapper input {
   margin-top: 5px;
   padding: 5px;
-  width: 185px;
+  width: 205px;
 }
 
 .login-wrapper form {
@@ -63,7 +66,7 @@
 .nav-signup-form button,
 .nav-login-form button {
   margin-top: 5px;
-  width: 90px;
+  width: 100px;
 }
 
 .user-icon {
@@ -190,7 +193,6 @@
 @media screen and (max-width: 1000px) {
   .login-wrapper {
     flex-direction: column;
-    align-items: flex-end;
   }
 
   .login-btn {

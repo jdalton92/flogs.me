@@ -1,16 +1,9 @@
 import React from "react";
 import unhappy from "../styles/images/unhappy-stick-figure.png";
 import happy from "../styles/images/happy-stick-figure.png";
-import HomeList from "./Home.List.js";
-import styled from "styled-components";
+import FeaturedList from "./FeaturedList.js";
+import { Divider } from "../styles/StyledComponents";
 import "../styles/Home.css";
-
-const Divider = styled.div`
-  z-index: 1;
-  border-bottom: 1px solid black;
-  width: 80%;
-  margin: 0 auto 0 auto;
-`;
 
 const Home = () => {
   return (
@@ -26,11 +19,11 @@ const Home = () => {
           culpa qui officia deserunt mollit anim id est laborum.
         </h1>
       </div>
-      <Divider />
-      <div className="w100 home-lists-wrapper">
-        <HomeList type={"recent"} />
-        <HomeList type={"liked"} />
-        <HomeList type={"commented"} />
+      <Divider width={"80%"} />
+      <div className="featured-lists-wrapper">
+        <FeaturedList title={"featured blogs"} />
+        <FeaturedList title={"most commented blogs"} />
+        <FeaturedList title={"most recent blogs"} />
       </div>
       <div className="h100 home-img-wrapper">
         <div className="h100 home-img-left">

@@ -15,23 +15,6 @@
   margin: 0 auto 0 auto;
 }
 
-.home-lists-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  padding: 50px 5px 25px 5px;
-}
-
-.home-list-wrapper {
-  transition: box-shadow 0.2s ease;
-  margin-bottom: 35px;
-  padding: 10px;
-  min-height: 400px;
-  width: 350px;
-  border: 1px solid black;
-}
-
 .home-img-wrapper {
   padding-top: 35px;
   display: flex;
@@ -80,7 +63,7 @@
   text-align: center;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 475px) {
   .home-img-right,
   .home-img-left {
     min-width: 100%;

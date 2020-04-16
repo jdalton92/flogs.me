@@ -1,0 +1,34 @@
+.featured-lists-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  padding: 50px 5px 25px 5px;
+}
+
+.featured-list-wrapper {
+  transition: box-shadow 0.2s ease;
+  margin: 0 5px 35px 5px;
+  padding: 10px;
+  width: 30%;
+  max-width: 475px;
+  min-width: 375px;
+  border: 1px solid black;
+}
+
+.featured-list-header h2 {
+  text-align: center;
+}
+
+.featured-list-body {
+  height: 450px;
+  overflow-y: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .featured-list-wrapper {
+    min-width: 0;
+    width: 100% !important;
+  }
+}

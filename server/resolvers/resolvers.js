@@ -306,9 +306,6 @@ module.exports = {
         throw new AuthenticationError("not authenticated");
       }
 
-      const currentEmail = currentUser.email;
-
-      const user = await User.find({ email: currentEmail });
       const existingEmail = await User.find({ email: newEmail });
 
       if (existingEmail.length > 0) {
@@ -317,7 +314,6 @@ module.exports = {
 
       const updatedUser = {
         email: newEmail,
-        passwordHash,
       };
 
       const newUser = await User.findByIdAndUpdate(

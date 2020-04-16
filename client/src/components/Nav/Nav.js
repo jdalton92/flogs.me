@@ -5,7 +5,7 @@ import NavBurger from "./Nav.Burger";
 import NavLogin from "./Nav.Login";
 import NavLanding from "./Nav.Landing";
 import NavSignUp from "./Nav.SignUp";
-import { Menu } from "../../styles/Nav.Mobile";
+import { Menu } from "../../styles/StyledComponents";
 import Context from "../../context/Context";
 import "../../styles/Nav.css";
 
@@ -13,7 +13,7 @@ const Nav = () => {
   const { open, loginView, meData } = useContext(Context);
   const history = useHistory();
 
-  const handleLink = link => {
+  const handleLink = (link) => {
     history.push(link);
   };
 

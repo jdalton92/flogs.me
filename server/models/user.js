@@ -45,6 +45,11 @@ const schema = new mongoose.Schema({
       ref: "Comment",
     },
   ],
+  subscribed: {
+    type: Boolean,
+    required: true,
+    default: true,
+  },
 });
 
 schema.plugin(uniqueValidator);

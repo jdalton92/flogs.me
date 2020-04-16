@@ -9,14 +9,14 @@ const NavLogin = () => {
   const { setToken, setLoginView, setNotification } = useContext(Context);
   const [login, { loading: loginLoading }] = useMutation(LOGIN);
 
-  const handleLogin = async e => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const { data } = await login({
         variables: {
           email,
-          password
-        }
+          password,
+        },
       });
       setToken(data.login.value);
       localStorage.setItem("flogsToken", data.login.value);
@@ -26,7 +26,7 @@ const NavLogin = () => {
       setNotification({
         type: "fail",
         title: "¯\\_(ツ)_/¯",
-        message: e.message
+        message: e.message,
       });
       setEmail("");
       setPassword("");

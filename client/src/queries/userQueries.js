@@ -25,6 +25,22 @@ export const LOGIN = gql`
   }
 `;
 
+export const CHANGE_PASSWORD = gql`
+  mutation editPassword($password: String!, $newPassword: String!) {
+    editPassword(password: $password, newPassword: $newPassword) {
+      value
+    }
+  }
+`;
+
+export const CHANGE_EMAIL = gql`
+  mutation editEmail($newEmail: String!) {
+    editEmail(newEmail: $newEmail) {
+      value
+    }
+  }
+`;
+
 export const ME = gql`
   query {
     me {
@@ -41,6 +57,7 @@ export const GET_USER = gql`
     userDetail(userId: $userId) {
       ...UserDetails
       userType
+      subscribed
       blogs {
         _id
         title

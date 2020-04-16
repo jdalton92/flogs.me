@@ -3,7 +3,15 @@
   align-items: center;
 }
 
-.FAQ-wrapper h2 {
+.FAQ-wrapper {
+  margin: 50px auto 50px auto;
+}
+
+.FAQ-item-wrapper {
+  margin-top: 20px;
+}
+
+.FAQ-item-wrapper h2 {
   margin-bottom: 15px;
 }
 

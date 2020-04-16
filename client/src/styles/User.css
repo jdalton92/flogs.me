@@ -1,43 +1,117 @@
 .user-section {
   color: black;
   min-height: 80vh;
+  padding-bottom: 50px;
 }
 
-.user-profile-wrapper {
-  padding: 50px;
-}
-
-.user-header-wrapper {
-  text-align: center;
+.user-settings-wrapper,
+.user-summary-wrapper {
+  width: 90%;
+  padding: 50px 5px 0 5px;
 }
 
 .user-header-wrapper h1 {
   font-size: 36px;
+  margin-bottom: 10px;
 }
 
-.user-stats-wrapper {
+.user-subheader-wrapper {
+  margin-top: 25px;
+}
+
+.user-subheader-wrapper div {
+  margin-top: 10px;
+}
+
+.user-settings-item {
+  margin-top: 25px;
+}
+
+.user-unsubscribe-switch {
+  margin-top: 10px;
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.user-unsubscribe-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.user-unsubscribe-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.user-unsubscribe-slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.user-unsubscribe-switch input:checked + .user-unsubscribe-slider {
+  background-color: black;
+}
+
+.user-unsubscribe-switch input:focus + .user-unsubscribe-slider {
+  box-shadow: 0 0 1px black;
+}
+
+.user-unsubscribe-switch input:checked + .user-unsubscribe-slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.user-settings-item form {
+  width: 500px;
   display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  padding: 50px 5px 25px 5px;
+  flex-direction: column;
 }
 
-.user-stat-wrapper {
-  transition: box-shadow 0.2s ease;
-  margin-bottom: 35px;
-  padding: 10px;
-  min-height: 400px;
-  width: 350px;
-  border: 1px solid black;
+.user-settings-item input {
+  height: 30px;
+  margin-top: 10px;
+  padding: 5px;
 }
 
-.user-stat-wrapper h2 {
-  text-align: center;
+.user-settings-item button {
+  margin-top: 10px;
+  width: 250px;
 }
 
 @media screen and (max-width: 768px) {
+  .user-settings-wrapper,
+  .user-summary-wrapper {
+    width: 100%;
+  }
+
+  .user-body-wrapper {
+    padding: 0 5px 0 5px;
+  }
+
   .user-profile-wrapper {
     padding: 50px 5px 50px 5px;
+  }
+
+  .user-settings-item form,
+  .user-settings-item button {
+    width: 100%;
   }
 }

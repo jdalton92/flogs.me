@@ -69,3 +69,10 @@ export const Menu = styled.nav`
       }  
   }
 `;
+
+export const Divider = styled.div`
+  z-index: 1;
+  border-bottom: 1px solid black;
+  width: ${({ width }) => width};
+  margin: 0 auto 0 auto;
+`;

@@ -5,7 +5,6 @@ import Context from "../../context/Context";
 
 const NavLanding = () => {
   const {
-    setNotification,
     setToken,
     dropdown,
     setDropdown,
@@ -20,16 +19,6 @@ const NavLanding = () => {
   const handleLink = (link) => {
     setDropdown(false);
     history.push(link);
-  };
-
-  const handleClick = (e) => {
-    e.preventDefault();
-    setDropdown(false);
-    setNotification({
-      type: "fail",
-      title: "¯\\_(ツ)_/¯",
-      message: "coming soon",
-    });
   };
 
   const handleDropdown = (e) => {
@@ -49,7 +38,6 @@ const NavLanding = () => {
   if (meLoading || loginLoading) {
     return <div className="loader-spinner loading-wrapper">loading...</div>;
   }
-
   return (
     <>
       {meData !== undefined && meData.me ? (
@@ -91,12 +79,6 @@ const NavLanding = () => {
                     add blog
                   </div>
                 )}
-                <div
-                  onClick={handleClick}
-                  className="flex-1 w100 flex-row-center nav-link"
-                >
-                  settings
-                </div>
                 <div
                   onClick={handleLogout}
                   className="flex-1 w100 flex-row-center nav-link"

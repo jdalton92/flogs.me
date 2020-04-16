@@ -9,7 +9,7 @@ const Provider = ({ children }) => {
     loading: meLoading,
     error: meError,
     data: meData,
-    refetch: meRefetch
+    refetch: meRefetch,
   } = useQuery(ME);
 
   const [notifications, setMessage] = useState([]);
@@ -25,12 +25,12 @@ const Provider = ({ children }) => {
         type,
         title,
         message: message.replace("GraphQL error: ", ""),
-        id: uuid()
-      }
+        id: uuid(),
+      },
     ]);
 
-  const removeNotification = id => {
-    const newNotifications = notifications.filter(n => n.id !== id);
+  const removeNotification = (id) => {
+    const newNotifications = notifications.filter((n) => n.id !== id);
     setMessage(newNotifications);
   };
 
@@ -51,7 +51,7 @@ const Provider = ({ children }) => {
         meLoading,
         meError,
         meData,
-        meRefetch
+        meRefetch,
       }}
     >
       {children}
