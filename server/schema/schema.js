@@ -51,6 +51,8 @@ const schema = gql`
     blogDetail(blogId: ID!): Blog!
     commentDetail(blogId: ID!): [Comment]
     userDetail(userId: ID!): User!
+    featuredCommentDetail(top: Int!, field: String!): [Comment!]
+    featuredBlogDetail(top: Int!, field: String!): [Blog!]
     me: User
   }
 

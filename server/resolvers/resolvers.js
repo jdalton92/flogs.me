@@ -79,6 +79,32 @@ module.exports = {
         });
       }
     },
+    featuredCommentDetail: async (root, { top, field }) => {
+      try {
+        comments = await Comment.find()
+          .sort({ field: -1 })
+          .limit(top)
+          .populate("author");
+        return comments;
+      } catch (e) {
+        throw new UserInputError(e.message, {
+          invalidArgs: { top, field },
+        });
+      }
+    },
+    featuredBlogDetail: async (root, { top, field }) => {
+      try {
+        blogs = await Blog.find()
+          .sort({ field: -1 })
+          .limit(top)
+          .populate("author");
+        return blogs;
+      } catch (e) {
+        throw new UserInputError(e.message, {
+          invalidArgs: { top, field },
+        });
+      }
+    },
     me: (root, args, context) => {
       return context.currentUser;
     },

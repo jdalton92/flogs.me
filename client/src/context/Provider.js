@@ -14,7 +14,6 @@ const Provider = ({ children }) => {
 
   const [notifications, setMessage] = useState([]);
   const [open, setOpen] = useState(false);
-  const [token, setToken] = useState("");
   const [dropdown, setDropdown] = useState(false);
   const [loginView, setLoginView] = useState("landing");
 
@@ -42,8 +41,6 @@ const Provider = ({ children }) => {
         removeNotification,
         open,
         setOpen,
-        token,
-        setToken,
         dropdown,
         setDropdown,
         loginView,

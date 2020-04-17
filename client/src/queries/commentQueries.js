@@ -45,3 +45,17 @@ export const DISLIKE_COMMENT = gql`
     }
   }
 `;
+
+export const FEATURED_COMMENT = gql`
+  query featuredCommmentDetail($top: Int!, $field: String!) {
+    featuredCommmentDetail(top: $top, field: $field) {
+      title
+      date
+      likes
+      dislikes
+      author {
+        name
+      }
+    }
+  }
+`;

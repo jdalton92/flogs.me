@@ -1,4 +1,6 @@
 import React from "react";
+import { useQuery } from "@apollo/client";
+import { FEATURED_BLOG } from "../queries/blogQueries";
 import unhappy from "../styles/images/unhappy-stick-figure.png";
 import happy from "../styles/images/happy-stick-figure.png";
 import FeaturedList from "./FeaturedList.js";
@@ -6,6 +8,21 @@ import { Divider } from "../styles/StyledComponents";
 import "../styles/Home.css";
 
 const Home = () => {
+  const {
+    data: commentBlogData,
+    error: commentBlogError,
+    loading: commentBlogLoading,
+  } = useQuery(FEATURED_BLOG, {
+    variables: { field: "comments", top: 5 },
+  });
+  const {
+    data: recentBlogData,
+    error: recentBlogError,
+    loading: recentBlogLoading,
+  } = useQuery(FEATURED_BLOG, {
+    variables: { field: "date", top: 5 },
+  });
+
   return (
     <section className="w100 h100 home-section">
       <div className="w100 home-description-wrapper">
@@ -21,9 +38,24 @@ const Home = () => {
       </div>
       <Divider width={"80%"} />
       <div className="featured-lists-wrapper">
-        <FeaturedList title={"featured blogs"} />
-        <FeaturedList title={"most commented blogs"} />
-        <FeaturedList title={"most recent blogs"} />
+        <FeaturedList
+          title={"featured blogs"}
+          // dataObject={commentBlogData}
+          // error={commentBlogError}
+          // loading={commentBlogLoading}
+        />
+        <FeaturedList
+          title={"most commented blogs"}
+          dataObject={commentBlogData}
+          error={commentBlogError}
+          loading={commentBlogLoading}
+        />
+        <FeaturedList
+          title={"most recent blogs"}
+          // dataObject={recentBlogData}
+          // error={recentBlogError}
+          // loading={recentBlogLoading}
+        />
       </div>
       <div className="h100 home-img-wrapper">
         <div className="h100 home-img-left">

@@ -25,18 +25,17 @@ import Footer from "./components/Footer";
 import "./styles/App.css";
 
 const App = () => {
-  const { meLoading, meData, token, setToken, meRefetch } = useContext(Context);
+  const { meLoading, meData, meRefetch } = useContext(Context);
 
   //Init user on page render if logged in previously
   useEffect(() => {
     const existingToken = localStorage.getItem("flogsToken");
     if (existingToken) {
-      setToken(existingToken);
       meRefetch();
       return;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token, setToken]);
+  }, []);
 
   // Google analytics
   ReactGA.initialize("UA-158975814-4");

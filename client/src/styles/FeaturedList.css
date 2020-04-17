@@ -22,8 +22,14 @@
 }
 
 .featured-list-body {
+  margin-top: 15px;
   height: 450px;
   overflow-y: auto;
+}
+
+.featured-list-item {
+  height: 20%;
+  width: 100%;
 }
 
 @media screen and (max-width: 768px) {

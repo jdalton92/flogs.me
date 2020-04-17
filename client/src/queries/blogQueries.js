@@ -76,3 +76,19 @@ export const COMMENT_ADDED = gql`
     }
   }
 `;
+
+export const FEATURED_BLOG = gql`
+  query featuredBlogDetail($top: Int!, $field: String!) {
+    featuredBlogDetail(top: $top, field: $field) {
+      title
+      date
+      category
+      comments {
+        _id
+      }
+      author {
+        name
+      }
+    }
+  }
+`;

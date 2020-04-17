@@ -6,7 +6,7 @@ import Context from "../../context/Context";
 const NavLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setToken, setLoginView, setNotification } = useContext(Context);
+  const { meRefetch, setLoginView, setNotification } = useContext(Context);
   const [login, { loading: loginLoading }] = useMutation(LOGIN);
 
   const handleLogin = async (e) => {
@@ -18,8 +18,8 @@ const NavLogin = () => {
           password,
         },
       });
-      setToken(data.login.value);
       localStorage.setItem("flogsToken", data.login.value);
+      meRefetch();
       setLoginView("landing");
     } catch (e) {
       console.log(e);
