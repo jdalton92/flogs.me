@@ -2,10 +2,10 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 const BlogCard = ({ blog }) => {
-  const { title, category, date, author, comments, tags, _id } = blog;
+  const { title, slug, category, date, author, comments, tags } = blog;
   const history = useHistory();
 
-  const handleLink = link => {
+  const handleLink = (link) => {
     history.push(link);
   };
 
@@ -13,7 +13,7 @@ const BlogCard = ({ blog }) => {
 
   return (
     <div
-      onClick={() => handleLink(`blog/${_id.toString()}`)}
+      onClick={() => handleLink(`blog/${slug}`)}
       className="p20 flex-col box-shadow-on-hover blogcard-wrapper"
     >
       <div className="blogcard-header-wrapper">

@@ -244,6 +244,11 @@
   font-size: 12px;
 }
 
+.blog-comment-author-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .blog-comment-detail {
   margin: 15px 0 15px 0;
 }

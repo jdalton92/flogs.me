@@ -9,7 +9,7 @@ import BlogAddComment from "./Blog.AddComment";
 
 const Blog = () => {
   const commentRef = useRef(null);
-  const id = useParams().id;
+  const slug = useParams().slug;
   const history = useHistory();
   const { setNotification, meData } = useContext(Context);
   const [saveBlog, { error: saveBlogError }] = useMutation(SAVE_BLOG);
@@ -19,21 +19,22 @@ const Blog = () => {
     loading: blogLoading,
     refetch: blogRefetch,
   } = useQuery(GET_BLOG, {
-    variables: { blogId: id },
+    variables: { slug },
   });
   const {
     data: commentData,
     error: commentError,
     loading: commentLoading,
   } = useQuery(GET_COMMENTS, {
-    variables: { blogId: id },
+    variables: { slug },
   });
   useEffect(() => {
     blogRefetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [slug]);
 
   let title;
+  let blogId;
   let category;
   let date;
   let author = { name: "" };
@@ -43,6 +44,7 @@ const Blog = () => {
   let img;
 
   if (!blogLoading && !blogError) {
+    blogId = blogData.blogDetail._id;
     title = blogData.blogDetail.title;
     category = blogData.blogDetail.category;
     date = new Intl.DateTimeFormat("en-GB").format(blogData.blogDetail.date);
@@ -70,7 +72,7 @@ const Blog = () => {
     try {
       await saveBlog({
         variables: {
-          blogId: id,
+          blogId,
         },
       });
       setNotification({
@@ -195,7 +197,7 @@ const Blog = () => {
               <div className="flex-1 blog-aside-wrapper">ASIDE</div>
             </div>
             <div className="blog-comments-wrapper">
-              <BlogAddComment id={id} commentRef={commentRef} />
+              <BlogAddComment id={blogId} commentRef={commentRef} />
               <div className="blog-comments-header">
                 <h2>comments</h2>
               </div>

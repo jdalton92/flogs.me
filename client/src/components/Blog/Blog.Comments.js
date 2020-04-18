@@ -1,12 +1,18 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import BlogCommentLike from "./Blog.CommentLike";
 
 const BlogComments = ({ commentData }) => {
+  const history = useHistory();
   const [sort, setSort] = useState("newest");
 
   const handleSort = (e) => {
     e.preventDefault();
     setSort(e.target.value);
+  };
+
+  const handleClick = (id) => {
+    history.push(`/user/${id}`);
   };
 
   let sortedComments = [...commentData.commentDetail];
@@ -51,8 +57,14 @@ const BlogComments = ({ commentData }) => {
             </div>
             <div className="flex-row blog-comment-subheader">
               <div className="blog-comment-author">
-                by <b>{c.author.name}</b> on{" "}
-                <b>{new Intl.DateTimeFormat("en-GB").format(c.date)}</b>
+                by{" "}
+                <b
+                  className="blog-comment-author-link"
+                  onClick={() => handleClick(c.author._id)}
+                >
+                  {c.author.name}
+                </b>{" "}
+                on <b>{new Intl.DateTimeFormat("en-GB").format(c.date)}</b>
               </div>
             </div>
           </div>

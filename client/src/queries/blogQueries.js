@@ -2,7 +2,9 @@ import { gql } from "@apollo/client";
 
 const BLOG_DETAILS = gql`
   fragment BlogDetails on Blog {
+    _id
     title
+    slug
     date
     author {
       _id
@@ -35,8 +37,8 @@ export const SAVE_BLOG = gql`
 `;
 
 export const GET_BLOG = gql`
-  query blogDetail($blogId: ID!) {
-    blogDetail(blogId: $blogId) {
+  query blogDetail($slug: String!) {
+    blogDetail(slug: $slug) {
       ...BlogDetails
       content
       img
@@ -51,6 +53,7 @@ export const GET_BLOG = gql`
 export const ADD_BLOG = gql`
   mutation addBlog(
     $title: String!
+    $slug: String!
     $category: String!
     $tags: [String!]!
     $content: String!
@@ -58,6 +61,7 @@ export const ADD_BLOG = gql`
   ) {
     addBlog(
       title: $title
+      slug: $slug
       category: $category
       tags: $tags
       content: $content

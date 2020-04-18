@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import Context from "../context/Context";
 import { useMutation } from "@apollo/client";
 import { ADD_BLOG } from "../queries/blogQueries";
+import { Divider } from "../styles/StyledComponents";
 import "../styles/Blog.Add.css";
 
 const BlogAdd = () => {
@@ -10,57 +11,64 @@ const BlogAdd = () => {
   const [tag, setTag] = useState("");
   const [
     addBlog,
-    { error: addBlogError, loading: addBlogLoading }
+    { error: addBlogError, loading: addBlogLoading },
   ] = useMutation(ADD_BLOG);
 
-  const formHandler = e => {
+  const formHandler = (e) => {
     setForm({ ...variables, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     try {
       addBlog({
         variables: {
           ...variables,
-          authorId: meData.me._id
-        }
+          authorId: meData.me._id,
+        },
       });
       setNotification({
         type: "success",
         title: "ヽ(•‿•)ノ",
-        message: "blog added"
+        message: "blog added",
       });
     } catch (e) {
       console.log(addBlogError);
       setNotification({
         type: "fail",
         title: "¯\\_(ツ)_/¯",
-        message: e.message
+        message: e.message,
       });
     }
   };
 
-  const tagHandler = e => {
+  const tagHandler = (e) => {
     e.preventDefault();
     setTag(e.target.value);
   };
 
-  const handleAddTag = e => {
+  const handleAddTag = (e) => {
     e.preventDefault();
     setForm({
       ...variables,
-      tags: [...variables.tags, tag]
+      tags: [...variables.tags, tag],
     });
     setTag("");
   };
 
   return (
     <section className="w100 blog-add-section">
-      {addBlogLoading ? (
-        <div className="loader-spinner">loading...</div>
-      ) : (
-        <div className="w80 m-auto blog-add-wrapper">
+      <div className="w80 m-auto blog-add-wrapper">
+        <div className="blog-add-header-wrapper">
+          <h1>add blog</h1>
+          <Divider width={"100%"} />
+        </div>
+        {addBlogLoading || addBlogError ? (
+          <>
+            {addBlogLoading && <div className="loader-spinner">loading...</div>}
+            {addBlogError && <div>error deleting blog...</div>}
+          </>
+        ) : (
           <form className="w100 flex-col blog-add-form" onSubmit={handleSubmit}>
             <input
               className="blog-add-input"
@@ -68,6 +76,14 @@ const BlogAdd = () => {
               type="text"
               name="title"
               placeholder="title"
+              required
+            />
+            <input
+              className="blog-add-input"
+              onChange={formHandler}
+              type="text"
+              name="slug"
+              placeholder="slug"
               required
             />
             <select
@@ -123,8 +139,43 @@ const BlogAdd = () => {
               add blog
             </button>
           </form>
+        )}
+      </div>
+      <div className="w80 m-auto blog-delete-wrapper">
+        <div className="blog-delete-header-wrapper">
+          <h1>delete blog</h1>
+          <Divider width={"100%"} />
         </div>
-      )}
+        {addBlogLoading || addBlogError ? (
+          <>
+            {addBlogLoading && <div className="loader-spinner">loading...</div>}
+            {addBlogError && <div>error deleting blog...</div>}
+          </>
+        ) : (
+          <form
+            className="w100 flex-col blog-delete-form"
+            onSubmit={handleSubmit}
+          >
+            <select
+              className="blog-delete-input"
+              onChange={formHandler}
+              name="category"
+              defaultValue={""}
+              required
+            >
+              <option value="" hidden disabled>
+                choose a category...
+              </option>
+              <option value="money">money</option>
+              <option value="lifestyle">lifestyle</option>
+              <option value="other-shit">other shit</option>
+            </select>
+            <button className="primary-btn" type="submit">
+              delete blog
+            </button>
+          </form>
+        )}
+      </div>
     </section>
   );
 };

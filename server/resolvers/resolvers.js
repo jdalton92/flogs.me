@@ -35,9 +35,9 @@ module.exports = {
 
       return blogDetail;
     },
-    blogDetail: async (root, { blogId }) => {
+    blogDetail: async (root, { slug }) => {
       try {
-        blog = await Blog.findById(blogId)
+        blog = await Blog.findOne({ slug })
           .populate("author", "name")
           .populate("comments")
           .populate({
@@ -46,16 +46,18 @@ module.exports = {
               path: "author",
             },
           });
+
         return blog;
       } catch (e) {
         throw new UserInputError(e.message, {
-          invalidArgs: { blogId },
+          invalidArgs: { slug },
         });
       }
     },
-    commentDetail: async (root, { blogId }) => {
+    commentDetail: async (root, { slug }) => {
       try {
-        comments = await Comment.find({ blog: blogId }).populate(
+        blog = await Blog.findOne({ slug });
+        comments = await Comment.find({ blog: blog._id }).populate(
           "author",
           "name"
         );
@@ -187,7 +189,7 @@ module.exports = {
     },
     addBlog: async (
       root,
-      { title, category, tags, content, img },
+      { title, slug, category, tags, content, img },
       { currentUser }
     ) => {
       if (!currentUser) {
@@ -196,6 +198,7 @@ module.exports = {
 
       let blog = new Blog({
         title,
+        slug,
         category,
         tags,
         content,
@@ -224,6 +227,8 @@ module.exports = {
         throw new AuthenticationError("not authenticated");
       }
 
+      const blog = await Blog.findById(blogId);
+
       let newComment = new Comment({
         author: currentUser._id,
         likes: 0,
@@ -236,8 +241,6 @@ module.exports = {
       try {
         const user = await User.findById(currentUser._id);
         user.comments = user.comments.concat(newComment._id);
-
-        const blog = await Blog.findById(blogId);
         blog.comments = blog.comments.concat(newComment._id);
 
         await newComment.save();

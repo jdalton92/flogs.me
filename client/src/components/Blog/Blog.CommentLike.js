@@ -11,7 +11,7 @@ import like from "../../styles/images/like.png";
 import dislike from "../../styles/images/dislike.png";
 
 const BlogCommentLike = ({ id }) => {
-  const blogId = useParams().id;
+  const slug = useParams().slug;
   const { setNotification, meData } = useContext(Context);
   const [likeComment, { loading: likeLoading, error: likeError }] = useMutation(
     LIKE_COMMENT
@@ -38,7 +38,7 @@ const BlogCommentLike = ({ id }) => {
         refetchQueries: [
           {
             query: GET_COMMENTS,
-            variables: { blogId },
+            variables: { slug },
           },
         ],
         awaitRefetchQueries: true,
@@ -70,7 +70,7 @@ const BlogCommentLike = ({ id }) => {
         refetchQueries: [
           {
             query: GET_COMMENTS,
-            variables: { blogId },
+            variables: { slug },
           },
         ],
         awaitRefetchQueries: true,

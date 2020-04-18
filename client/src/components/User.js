@@ -118,6 +118,8 @@ const User = () => {
     userType = userData.userDetail.userType;
   }
 
+  // ONLY SHOW SETTINGS IF CURRENT USER LOGGED IN
+
   return (
     <section className="w100 h100 user-section flex-col-center">
       {userLoading || userError ? (
@@ -129,7 +131,7 @@ const User = () => {
         <>
           <div className="user-summary-wrapper">
             <div className="user-header-wrapper">
-              <h1>Account Summary</h1>
+              <h1>account summary</h1>
               <Divider width={"100%"} />
             </div>
             <div className="user-body-wrapper">
@@ -159,23 +161,28 @@ const User = () => {
           </div>
           <div className="user-settings-wrapper">
             <div className="user-header-wrapper">
-              <h1>Account Settings</h1>
+              <h1>account settings</h1>
               <Divider width={"100%"} />
             </div>
             <div className="user-body-wrapper">
               <div className="user-settings-item">
-                <h2>Subscribe to be notified of updates</h2>
-                <label className="user-unsubscribe-switch">
-                  <input
-                    onClick={() => setSubscribe(!subscribe)}
-                    value={subscribe}
-                    type="checkbox"
-                  />
-                  <span className="user-unsubscribe-slider" />
-                </label>
+                <h2>subscribe to be notified of updates</h2>
+                <div className="user-subscribe-wrapper flex-row">
+                  <span className="user-subscribe-label">
+                    {subscribe ? "on" : "off"}
+                  </span>
+                  <label className="user-unsubscribe-switch">
+                    <input
+                      onClick={() => setSubscribe(!subscribe)}
+                      value={subscribe}
+                      type="checkbox"
+                    />
+                    <span className="user-unsubscribe-slider" />
+                  </label>
+                </div>
               </div>
               <div className="user-settings-item">
-                <h2>Change Email</h2>
+                <h2>change email</h2>
                 <form onSubmit={handleEmailChange}>
                   <input value={email} type="email" disabled />
                   <input
@@ -192,7 +199,7 @@ const User = () => {
                 </form>
               </div>
               <div className="user-settings-item">
-                <h2>Change Password</h2>
+                <h2>change password</h2>
                 <form onSubmit={handlePasswordChange}>
                   <input
                     value={password}

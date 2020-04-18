@@ -5,7 +5,6 @@ import Context from "../../context/Context";
 
 const NavLanding = () => {
   const {
-    setToken,
     dropdown,
     setDropdown,
     setLoginView,
@@ -28,7 +27,6 @@ const NavLanding = () => {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    setToken("");
     localStorage.removeItem("flogsToken");
     meRefetch();
     setDropdown(false);
@@ -73,10 +71,10 @@ const NavLanding = () => {
                 </div>
                 {meData.me.userType === "admin" && (
                   <div
-                    onClick={() => handleLink("/add-blog")}
+                    onClick={() => handleLink("/blog-admin")}
                     className="flex-1 w100 flex-row-center nav-link"
                   >
-                    add blog
+                    blog admin
                   </div>
                 )}
                 <div

@@ -1,10 +1,11 @@
 import { gql } from "@apollo/client";
 
 export const GET_COMMENTS = gql`
-  query commentDetail($blogId: ID!) {
-    commentDetail(blogId: $blogId) {
+  query commentDetail($slug: String!) {
+    commentDetail(slug: $slug) {
       _id
       author {
+        _id
         name
       }
       title

@@ -5,7 +5,7 @@ import { useMutation } from "@apollo/client";
 import { ADD_COMMENT, GET_COMMENTS } from "../../queries/commentQueries";
 
 const BlogAddComment = ({ id, commentRef }) => {
-  const blogId = useParams().id;
+  const slug = useParams().slug;
   const { setNotification, meData } = useContext(Context);
   const [title, setTitle] = useState("");
   const [comment, setComment] = useState("");
@@ -31,7 +31,7 @@ const BlogAddComment = ({ id, commentRef }) => {
         refetchQueries: [
           {
             query: GET_COMMENTS,
-            variables: { blogId },
+            variables: { slug },
           },
         ],
         awaitRefetchQueries: true,

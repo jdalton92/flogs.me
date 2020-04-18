@@ -21,6 +21,7 @@ const schema = gql`
     date: String!
     author: User!
     title: String!
+    slug: String!
     category: String!
     tags: [String]!
     content: String!
@@ -48,8 +49,8 @@ const schema = gql`
 
   type Query {
     allBlogs(category: String, search: String): [Blog!]
-    blogDetail(blogId: ID!): Blog!
-    commentDetail(blogId: ID!): [Comment]
+    blogDetail(slug: String!): Blog!
+    commentDetail(slug: String!): [Comment]
     userDetail(userId: ID!): User!
     featuredCommentDetail(top: Int!, field: String!): [Comment!]
     featuredBlogDetail(top: Int!, field: String!): [Blog!]
@@ -63,6 +64,7 @@ const schema = gql`
 
     addBlog(
       title: String!
+      slug: String!
       category: String!
       tags: [String]!
       content: String!

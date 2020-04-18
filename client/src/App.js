@@ -15,7 +15,7 @@ import Nav from "./components/Nav/Nav";
 import Home from "./components/Home";
 import Blogs from "./components/Blogs/Blogs";
 import Blog from "./components/Blog/Blog";
-import BlogAdd from "./components/Blog.Add";
+import BlogAdmin from "./components/Blog.Admin";
 // import Merch from "./components/Merch";
 import Contact from "./components/Contact";
 import FAQ from "./components/FAQ";
@@ -58,12 +58,12 @@ const App = () => {
             path="/other-shit"
             render={() => <Blogs topic={"other-shit"} />}
           />
-          <Route path="/blog/:id" render={() => <Blog />} />
+          <Route path="/blog/:slug" render={() => <Blog />} />
           {/* <Route path="/merch" render={() => <Merch />} /> */}
           <Route path="/contact" render={() => <Contact />} />
           <Route path="/faq" render={() => <FAQ />} />
           {!meLoading && meData.me !== null ? (
-            <Route path="/add-blog" render={() => <BlogAdd />} />
+            <Route path="/blog-admin" render={() => <BlogAdmin />} />
           ) : (
             <Redirect to="/" />
           )}
