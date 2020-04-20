@@ -1,12 +1,26 @@
 .blog-add-section {
   min-height: 80vh;
+  padding-bottom: 50px;
 }
 
+.blog-delete-wrapper,
 .blog-add-wrapper {
-  padding-top: 35px;
-  padding-bottom: 35px;
+  width: 90%;
+  padding: 50px 5px 0 5px;
 }
 
+.blog-delete-header-wrapper h1,
+.blog-add-header-wrapper h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.blog-delete-form,
+.blog-add-form {
+  margin-top: 25px;
+}
+
+.blog-delete-form select,
 .blog-add-form select,
 .blog-add-form textarea,
 .blog-add-form input {
@@ -34,9 +48,14 @@
   height: 300px;
 }
 
+.blog-delete-form button,
 .blog-add-form button {
   margin-top: 10px;
   width: 175px;
+}
+
+.blog-delete-form select {
+  height: 350px;
 }
 
 @media screen and (max-width: 768px) {

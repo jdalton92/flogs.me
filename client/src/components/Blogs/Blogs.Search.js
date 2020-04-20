@@ -2,17 +2,21 @@ import React, { useState, useContext } from "react";
 import Context from "../../context/Context";
 
 const BlogsSearch = () => {
-  const { setNotification } = useContext(Context);
+  const { setNotification, blogsSearch, blogsError } = useContext(Context);
   const [search, setSearch] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("search", search);
-    setNotification({
-      type: "fail",
-      title: "¯\\_(ツ)_/¯",
-      message: "not working",
-    });
+    try {
+      blogsSearch({ variables: { search } });
+    } catch (e) {
+      console.log(blogsError);
+      setNotification({
+        type: "fail",
+        title: "¯\\_(ツ)_/¯",
+        message: e.message,
+      });
+    }
   };
 
   return (
@@ -22,9 +26,9 @@ const BlogsSearch = () => {
           <input
             className="w100 p5"
             name="search"
-            placeholder="search for title or tags"
+            placeholder="search title, tags, or category"
             type="text"
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={({ target }) => setSearch(target.value)}
             maxLength={50}
             required
           ></input>

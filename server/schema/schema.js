@@ -48,7 +48,7 @@ const schema = gql`
   }
 
   type Query {
-    allBlogs(category: String, search: String): [Blog!]
+    allBlogs(category: String, search: String, all: String): [Blog]
     blogDetail(slug: String!): Blog!
     commentDetail(slug: String!): [Comment]
     userDetail(userId: ID!): User!
@@ -78,6 +78,10 @@ const schema = gql`
     likeComment(commentId: ID!): Comment
 
     dislikeComment(commentId: ID!): Comment
+
+    removeBlogs(blogId: [ID!]): Blog
+
+    featureBlogs(blogId: [ID!]): Blog
 
     createUser(name: String!, email: String!, password: String!): User
 

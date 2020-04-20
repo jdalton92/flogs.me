@@ -16,8 +16,8 @@ const BLOG_DETAILS = gql`
 `;
 
 export const ALL_BLOGS = gql`
-  query allBlogs($category: String, $search: String) {
-    allBlogs(category: $category, search: $search) {
+  query allBlogs($category: String, $search: String, $all: String) {
+    allBlogs(category: $category, search: $search, all: $all) {
       ...BlogDetails
       _id
       comments {
@@ -93,6 +93,22 @@ export const FEATURED_BLOG = gql`
       author {
         name
       }
+    }
+  }
+`;
+
+export const DELETE_BLOGS = gql`
+  mutation removeBlogs($blogID: [ID!]) {
+    removeBlogs(blogID: $blogID) {
+      _id
+    }
+  }
+`;
+
+export const SET_FEATURE_BLOGS = gql`
+  mutation featureBlogs($blogID: [ID!]) {
+    featureBlogs(blogID: $blogID) {
+      _id
     }
   }
 `;

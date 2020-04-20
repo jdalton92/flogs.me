@@ -18,22 +18,23 @@ const pubsub = new PubSub();
 
 module.exports = {
   Query: {
-    allBlogs: async (root, { category, search }) => {
-      let query = {};
-      let blogDetail = {};
-
-      if (search) {
-        // TO DO
-        // query = { category: search, tags: search, title: search };
-        // blogDetail = await Blog.find({ $text: { $search: search } }).populate(
-        //   "author"
-        // );
-      } else {
-        query = { category };
-        blogDetail = await Blog.find(query).populate("author");
+    allBlogs: async (root, { category, search, all }) => {
+      let blogs = [];
+      if (category) {
+        blogs = await Blog.find({ category }).populate("author");
+      } else if (search) {
+        blogs = await Blog.find({
+          $or: [
+            { category: { $regex: search, $options: "ix" } },
+            { tags: { $regex: search, $options: "ix" } },
+            { title: { $regex: search, $options: "ix" } },
+          ],
+        }).populate("author");
+      } else if (all === "") {
+        blogs = await Blog.find({}).populate("author");
       }
 
-      return blogDetail;
+      return blogs;
     },
     blogDetail: async (root, { slug }) => {
       try {
@@ -296,6 +297,54 @@ module.exports = {
       );
 
       return newComment;
+    },
+    removeBlogs: async (root, { blogId }, { currentUser }) => {
+      if (!currentUser || currentUser.userType !== "admin") {
+        throw new AuthenticationError("not authenticated");
+      }
+
+      //UPDATE IF ARRAY OF BLOGIDS IS SENT -> USE UPDATE MANY AND $IN
+
+      try {
+        // Remove blog from author
+        const author = User.findById(currentUser._id);
+        author.blogs = author.blogs.filter((b) => b._id !== blog._id);
+        await author.save();
+
+        // Remove blogs from blog collection
+        const blog = await Blog.findByIdAndDelete(blogId);
+
+        //Remove comments from blog
+        await Comment.deleteMany({ blog: blogId });
+
+        //Remove blog from saved blogs list for each user
+        const savedBlogUsers = User.find({ savedBlogs: blogId });
+        savedBlogUsers.forEach((u) =>
+          u.savedBlogs.filter((b) => b._id !== blog._id)
+        );
+        await savedBlogUsers.save();
+      } catch (e) {
+        throw new UserInputError(e.message, {
+          invalidArgs: { blogId },
+        });
+      }
+
+      return blog;
+    },
+    featureBlogs: async (root, { blogId }, { currentUser }) => {
+      if (!currentUser || currentUser.userType !== "admin") {
+        throw new AuthenticationError("not authenticated");
+      }
+
+      try {
+        //TO DO
+      } catch (e) {
+        throw new UserInputError(e.message, {
+          invalidArgs: { blogId },
+        });
+      }
+
+      return null;
     },
     createUser: async (root, { name, email, password }, { currentUser }) => {
       if (currentUser) {

@@ -1,24 +1,65 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Context from "../context/Context";
 import { useMutation } from "@apollo/client";
-import { ADD_BLOG } from "../queries/blogQueries";
+import {
+  ADD_BLOG,
+  DELETE_BLOGS,
+  SET_FEATURE_BLOGS,
+} from "../queries/blogQueries";
 import { Divider } from "../styles/StyledComponents";
 import "../styles/Blog.Add.css";
 
 const BlogAdd = () => {
-  const { setNotification, meData } = useContext(Context);
-  const [variables, setForm] = useState({ tags: [] });
+  const {
+    setNotification,
+    meData,
+    blogsSearch,
+    blogsData,
+    blogsLoading,
+    blogsError,
+  } = useContext(Context);
+  const [deletedBlogs, setDeletedBlogsForm] = useState([]);
+  const [featuredBlogs, setFeaturedBlogsForm] = useState([]);
+  const [variables, setAddBlogForm] = useState({ tags: [] });
   const [tag, setTag] = useState("");
   const [
     addBlog,
     { error: addBlogError, loading: addBlogLoading },
   ] = useMutation(ADD_BLOG);
+  const [
+    deleteBlogs,
+    { error: deleteBlogsError, loading: deleteBlogsLoading },
+  ] = useMutation(DELETE_BLOGS);
+  const [
+    featureBlogs,
+    { error: featuredBlogsError, loading: featuredBlogsLoading },
+  ] = useMutation(SET_FEATURE_BLOGS);
 
-  const formHandler = (e) => {
-    setForm({ ...variables, [e.target.name]: e.target.value });
+  useEffect(() => {
+    blogsSearch({ variables: { all: "" } });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  //Handle add blog
+  const addBlogFormHandler = (e) => {
+    setAddBlogForm({ ...variables, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const tagHandler = (e) => {
+    e.preventDefault();
+    setTag(e.target.value);
+  };
+
+  const handleAddTag = (e) => {
+    e.preventDefault();
+    setAddBlogForm({
+      ...variables,
+      tags: [...variables.tags, tag],
+    });
+    setTag("");
+  };
+
+  const handleAddBlog = (e) => {
     e.preventDefault();
     try {
       addBlog({
@@ -42,23 +83,94 @@ const BlogAdd = () => {
     }
   };
 
-  const tagHandler = (e) => {
-    e.preventDefault();
-    setTag(e.target.value);
+  //Handle delete blogs
+  const deleteBlogsFormHandler = (e) => {
+    setDeletedBlogsForm([...deletedBlogs, e.target.value]);
   };
 
-  const handleAddTag = (e) => {
+  const handleDeleteBlogs = (e) => {
     e.preventDefault();
-    setForm({
-      ...variables,
-      tags: [...variables.tags, tag],
-    });
-    setTag("");
+    const confirm = window.confirm(`delete ${deleteBlogs.length} blog(s)? `);
+    if (confirm) {
+      try {
+        deleteBlogs({ variables: { blogID: [...deletedBlogs] } });
+      } catch (e) {
+        console.log(deleteBlogsError);
+        setNotification({
+          type: "fail",
+          title: "¯\\_(ツ)_/¯",
+          message: e.message,
+        });
+      }
+    }
+  };
+
+  //Handle featured blogs
+  const featuredBlogsFormHandler = (e) => {
+    setFeaturedBlogsForm([...featuredBlogs, e.target.value]);
+  };
+
+  const handleFeaturedBlogs = (e) => {
+    e.preventDefault();
+    try {
+      featureBlogs({ variables: { blogID: [...featuredBlogs] } });
+    } catch (e) {
+      console.log(featuredBlogsError);
+      setNotification({
+        type: "fail",
+        title: "¯\\_(ツ)_/¯",
+        message: e.message,
+      });
+    }
   };
 
   return (
     <section className="w100 blog-add-section">
-      <div className="w80 m-auto blog-add-wrapper">
+      <div className="m-auto blog-delete-wrapper">
+        <div className="blog-delete-header-wrapper">
+          <h1>set featured blogs</h1>
+          <Divider width={"100%"} />
+        </div>
+        {blogsLoading ||
+        blogsError ||
+        blogsData === undefined ||
+        featuredBlogsError ||
+        featuredBlogsLoading ? (
+          <>
+            {(blogsLoading || featuredBlogsLoading) && (
+              <div className="loader-spinner">loading...</div>
+            )}
+            {(blogsError || featuredBlogsError) && (
+              <div>error deleting blog...</div>
+            )}
+          </>
+        ) : (
+          <form
+            className="w100 flex-col blog-delete-form"
+            onSubmit={handleFeaturedBlogs}
+          >
+            <select
+              className="blog-delete-input"
+              onChange={featuredBlogsFormHandler}
+              name="category"
+              multiple
+              required
+            >
+              {blogsData.allBlogs.map((b, i) => (
+                <option key={i} value={b._id}>
+                  title: {b.title} | author: {b.author.name} | comments:{" "}
+                  {b.comments.length} | date:{" "}
+                  {new Intl.DateTimeFormat("en-GB").format(b.date)}
+                </option>
+              ))}
+            </select>
+            <button className="primary-btn" type="submit">
+              set featured blogs
+            </button>
+          </form>
+        )}
+      </div>
+      <div className="m-auto blog-add-wrapper">
         <div className="blog-add-header-wrapper">
           <h1>add blog</h1>
           <Divider width={"100%"} />
@@ -69,10 +181,13 @@ const BlogAdd = () => {
             {addBlogError && <div>error deleting blog...</div>}
           </>
         ) : (
-          <form className="w100 flex-col blog-add-form" onSubmit={handleSubmit}>
+          <form
+            className="w100 flex-col blog-add-form"
+            onSubmit={handleAddBlog}
+          >
             <input
               className="blog-add-input"
-              onChange={formHandler}
+              onChange={addBlogFormHandler}
               type="text"
               name="title"
               placeholder="title"
@@ -80,7 +195,7 @@ const BlogAdd = () => {
             />
             <input
               className="blog-add-input"
-              onChange={formHandler}
+              onChange={addBlogFormHandler}
               type="text"
               name="slug"
               placeholder="slug"
@@ -88,7 +203,7 @@ const BlogAdd = () => {
             />
             <select
               className="blog-add-input"
-              onChange={formHandler}
+              onChange={addBlogFormHandler}
               name="category"
               defaultValue={""}
               required
@@ -121,7 +236,7 @@ const BlogAdd = () => {
             </div>
             <input
               className="blog-add-input"
-              onChange={formHandler}
+              onChange={addBlogFormHandler}
               type="url"
               name="img"
               placeholder="image url"
@@ -129,7 +244,7 @@ const BlogAdd = () => {
             />
             <textarea
               className="blog-add-input"
-              onChange={formHandler}
+              onChange={addBlogFormHandler}
               type="text"
               name="content"
               placeholder="content"
@@ -141,34 +256,43 @@ const BlogAdd = () => {
           </form>
         )}
       </div>
-      <div className="w80 m-auto blog-delete-wrapper">
+      <div className="m-auto blog-delete-wrapper">
         <div className="blog-delete-header-wrapper">
           <h1>delete blog</h1>
           <Divider width={"100%"} />
         </div>
-        {addBlogLoading || addBlogError ? (
+        {blogsLoading ||
+        blogsError ||
+        blogsData === undefined ||
+        deleteBlogsError ||
+        deleteBlogsLoading ? (
           <>
-            {addBlogLoading && <div className="loader-spinner">loading...</div>}
-            {addBlogError && <div>error deleting blog...</div>}
+            {(blogsLoading || deleteBlogsLoading) && (
+              <div className="loader-spinner">loading...</div>
+            )}
+            {(blogsError || deleteBlogsError) && (
+              <div>error deleting blog...</div>
+            )}
           </>
         ) : (
           <form
             className="w100 flex-col blog-delete-form"
-            onSubmit={handleSubmit}
+            onSubmit={handleDeleteBlogs}
           >
             <select
               className="blog-delete-input"
-              onChange={formHandler}
+              onChange={deleteBlogsFormHandler}
               name="category"
-              defaultValue={""}
+              multiple
               required
             >
-              <option value="" hidden disabled>
-                choose a category...
-              </option>
-              <option value="money">money</option>
-              <option value="lifestyle">lifestyle</option>
-              <option value="other-shit">other shit</option>
+              {blogsData.allBlogs.map((b, i) => (
+                <option key={i} value={b._id}>
+                  title: {b.title} | author: {b.author.name} | comments:{" "}
+                  {b.comments.length} | date:{" "}
+                  {new Intl.DateTimeFormat("en-GB").format(b.date)}
+                </option>
+              ))}
             </select>
             <button className="primary-btn" type="submit">
               delete blog

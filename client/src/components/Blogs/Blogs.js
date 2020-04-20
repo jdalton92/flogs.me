@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { useQuery } from "@apollo/client";
-import { ALL_BLOGS } from "../../queries/blogQueries";
+import React, { useState, useEffect, useContext } from "react";
+import Context from "../../context/Context";
 import BlogsSearch from "./Blogs.Search";
 import BlogsCard from "./Blogs.Card";
 import "../../styles/Blogs.css";
 
 const Blogs = ({ topic }) => {
+  const { blogsSearch, blogsData, blogsLoading, blogsError } = useContext(
+    Context
+  );
   const [sort, setSort] = useState("newest");
-  const { data, error, loading, refetch } = useQuery(ALL_BLOGS, {
-    variables: { category: topic },
-  });
 
   useEffect(() => {
-    refetch();
+    blogsSearch({ variables: { category: topic } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topic]);
 
@@ -42,8 +41,8 @@ const Blogs = ({ topic }) => {
   };
 
   let sortedBlogs = [];
-  if (!loading && !error) {
-    sortedBlogs = [...data.allBlogs];
+  if (!blogsLoading && !blogsError && blogsData !== undefined) {
+    sortedBlogs = [...blogsData.allBlogs];
   }
 
   switch (sort) {
@@ -66,17 +65,17 @@ const Blogs = ({ topic }) => {
       <div className="flex-col m-auto blogs-wrapper">
         <BlogsSearch topic={{ topic }} />
         <div className="blogs-result-wrapper">
-          {loading || error ? (
+          {blogsLoading || blogsError || blogsData === undefined ? (
             <>
-              {loading && <div className="loader-spinner">loading...</div>}
-              {error && <div>error loading blog data...</div>}
+              {blogsLoading && <div className="loader-spinner">loading...</div>}
+              {blogsError && <div>error loading blog data...</div>}
             </>
           ) : (
             <>
-              {data.allBlogs.length === 0 && (
-                <div style={{ paddingTop: "25px" }}>content coming soon...</div>
+              {blogsData.allBlogs.length === 0 && (
+                <div style={{ paddingTop: "25px" }}>no results...</div>
               )}
-              {data.allBlogs.length > 0 && (
+              {blogsData.allBlogs.length > 0 && (
                 <>
                   <div className="blogs-sort">
                     <select defaultValue="newest" onChange={handleSort}>

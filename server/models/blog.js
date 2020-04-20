@@ -25,6 +25,11 @@ const schema = new mongoose.Schema({
       minlength: 3,
     },
   ],
+  featured: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
   date: {
     type: Date,
     require: true,

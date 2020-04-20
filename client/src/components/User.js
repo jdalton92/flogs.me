@@ -44,7 +44,7 @@ const User = () => {
   const handleEmailChange = async (e) => {
     e.preventDefault();
     try {
-      await changeEmail({
+      const data = await changeEmail({
         variables: {
           newEmail,
         },
@@ -56,6 +56,7 @@ const User = () => {
         ],
         awaitRefetchQueries: true,
       });
+      localStorage.setItem("flogsToken", data.editEmail.value);
       setNotification({
         type: "success",
         title: "ヽ(•‿•)ノ",
@@ -75,12 +76,13 @@ const User = () => {
   const handlePasswordChange = async (e) => {
     e.preventDefault();
     try {
-      await changePassword({
+      const data = await changePassword({
         variables: {
           password,
           newPassword,
         },
       });
+      localStorage.setItem("flogsToken", data.editPassword.value);
       setNotification({
         type: "success",
         title: "ヽ(•‿•)ノ",
@@ -118,6 +120,7 @@ const User = () => {
     userType = userData.userDetail.userType;
   }
 
+  // TO DO
   // ONLY SHOW SETTINGS IF CURRENT USER LOGGED IN
 
   return (

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { useQuery } from "@apollo/client";
+import { useQuery, useLazyQuery } from "@apollo/client";
 import { ME } from "../queries/userQueries";
+import { ALL_BLOGS } from "../queries/blogQueries";
 import Context from "./Context";
 import { v4 as uuid } from "uuid";
 
 const Provider = ({ children }) => {
+  //User login info
   const {
     loading: meLoading,
     error: meError,
@@ -12,11 +14,14 @@ const Provider = ({ children }) => {
     refetch: meRefetch,
   } = useQuery(ME);
 
-  const [notifications, setMessage] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [dropdown, setDropdown] = useState(false);
-  const [loginView, setLoginView] = useState("landing");
+  //Blogs data and search query
+  const [
+    blogsSearch,
+    { data: blogsData, error: blogsError, loading: blogsLoading },
+  ] = useLazyQuery(ALL_BLOGS);
 
+  // Notifications state
+  const [notifications, setMessage] = useState([]);
   const setNotification = ({ type, title, message }) =>
     setMessage([
       ...notifications,
@@ -32,6 +37,15 @@ const Provider = ({ children }) => {
     const newNotifications = notifications.filter((n) => n.id !== id);
     setMessage(newNotifications);
   };
+
+  // Mobile menu state
+  const [open, setOpen] = useState(false);
+
+  // User dropdown menu state
+  const [dropdown, setDropdown] = useState(false);
+
+  // Landing page view state
+  const [loginView, setLoginView] = useState("landing");
 
   return (
     <Context.Provider
@@ -49,6 +63,10 @@ const Provider = ({ children }) => {
         meError,
         meData,
         meRefetch,
+        blogsSearch,
+        blogsData,
+        blogsError,
+        blogsLoading,
       }}
     >
       {children}

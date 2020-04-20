@@ -95,10 +95,17 @@ const Blog = () => {
     commentRef.current.focus();
   };
 
-  const handleTag = (e) => {
-    e.preventDefault();
-    console.log("tag");
-    // TO DO
+  const handleTag = (tag) => {
+    try {
+      handleLink(`/${tag}`);
+    } catch (e) {
+      console.log(e);
+      setNotification({
+        type: "fail",
+        title: "¯\\_(ツ)_/¯",
+        message: e.message,
+      });
+    }
   };
 
   let authorType = "flogs contributor";
@@ -194,7 +201,7 @@ const Blog = () => {
                 className="flex-3 flex-col blog-body-content"
                 dangerouslySetInnerHTML={{ __html: content }}
               />
-              <div className="flex-1 blog-aside-wrapper">ASIDE</div>
+              <aside className="flex-1 blog-aside-wrapper">ASIDE</aside>
             </div>
             <div className="blog-comments-wrapper">
               <BlogAddComment id={blogId} commentRef={commentRef} />

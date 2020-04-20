@@ -31,11 +31,7 @@ const Footer = () => {
 
   const handleEmail = (e) => {
     e.preventDefault();
-    setNotification({
-      type: "fail",
-      title: "¯\\_(ツ)_/¯",
-      message: "use the contact page",
-    });
+    handleLink("/contact");
   };
 
   return (
