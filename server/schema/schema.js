@@ -26,6 +26,7 @@ const schema = gql`
     tags: [String]!
     content: String!
     img: String
+    featured: Boolean!
     comments: [Comment!]
     _id: ID!
   }
@@ -81,7 +82,7 @@ const schema = gql`
 
     removeBlogs(blogId: [ID!]): Blog
 
-    featureBlogs(blogId: [ID!]): Blog
+    featureBlogs(blogId: [ID!], type: String!): Boolean
 
     createUser(name: String!, email: String!, password: String!): User
 

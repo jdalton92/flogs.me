@@ -331,20 +331,31 @@ module.exports = {
 
       return blog;
     },
-    featureBlogs: async (root, { blogId }, { currentUser }) => {
+    featureBlogs: async (root, { blogId, type }, { currentUser }) => {
       if (!currentUser || currentUser.userType !== "admin") {
         throw new AuthenticationError("not authenticated");
       }
-
+      console.log("blogId", blogId);
+      console.log("type", type);
       try {
-        //TO DO
+        if (type === "setFeatured") {
+          await Blog.updateMany(
+            { _id: { $in: blogId } },
+            { $set: { featured: true } }
+          );
+        } else if (type.toString() === "setNonFeatured") {
+          await Blog.updateMany(
+            { _id: { $in: blogId } },
+            { $set: { featured: false } }
+          );
+        }
       } catch (e) {
         throw new UserInputError(e.message, {
           invalidArgs: { blogId },
         });
       }
 
-      return null;
+      return true;
     },
     createUser: async (root, { name, email, password }, { currentUser }) => {
       if (currentUser) {

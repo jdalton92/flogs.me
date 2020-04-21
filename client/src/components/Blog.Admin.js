@@ -7,7 +7,7 @@ import {
   SET_FEATURE_BLOGS,
 } from "../queries/blogQueries";
 import { Divider } from "../styles/StyledComponents";
-import "../styles/Blog.Add.css";
+import "../styles/Blog.Admin.css";
 
 const BlogAdd = () => {
   const {
@@ -19,7 +19,8 @@ const BlogAdd = () => {
     blogsError,
   } = useContext(Context);
   const [deletedBlogs, setDeletedBlogsForm] = useState([]);
-  const [featuredBlogs, setFeaturedBlogsForm] = useState([]);
+  const [featuredBlogs, setFeaturedBlogs] = useState([]);
+  const [nonFeaturedBlogs, setNonFeaturedBlogs] = useState([]);
   const [variables, setAddBlogForm] = useState({ tags: [] });
   const [tag, setTag] = useState("");
   const [
@@ -105,16 +106,58 @@ const BlogAdd = () => {
     }
   };
 
-  //Handle featured blogs
-  const featuredBlogsFormHandler = (e) => {
-    setFeaturedBlogsForm([...featuredBlogs, e.target.value]);
+  //Handle featured blogs actions
+  const featuredBlogsHandler = (e) => {
+    let options = e.target.options;
+    let value = [];
+    for (let i = 0, l = options.length; i < l; i++) {
+      if (options[i].selected) {
+        value.push(options[i].value);
+      }
+    }
+    setFeaturedBlogs(value);
   };
 
-  const handleFeaturedBlogs = (e) => {
+  const nonFeaturedBlogsHandler = (e) => {
+    let options = e.target.options;
+    let value = [];
+    for (let i = 0, l = options.length; i < l; i++) {
+      if (options[i].selected) {
+        value.push(options[i].value);
+      }
+    }
+    setNonFeaturedBlogs(value);
+  };
+
+  const setFeatured = (e) => {
     e.preventDefault();
     try {
-      featureBlogs({ variables: { blogID: [...featuredBlogs] } });
+      featureBlogs({
+        variables: { blogID: [...nonFeaturedBlogs], type: "setFeatured" },
+      });
+      // TO DO -> UPDATE STATE IN FORM TO REFLECT NEW FEATURED/NON FEATURED BLOGS
+      // blogsSearch({ variables: { all: "" } });
     } catch (e) {
+      console.log(e);
+      console.log(featuredBlogsError);
+      setNotification({
+        type: "fail",
+        title: "¯\\_(ツ)_/¯",
+        message: e.message,
+      });
+    }
+  };
+
+  const setNonFeatured = (e) => {
+    e.preventDefault();
+    try {
+      featureBlogs({
+        variables: { blogID: [...featuredBlogs], type: "setNonFeatured" },
+      });
+      // TO DO -> UPDATE STATE IN FORM TO REFLECT NEW FEATURED/NON FEATURED BLOGS
+      // blogsSearch({ variables: { all: "" } });
+    } catch (e) {
+      console.log(e);
       console.log(featuredBlogsError);
       setNotification({
         type: "fail",
@@ -125,9 +168,9 @@ const BlogAdd = () => {
   };
 
   return (
-    <section className="w100 blog-add-section">
-      <div className="m-auto blog-delete-wrapper">
-        <div className="blog-delete-header-wrapper">
+    <section className="w100 blog-admin-section">
+      <div className="m-auto blog-featured-wrapper">
+        <div className="blog-featured-header-wrapper">
           <h1>set featured blogs</h1>
           <Divider width={"100%"} />
         </div>
@@ -141,32 +184,71 @@ const BlogAdd = () => {
               <div className="loader-spinner">loading...</div>
             )}
             {(blogsError || featuredBlogsError) && (
-              <div>error deleting blog...</div>
+              <div>error updating blogs...</div>
             )}
           </>
         ) : (
-          <form
-            className="w100 flex-col blog-delete-form"
-            onSubmit={handleFeaturedBlogs}
-          >
-            <select
-              className="blog-delete-input"
-              onChange={featuredBlogsFormHandler}
-              name="category"
-              multiple
-              required
-            >
-              {blogsData.allBlogs.map((b, i) => (
-                <option key={i} value={b._id}>
-                  title: {b.title} | author: {b.author.name} | comments:{" "}
-                  {b.comments.length} | date:{" "}
-                  {new Intl.DateTimeFormat("en-GB").format(b.date)}
-                </option>
-              ))}
-            </select>
-            <button className="primary-btn" type="submit">
-              set featured blogs
-            </button>
+          <form className="w100 flex-col blog-featured-form">
+            <div className="blog-featured-lists">
+              <div className="blog-featured-list">
+                <h2>blogs</h2>
+                <select
+                  className="blog-featured-input"
+                  onChange={nonFeaturedBlogsHandler}
+                  name="non-featured-blogs"
+                  multiple
+                  required
+                >
+                  {blogsData.allBlogs
+                    .filter((b) => !b.featured)
+                    .map((b, i) => (
+                      <option key={i} value={b._id}>
+                        title: {b.title} | author: {b.author.name} | date:{" "}
+                        {new Intl.DateTimeFormat("en-GB").format(b.date)}
+                      </option>
+                    ))}
+                </select>
+              </div>
+              <div className="blog-featured-list">
+                <h2>featured blogs</h2>
+                <select
+                  className="blog-featured-input"
+                  onChange={featuredBlogsHandler}
+                  name="featured-blogs"
+                  multiple
+                  required
+                >
+                  {blogsData.allBlogs
+                    .filter((b) => b.featured)
+                    .map((b, i) => (
+                      <option key={i} value={b._id}>
+                        title: {b.title} | author: {b.author.name} | date:{" "}
+                        {new Intl.DateTimeFormat("en-GB").format(b.date)}
+                      </option>
+                    ))}
+                </select>
+              </div>
+            </div>
+            <div className="flex-row">
+              <div className="flex-row blog-featured-list-col align-end">
+                <button
+                  onClick={setFeatured}
+                  className="secondary-btn featured-list-update-btn"
+                  type="button"
+                >
+                  {">>"}
+                </button>
+              </div>
+              <div className="blog-featured-list-col align-start">
+                <button
+                  onClick={setNonFeatured}
+                  className="secondary-btn featured-list-update-btn"
+                  type="button"
+                >
+                  {"<<"}
+                </button>
+              </div>
+            </div>
           </form>
         )}
       </div>

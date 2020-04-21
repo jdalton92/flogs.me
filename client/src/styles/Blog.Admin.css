@@ -1,25 +1,51 @@
-.blog-add-section {
+.blog-admin-section {
   min-height: 80vh;
   padding-bottom: 50px;
 }
 
+.blog-featured-lists {
+  display: flex;
+}
+
+.blog-featured-list {
+  flex: 1;
+}
+
+.blog-featured-input {
+  height: 350px;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.blog-featured-list-col {
+  flex: 1;
+}
+
+.align-end {
+  justify-content: flex-end;
+}
+
+.blog-featured-wrapper,
 .blog-delete-wrapper,
 .blog-add-wrapper {
   width: 90%;
   padding: 50px 5px 0 5px;
 }
 
+.blog-featured-header-wrapper h1,
 .blog-delete-header-wrapper h1,
 .blog-add-header-wrapper h1 {
   font-size: 36px;
   margin-bottom: 10px;
 }
 
+.blog-featured-form,
 .blog-delete-form,
 .blog-add-form {
   margin-top: 25px;
 }
 
+.blog-featured-form select,
 .blog-delete-form select,
 .blog-add-form select,
 .blog-add-form textarea,
@@ -48,14 +74,26 @@
   height: 300px;
 }
 
+.featured-list-submit-btn,
 .blog-delete-form button,
 .blog-add-form button {
   margin-top: 10px;
-  width: 175px;
+  width: 200px;
+}
+
+.featured-list-update-btn {
+  margin-top: 10px;
+  width: 100px;
+}
+
+.blog-delete-form button,
+.blog-add-form button {
+  max-width: 50%;
 }
 
 .blog-delete-form select {
   height: 350px;
+  overflow-y: auto;
 }
 
 @media screen and (max-width: 768px) {

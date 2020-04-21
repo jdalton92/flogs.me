@@ -6,6 +6,7 @@ const BLOG_DETAILS = gql`
     title
     slug
     date
+    featured
     author {
       _id
       name
@@ -106,9 +107,7 @@ export const DELETE_BLOGS = gql`
 `;
 
 export const SET_FEATURE_BLOGS = gql`
-  mutation featureBlogs($blogID: [ID!]) {
-    featureBlogs(blogID: $blogID) {
-      _id
-    }
+  mutation featureBlogs($blogID: [ID!], $type: String!) {
+    featureBlogs(blogID: $blogID, type: $type)
   }
 `;
