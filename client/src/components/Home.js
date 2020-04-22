@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { FEATURED_BLOG } from "../queries/blogQueries";
+import { FEATURED_BLOGS } from "../queries/blogQueries";
 import unhappy from "../styles/images/unhappy-stick-figure.png";
 import happy from "../styles/images/happy-stick-figure.png";
 import FeaturedList from "./FeaturedList.js";
@@ -12,15 +12,23 @@ const Home = () => {
     data: commentBlogData,
     error: commentBlogError,
     loading: commentBlogLoading,
-  } = useQuery(FEATURED_BLOG, {
-    variables: { field: "comments", top: 5 },
+  } = useQuery(FEATURED_BLOGS, {
+    variables: { field: "comments", top: 5, order: "descending" },
   });
   const {
     data: recentBlogData,
     error: recentBlogError,
     loading: recentBlogLoading,
-  } = useQuery(FEATURED_BLOG, {
-    variables: { field: "date", top: 5 },
+  } = useQuery(FEATURED_BLOGS, {
+    variables: { field: "date", top: 5, order: "descending" },
+  });
+
+  const {
+    data: featuredBlogData,
+    error: featuredBlogError,
+    loading: featuredBlogLoading,
+  } = useQuery(FEATURED_BLOGS, {
+    variables: { field: "featured", top: 5, order: "descending" },
   });
 
   return (
@@ -40,9 +48,9 @@ const Home = () => {
       <div className="featured-lists-wrapper">
         <FeaturedList
           title={"featured blogs"}
-          // dataObject={commentBlogData}
-          // error={commentBlogError}
-          // loading={commentBlogLoading}
+          dataObject={featuredBlogData}
+          error={featuredBlogError}
+          loading={featuredBlogLoading}
         />
         <FeaturedList
           title={"most commented blogs"}
@@ -52,9 +60,9 @@ const Home = () => {
         />
         <FeaturedList
           title={"most recent blogs"}
-          // dataObject={recentBlogData}
-          // error={recentBlogError}
-          // loading={recentBlogLoading}
+          dataObject={recentBlogData}
+          error={recentBlogError}
+          loading={recentBlogLoading}
         />
       </div>
       <div className="h100 home-img-wrapper">

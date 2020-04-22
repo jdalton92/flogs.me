@@ -5,6 +5,7 @@
   justify-content: space-evenly;
   flex-wrap: wrap;
   padding: 50px 5px 25px 5px;
+  text-align: center;
 }
 
 .featured-list-wrapper {
@@ -28,8 +29,21 @@
 }
 
 .featured-list-item {
-  height: 20%;
+  margin-bottom: 15px;
   width: 100%;
+}
+
+.featured-list-title {
+  margin: 15px 0 15px 0;
+}
+
+.featured-list-info {
+  font-size: 12px;
+}
+
+.featured-list-link:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 @media screen and (max-width: 768px) {

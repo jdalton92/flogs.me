@@ -60,6 +60,9 @@ export const GET_USER = gql`
       subscribed
       blogs {
         _id
+        author {
+          name
+        }
         title
         category
         date
@@ -69,12 +72,22 @@ export const GET_USER = gql`
       }
       comments {
         _id
+        likes
+        dislikes
+        title
+        blog {
+          title
+          slug
+        }
       }
       savedBlogs {
         _id
         title
         category
         date
+        author {
+          name
+        }
         comments {
           _id
         }

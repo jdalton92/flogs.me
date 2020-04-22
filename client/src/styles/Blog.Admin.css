@@ -100,4 +100,12 @@
   .blog-add-form button {
     width: 100%;
   }
+
+  .blog-featured-lists {
+    flex-direction: column;
+  }
+
+  .blog-featured-list {
+    margin-bottom: 15px;
+  }
 }

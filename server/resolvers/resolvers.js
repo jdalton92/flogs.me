@@ -30,7 +30,7 @@ module.exports = {
             { title: { $regex: search, $options: "ix" } },
           ],
         }).populate("author");
-      } else if (all === "") {
+      } else if (all) {
         blogs = await Blog.find({}).populate("author");
       }
 
@@ -72,9 +72,24 @@ module.exports = {
     userDetail: async (root, { userId }) => {
       try {
         user = await User.findById(userId)
-          .populate("savedBlogs")
-          .populate("blogs")
-          .populate("comments");
+          .populate({
+            path: "blogs",
+            populate: {
+              path: "author",
+            },
+          })
+          .populate({
+            path: "savedBlogs",
+            populate: {
+              path: "author",
+            },
+          })
+          .populate({
+            path: "comments",
+            populate: {
+              path: "blog",
+            },
+          });
         return user;
       } catch (e) {
         throw new UserInputError(e.message, {
@@ -82,31 +97,24 @@ module.exports = {
         });
       }
     },
-    featuredCommentDetail: async (root, { top, field }) => {
+    featuredBlogDetail: async (root, { top, field, order }) => {
+      const sortOrder = order === "descending" ? "-" : "";
+      let blogs;
       try {
-        comments = await Comment.find()
-          .sort({ field: -1 })
-          .limit(top)
-          .populate("author");
-        return comments;
+        if (field === "featured") {
+          blogs = await Blog.find({ featured: true }).populate("author");
+        } else {
+          blogs = await Blog.find({}, null, { sort: `${sortOrder}${field}` })
+            .limit(top)
+            .populate("author");
+        }
       } catch (e) {
         throw new UserInputError(e.message, {
           invalidArgs: { top, field },
         });
       }
-    },
-    featuredBlogDetail: async (root, { top, field }) => {
-      try {
-        blogs = await Blog.find()
-          .sort({ field: -1 })
-          .limit(top)
-          .populate("author");
-        return blogs;
-      } catch (e) {
-        throw new UserInputError(e.message, {
-          invalidArgs: { top, field },
-        });
-      }
+
+      return blogs;
     },
     me: (root, args, context) => {
       return context.currentUser;
@@ -335,8 +343,6 @@ module.exports = {
       if (!currentUser || currentUser.userType !== "admin") {
         throw new AuthenticationError("not authenticated");
       }
-      console.log("blogId", blogId);
-      console.log("type", type);
       try {
         if (type === "setFeatured") {
           await Blog.updateMany(

@@ -2,8 +2,10 @@ import React, { useState, useEffect, useContext } from "react";
 import Context from "../context/Context";
 import { useMutation } from "@apollo/client";
 import {
+  ALL_BLOGS,
   ADD_BLOG,
   DELETE_BLOGS,
+  FEATURED_BLOGS,
   SET_FEATURE_BLOGS,
 } from "../queries/blogQueries";
 import { Divider } from "../styles/StyledComponents";
@@ -37,7 +39,7 @@ const BlogAdd = () => {
   ] = useMutation(SET_FEATURE_BLOGS);
 
   useEffect(() => {
-    blogsSearch({ variables: { all: "" } });
+    blogsSearch({ variables: { all: true } });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -86,7 +88,14 @@ const BlogAdd = () => {
 
   //Handle delete blogs
   const deleteBlogsFormHandler = (e) => {
-    setDeletedBlogsForm([...deletedBlogs, e.target.value]);
+    let options = e.target.options;
+    let value = [];
+    for (let i = 0, l = options.length; i < l; i++) {
+      if (options[i].selected) {
+        value.push(options[i].value);
+      }
+    }
+    setDeletedBlogsForm(value);
   };
 
   const handleDeleteBlogs = (e) => {
@@ -133,12 +142,20 @@ const BlogAdd = () => {
     e.preventDefault();
     try {
       featureBlogs({
-        variables: { blogID: [...nonFeaturedBlogs], type: "setFeatured" },
+        variables: { blogId: [...nonFeaturedBlogs], type: "setFeatured" },
+        refetchQueries: [
+          {
+            query: ALL_BLOGS,
+            variables: { all: true },
+          },
+          {
+            query: FEATURED_BLOGS,
+            variables: { field: "featured", top: 5, order: "descending" },
+          },
+        ],
+        awaitRefetchQueries: true,
       });
-      // TO DO -> UPDATE STATE IN FORM TO REFLECT NEW FEATURED/NON FEATURED BLOGS
-      // blogsSearch({ variables: { all: "" } });
     } catch (e) {
-      console.log(e);
       console.log(featuredBlogsError);
       setNotification({
         type: "fail",
@@ -152,12 +169,20 @@ const BlogAdd = () => {
     e.preventDefault();
     try {
       featureBlogs({
-        variables: { blogID: [...featuredBlogs], type: "setNonFeatured" },
+        variables: { blogId: [...featuredBlogs], type: "setNonFeatured" },
+        refetchQueries: [
+          {
+            query: ALL_BLOGS,
+            variables: { all: true },
+          },
+          {
+            query: FEATURED_BLOGS,
+            variables: { field: "featured", top: 5, order: "descending" },
+          },
+        ],
+        awaitRefetchQueries: true,
       });
-      // TO DO -> UPDATE STATE IN FORM TO REFLECT NEW FEATURED/NON FEATURED BLOGS
-      // blogsSearch({ variables: { all: "" } });
     } catch (e) {
-      console.log(e);
       console.log(featuredBlogsError);
       setNotification({
         type: "fail",
@@ -184,7 +209,9 @@ const BlogAdd = () => {
               <div className="loader-spinner">loading...</div>
             )}
             {(blogsError || featuredBlogsError) && (
-              <div>error updating blogs...</div>
+              <div style={{ marginTop: "10px", textAlign: "center" }}>
+                error updating blogs...
+              </div>
             )}
           </>
         ) : (
@@ -208,6 +235,13 @@ const BlogAdd = () => {
                       </option>
                     ))}
                 </select>
+                <button
+                  onClick={setFeatured}
+                  className="secondary-btn featured-list-update-btn"
+                  type="button"
+                >
+                  {"feature >>"}
+                </button>
               </div>
               <div className="blog-featured-list">
                 <h2>featured blogs</h2>
@@ -227,25 +261,12 @@ const BlogAdd = () => {
                       </option>
                     ))}
                 </select>
-              </div>
-            </div>
-            <div className="flex-row">
-              <div className="flex-row blog-featured-list-col align-end">
-                <button
-                  onClick={setFeatured}
-                  className="secondary-btn featured-list-update-btn"
-                  type="button"
-                >
-                  {">>"}
-                </button>
-              </div>
-              <div className="blog-featured-list-col align-start">
                 <button
                   onClick={setNonFeatured}
                   className="secondary-btn featured-list-update-btn"
                   type="button"
                 >
-                  {"<<"}
+                  {"<< unfeature"}
                 </button>
               </div>
             </div>
@@ -260,7 +281,11 @@ const BlogAdd = () => {
         {addBlogLoading || addBlogError ? (
           <>
             {addBlogLoading && <div className="loader-spinner">loading...</div>}
-            {addBlogError && <div>error deleting blog...</div>}
+            {addBlogError && (
+              <div style={{ marginTop: "10px", textAlign: "center" }}>
+                error deleting blog...
+              </div>
+            )}
           </>
         ) : (
           <form
@@ -353,7 +378,9 @@ const BlogAdd = () => {
               <div className="loader-spinner">loading...</div>
             )}
             {(blogsError || deleteBlogsError) && (
-              <div>error deleting blog...</div>
+              <div style={{ marginTop: "10px", textAlign: "center" }}>
+                error deleting blog...
+              </div>
             )}
           </>
         ) : (
@@ -377,7 +404,7 @@ const BlogAdd = () => {
               ))}
             </select>
             <button className="primary-btn" type="submit">
-              delete blog
+              delete blog(s)
             </button>
           </form>
         )}

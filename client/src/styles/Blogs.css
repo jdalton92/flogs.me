@@ -24,10 +24,14 @@
   width: 200px;
 }
 
+.blogcards-wrapper {
+  margin-top: 20px;
+  border-top: solid 0.5px black;
+}
+
 .blogcard-wrapper {
-  border: solid 0.5px black;
+  border-bottom: solid 0.5px black;
   transition: box-shadow 0.2s ease;
-  margin: 20px 0 20px 0;
 }
 
 .blogcard-wrapper:hover {
@@ -191,9 +195,14 @@
   cursor: pointer;
 }
 
+.blog-comments-list-wrapper {
+  margin-top: 10px;
+  border-top: solid 0.5px black;
+}
+
 .blog-comment-wrapper {
-  border: solid 0.5px darkgrey;
-  margin: 10px 0 10px 0;
+  border-bottom: solid 0.5px black;
+  margin-bottom: 10px;
 }
 
 .blog-comment-header {

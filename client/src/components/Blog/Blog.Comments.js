@@ -48,32 +48,34 @@ const BlogComments = ({ commentData }) => {
           <option value="dislikes">most dislikes</option>
         </select>
       </div>
-      {sortedComments.map((c) => (
-        <div key={c._id} className="p10 blog-comment-wrapper">
-          <div className="flex-col">
-            <div className="flex-row blog-comment-header">
-              <div className="blog-comment-title">{c.title}</div>
-              <BlogCommentLike id={c._id} />
-            </div>
-            <div className="flex-row blog-comment-subheader">
-              <div className="blog-comment-author">
-                by{" "}
-                <b
-                  className="blog-comment-author-link"
-                  onClick={() => handleClick(c.author._id)}
-                >
-                  {c.author.name}
-                </b>{" "}
-                on <b>{new Intl.DateTimeFormat("en-GB").format(c.date)}</b>
+      <div className="blog-comments-list-wrapper">
+        {sortedComments.map((c) => (
+          <div key={c._id} className="p10 blog-comment-wrapper">
+            <div className="flex-col">
+              <div className="flex-row blog-comment-header">
+                <div className="blog-comment-title">{c.title}</div>
+                <BlogCommentLike id={c._id} />
+              </div>
+              <div className="flex-row blog-comment-subheader">
+                <div className="blog-comment-author">
+                  by{" "}
+                  <b
+                    className="blog-comment-author-link"
+                    onClick={() => handleClick(c.author._id)}
+                  >
+                    {c.author.name}
+                  </b>{" "}
+                  on <b>{new Intl.DateTimeFormat("en-GB").format(c.date)}</b>
+                </div>
               </div>
             </div>
+            <div className="blog-comment-detail">{c.comment}</div>
+            <div className="blog-comment-likes">
+              likes: <b>{c.likes}</b> | dislikes: <b>{c.dislikes}</b>
+            </div>
           </div>
-          <div className="blog-comment-detail">{c.comment}</div>
-          <div className="blog-comment-likes">
-            likes: <b>{c.likes}</b> | dislikes: <b>{c.dislikes}</b>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </>
   );
 };

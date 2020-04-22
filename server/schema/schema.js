@@ -49,12 +49,11 @@ const schema = gql`
   }
 
   type Query {
-    allBlogs(category: String, search: String, all: String): [Blog]
+    allBlogs(category: String, search: String, all: Boolean): [Blog]
     blogDetail(slug: String!): Blog!
     commentDetail(slug: String!): [Comment]
     userDetail(userId: ID!): User!
-    featuredCommentDetail(top: Int!, field: String!): [Comment!]
-    featuredBlogDetail(top: Int!, field: String!): [Blog!]
+    featuredBlogDetail(top: Int!, field: String!, order: String!): [Blog!]
     me: User
   }
 

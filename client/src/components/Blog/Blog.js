@@ -213,7 +213,11 @@ const Blog = () => {
                   {commentLoading && (
                     <div className="loader-spinner">loading...</div>
                   )}
-                  {commentError && <div>error loading comments...</div>}
+                  {commentError && (
+                    <div style={{ marginTop: "10px", textAlign: "center" }}>
+                      error loading comments...
+                    </div>
+                  )}
                 </>
               ) : (
                 <BlogComments commentData={commentData} />

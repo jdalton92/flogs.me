@@ -68,7 +68,11 @@ const Blogs = ({ topic }) => {
           {blogsLoading || blogsError || blogsData === undefined ? (
             <>
               {blogsLoading && <div className="loader-spinner">loading...</div>}
-              {blogsError && <div>error loading blog data...</div>}
+              {blogsError && (
+                <div style={{ marginTop: "10px", textAlign: "center" }}>
+                  error loading blog data...
+                </div>
+              )}
             </>
           ) : (
             <>
@@ -84,9 +88,11 @@ const Blogs = ({ topic }) => {
                       <option value="comments">most comments</option>
                     </select>
                   </div>
-                  {sortedBlogs.map((b) => (
-                    <BlogsCard key={b._id} blog={b} />
-                  ))}
+                  <div className="blogcards-wrapper">
+                    {sortedBlogs.map((b) => (
+                      <BlogsCard key={b._id} blog={b} />
+                    ))}
+                  </div>
                 </>
               )}
             </>
