@@ -72,7 +72,9 @@ export const Menu = styled.nav`
 
 export const Divider = styled.div`
   z-index: 1;
-  border-bottom: 1px solid black;
+  border-bottom: ${({ thickness }) => (thickness ? `${thickness}` : "1px")};
+  border-bottom-style: solid;
+  border-bottom-color: black;
   width: ${({ width }) => width};
   margin: 0 auto 0 auto;
 `;

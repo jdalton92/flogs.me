@@ -18,7 +18,6 @@ const FeaturedList = ({ title, dataObject, loading, error }) => {
         <>
           {data.map((d, i) => (
             <div key={i} className="featured-list-item">
-              <Divider width={"75%"} />
               <div className="featured-list-title">
                 <h2
                   className="featured-list-link"
@@ -68,7 +67,6 @@ const FeaturedList = ({ title, dataObject, loading, error }) => {
         <>
           {data.map((d, i) => (
             <div key={i} className="featured-list-item">
-              <Divider width={"75%"} />
               <div className="featured-list-title">
                 <h2
                   className="featured-list-link"
@@ -109,9 +107,8 @@ const FeaturedList = ({ title, dataObject, loading, error }) => {
   return (
     <div className="featured-list-wrapper box-shadow-on-hover">
       <div className="featured-list-header">
-        <h2>
-          <u>{title}</u>
-        </h2>
+        <h2>{title}</h2>
+        <Divider width={"15%"} thickness={"3px"} />
       </div>
       <div className="featured-list-body">
         {loading || error || dataObject === undefined ? (
@@ -128,7 +125,6 @@ const FeaturedList = ({ title, dataObject, loading, error }) => {
             <Body data={Object.values(dataObject)[0]} />
           </>
         )}
-        <Divider width={"75%"} />
       </div>
     </div>
   );

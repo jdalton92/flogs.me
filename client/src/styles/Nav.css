@@ -123,11 +123,13 @@
 }
 
 .nav-dropdown {
+  position: relative;
   border: solid 1px black;
   background-color: white;
   transition: transform 0.3s ease;
   height: 175px;
   width: 200px;
+  z-index: 5;
 }
 
 .nav-dropdown-show {
@@ -188,6 +190,22 @@
 
 .nav-items-mobile {
   display: none;
+}
+
+.nav-search-icon {
+  position: absolute;
+  right: 30px;
+  -webkit-mask: url(../styles/images/search.svg) no-repeat center;
+  mask: url(../styles/images/search.svg) no-repeat center;
+  height: 30px;
+  width: 30px;
+  background-color: black;
+  transition: background-color 0.2s ease;
+}
+
+.nav-search-icon:hover {
+  cursor: pointer;
+  background-color: lightgrey;
 }
 
 @media screen and (max-width: 1000px) {

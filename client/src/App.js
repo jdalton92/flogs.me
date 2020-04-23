@@ -49,6 +49,7 @@ const App = () => {
         <Nav />
         <Switch>
           <Route exact path="/" render={() => <Home />} />
+          <Route path="/search" render={() => <Blogs topic={"all"} />} />
           <Route exact path="/money" render={() => <Blogs topic={"money"} />} />
           <Route
             path="/lifestyle"

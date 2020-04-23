@@ -50,6 +50,7 @@
   min-width: 40px;
   flex: 1;
   background-color: black;
+  transition: background-color 0.2s ease;
 }
 
 .twitter-icon {

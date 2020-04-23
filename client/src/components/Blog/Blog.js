@@ -6,6 +6,7 @@ import { GET_BLOG, SAVE_BLOG } from "../../queries/blogQueries";
 import { GET_COMMENTS } from "../../queries/commentQueries";
 import BlogComments from "./Blog.Comments";
 import BlogAddComment from "./Blog.AddComment";
+import "../../styles/Blog.css";
 
 const Blog = () => {
   const commentRef = useRef(null);

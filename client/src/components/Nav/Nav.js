@@ -44,6 +44,10 @@ const Nav = () => {
         <ul className="w100 flex-row-center nav-items">
           <NavItems viewType={"desktop"} />
         </ul>
+        <div
+          onClick={() => handleLink("/search")}
+          className="nav-search-icon"
+        />
       </div>
     </nav>
   );

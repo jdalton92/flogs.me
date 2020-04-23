@@ -11,7 +11,11 @@ const Blogs = ({ topic }) => {
   const [sort, setSort] = useState("newest");
 
   useEffect(() => {
-    blogsSearch({ variables: { category: topic } });
+    if (topic !== "all") {
+      blogsSearch({ variables: { category: topic } });
+    } else {
+      blogsSearch({ variables: { all: true } });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topic]);
 
