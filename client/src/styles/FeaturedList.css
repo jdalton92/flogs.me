@@ -9,7 +9,6 @@
 }
 
 .featured-list-wrapper {
-  transition: box-shadow 0.2s ease;
   margin: 0 5px 35px 5px;
   padding: 10px 0;
   width: 30%;
@@ -35,9 +34,9 @@
   margin: 0 auto;
   padding: 5px;
   margin-bottom: 15px;
-  width: 100%;
+  width: 95%;
   border-radius: 5px;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .featured-list-item:hover {

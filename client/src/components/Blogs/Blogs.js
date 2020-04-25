@@ -19,26 +19,6 @@ const Blogs = ({ topic }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [topic]);
 
-  // const updateCacheWith = addedComment => {
-  //   const includedIn = (set, object) =>
-  //     set.map(c => c._id).includes(object._id);
-
-  //   const dataInStore = client.readQuery({ query: ALL_BLOGS });
-  //   if (!includedIn(dataInStore.allBooks, addedBook)) {
-  //     client.writeQuery({
-  //       query: ALL_BOOKS,
-  //       data: { allBooks: dataInStore.allBooks.concat(addedBook) }
-  //     });
-  //   }
-  // };
-
-  // useSubscription(COMMENT_ADDED, {
-  //   onSubscriptionData: ({ subscriptionData }) => {
-  //     const comment = subscriptionData.data.commentAdded;
-  //     updateCacheWith(comment);
-  //   }
-  // });
-
   const handleSort = (e) => {
     e.preventDefault();
     setSort(e.target.value);

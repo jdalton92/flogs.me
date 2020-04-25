@@ -67,7 +67,7 @@ const NavLanding = () => {
                   onClick={() => handleLink(`/user/${meData.me._id}`)}
                   className="flex-1 w100 flex-row-center nav-link"
                 >
-                  user profile
+                  account summary
                 </div>
                 {meData.me.userType === "admin" && (
                   <div
@@ -77,6 +77,12 @@ const NavLanding = () => {
                     blog admin
                   </div>
                 )}
+                <div
+                  onClick={() => handleLink(`/settings`)}
+                  className="flex-1 w100 flex-row-center nav-link"
+                >
+                  settings
+                </div>
                 <div
                   onClick={handleLogout}
                   className="flex-1 w100 flex-row-center nav-link"

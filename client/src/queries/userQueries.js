@@ -41,12 +41,21 @@ export const CHANGE_EMAIL = gql`
   }
 `;
 
+export const CHANGE_SUBSCRIPTION = gql`
+  mutation changeSubscription($subscribe: Boolean!) {
+    changeSubscription(subscribe: $subscribe) {
+      subscribed
+    }
+  }
+`;
+
 export const ME = gql`
   query {
     me {
       name
       email
       userType
+      subscribed
       _id
     }
   }

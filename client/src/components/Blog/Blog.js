@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useRef } from "react";
 import Context from "../../context/Context";
+import { Helmet } from "react-helmet";
 import { useParams, useHistory } from "react-router-dom";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_BLOG, SAVE_BLOG } from "../../queries/blogQueries";
@@ -7,6 +8,7 @@ import { GET_COMMENTS } from "../../queries/commentQueries";
 import BlogComments from "./Blog.Comments";
 import BlogAddComment from "./Blog.AddComment";
 import "../../styles/Blog.css";
+import "../../styles/Blog.Content.css";
 
 const Blog = () => {
   const commentRef = useRef(null);
@@ -132,6 +134,9 @@ const Blog = () => {
           </>
         ) : (
           <>
+            <Helmet>
+              <title>flogs.me: {title}</title>
+            </Helmet>
             <div className="w100 blog-header-wrapper">
               <h2 className="blog-title">{title}</h2>
               <div className="m-auto blog-details">
@@ -202,7 +207,9 @@ const Blog = () => {
                 className="flex-3 flex-col blog-body-content"
                 dangerouslySetInnerHTML={{ __html: content }}
               />
-              <aside className="flex-1 blog-aside-wrapper">ASIDE</aside>
+              <aside className="flex-1 blog-aside-wrapper">
+                <div>aside detail</div>
+              </aside>
             </div>
             <div className="blog-comments-wrapper">
               <BlogAddComment id={blogId} commentRef={commentRef} />

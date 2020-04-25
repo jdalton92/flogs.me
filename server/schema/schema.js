@@ -79,7 +79,7 @@ const schema = gql`
 
     dislikeComment(commentId: ID!): Comment
 
-    removeBlogs(blogId: [ID!]): Blog
+    removeBlogs(blogId: ID!): Blog
 
     featureBlogs(blogId: [ID!], type: String!): Boolean
 
@@ -88,6 +88,8 @@ const schema = gql`
     editEmail(newEmail: String!): Token
 
     editPassword(password: String!, newPassword: String!): Token
+
+    changeSubscription(subscribe: Boolean!): User
 
     login(email: String!, password: String!): Token
   }

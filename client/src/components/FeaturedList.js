@@ -105,7 +105,7 @@ const FeaturedList = ({ title, dataObject, loading, error }) => {
   };
 
   return (
-    <div className="featured-list-wrapper box-shadow-on-hover">
+    <div className="featured-list-wrapper">
       <div className="featured-list-header">
         <h2>{title}</h2>
         <Divider width={"15%"} thickness={"3px"} />

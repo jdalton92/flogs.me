@@ -1,0 +1,30 @@
+.blog-content-paragraph {
+  margin: 15px 0;
+}
+
+.blog-content-section {
+  margin: 30px 0;
+}
+
+.blog-content-img-small,
+.blog-content-img-medium,
+.blog-content-img-large {
+  margin: 10px auto;
+  max-width: 100%;
+  width: auto;
+  object-fit: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.blog-content-img-small {
+  max-height: 200px !important;
+}
+
+.blog-content-img-medium {
+  max-height: 300px !important;
+}
+
+.blog-content-img-large {
+  max-height: 400px !important;
+}

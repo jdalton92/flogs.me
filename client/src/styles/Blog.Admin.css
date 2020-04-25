@@ -91,11 +91,6 @@
   max-width: 50%;
 }
 
-.blog-delete-form select {
-  height: 350px;
-  overflow-y: auto;
-}
-
 @media screen and (max-width: 768px) {
   .blog-add-form button {
     width: 100%;

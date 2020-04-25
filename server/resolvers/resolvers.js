@@ -311,26 +311,18 @@ module.exports = {
         throw new AuthenticationError("not authenticated");
       }
 
-      //UPDATE IF ARRAY OF BLOGIDS IS SENT -> USE UPDATE MANY AND $IN
-
       try {
-        // Remove blog from author
-        const author = User.findById(currentUser._id);
-        author.blogs = author.blogs.filter((b) => b._id !== blog._id);
-        await author.save();
-
         // Remove blogs from blog collection
         const blog = await Blog.findByIdAndDelete(blogId);
+
+        // Remove blog from author
+        await User.update({ _id: blog.author }, { $pull: { blogs: blogId } });
 
         //Remove comments from blog
         await Comment.deleteMany({ blog: blogId });
 
         //Remove blog from saved blogs list for each user
-        const savedBlogUsers = User.find({ savedBlogs: blogId });
-        savedBlogUsers.forEach((u) =>
-          u.savedBlogs.filter((b) => b._id !== blog._id)
-        );
-        await savedBlogUsers.save();
+        await User.update({}, { $pull: { savedBlogs: blogId } });
       } catch (e) {
         throw new UserInputError(e.message, {
           invalidArgs: { blogId },
@@ -395,6 +387,21 @@ module.exports = {
           invalidArgs: { name, email, password },
         });
       }
+    },
+    changeSubscription: async (root, { subscribe }, { currentUser }) => {
+      if (!currentUser) {
+        throw new AuthenticationError("not authenticated");
+      }
+
+      const user = await User.findByIdAndUpdate(
+        currentUser.id,
+        { subscribed: subscribe },
+        {
+          new: true,
+        }
+      );
+
+      return user;
     },
     editEmail: async (root, { newEmail }, { currentUser }) => {
       if (!currentUser) {

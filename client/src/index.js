@@ -23,7 +23,10 @@ const authLink = setContext((_, { headers }) => {
   };
 });
 
-let uri = "https://flogs.me/graphql";
+let uri = "http://localhost:4000/graphql";
+if (process.env.NODE_ENV === "production") {
+  uri = "https://flogs.me/graphql";
+}
 
 const httpLink = new HttpLink({
   uri,

@@ -101,8 +101,8 @@ export const FEATURED_BLOGS = gql`
 `;
 
 export const DELETE_BLOGS = gql`
-  mutation removeBlogs($blogID: [ID!]) {
-    removeBlogs(blogID: $blogID) {
+  mutation removeBlogs($blogId: ID!) {
+    removeBlogs(blogId: $blogId) {
       _id
     }
   }

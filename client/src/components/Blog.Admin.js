@@ -87,23 +87,12 @@ const BlogAdd = () => {
   };
 
   //Handle delete blogs
-  const deleteBlogsFormHandler = (e) => {
-    let options = e.target.options;
-    let value = [];
-    for (let i = 0, l = options.length; i < l; i++) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
-    setDeletedBlogsForm(value);
-  };
-
   const handleDeleteBlogs = (e) => {
     e.preventDefault();
-    const confirm = window.confirm(`delete ${deleteBlogs.length} blog(s)? `);
+    const confirm = window.confirm(`permanently delete blog? `);
     if (confirm) {
       try {
-        deleteBlogs({ variables: { blogID: [...deletedBlogs] } });
+        deleteBlogs({ variables: { blogId: deletedBlogs } });
       } catch (e) {
         console.log(deleteBlogsError);
         setNotification({
@@ -390,9 +379,8 @@ const BlogAdd = () => {
           >
             <select
               className="blog-delete-input"
-              onChange={deleteBlogsFormHandler}
+              onChange={({ target }) => setDeletedBlogsForm(target.value)}
               name="category"
-              multiple
               required
             >
               {blogsData.allBlogs.map((b, i) => (
