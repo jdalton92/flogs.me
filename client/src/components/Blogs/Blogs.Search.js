@@ -1,22 +1,14 @@
-import React, { useState, useContext } from "react";
-import Context from "../../context/Context";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const BlogsSearch = () => {
-  const { setNotification, blogsSearch, blogsError } = useContext(Context);
+  const history = useHistory();
   const [search, setSearch] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      blogsSearch({ variables: { search } });
-    } catch (e) {
-      console.log(blogsError);
-      setNotification({
-        type: "fail",
-        title: "¯\\_(ツ)_/¯",
-        message: e.message,
-      });
-    }
+    history.push({ pathname: "/blogs", search: `?search=${search}` });
+    setSearch("");
   };
 
   return (
@@ -25,6 +17,7 @@ const BlogsSearch = () => {
         <div className="w100 flex-row">
           <input
             className="w100 p5"
+            value={search}
             name="search"
             placeholder="search title, tags, or category"
             type="text"

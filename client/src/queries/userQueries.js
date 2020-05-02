@@ -75,6 +75,7 @@ export const GET_USER = gql`
         title
         category
         date
+        slug
         comments {
           _id
         }
@@ -94,6 +95,7 @@ export const GET_USER = gql`
         title
         category
         date
+        slug
         author {
           name
         }

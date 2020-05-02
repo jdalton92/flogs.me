@@ -49,7 +49,7 @@ const NavLanding = () => {
                 <div alt="user" title="user" className="user-icon" />
                 <i className="navbar-arrow-down"></i>
               </div>
-              <div>{meData.me.name}</div>
+              <div className="nav-user-name">{meData.me.name}</div>
             </div>
             <div
               className={`${

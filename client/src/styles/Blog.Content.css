@@ -28,3 +28,11 @@
 .blog-content-img-large {
   max-height: 400px !important;
 }
+
+.bold {
+  font-weight: bold;
+}
+
+.underline {
+  text-decoration: underline;
+}

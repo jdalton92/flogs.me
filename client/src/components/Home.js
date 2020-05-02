@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import { FEATURED_BLOGS } from "../queries/blogQueries";
+import flogs from "../styles/images/flogs.png";
 import unhappy from "../styles/images/unhappy-stick-figure.png";
 import happy from "../styles/images/happy-stick-figure.png";
 import FeaturedList from "./FeaturedList.js";
@@ -33,18 +34,15 @@ const Home = () => {
 
   return (
     <section className="w100 h100 home-section">
-      <div className="w100 home-description-wrapper">
-        <h1>
-          what is flogs.me? Lorem ipsum dolor sit amet, consectetur adipiscing
-          elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-          aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-          laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-          in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </h1>
+      <div className="w100 home-slogan-wrapper flex-row">
+        <div className="home-slogan-left">
+          <h1>flogs.me</h1>
+          <h3>when you got nothin' else going on</h3>
+        </div>
+        <div className="home-slogan-right">
+          <img alt="flogs.me" src={flogs} className="home-slogan-img" />
+        </div>
       </div>
-      <Divider width={"80%"} />
       <div className="featured-lists-wrapper">
         <FeaturedList
           title={"featured blogs"}
@@ -75,9 +73,11 @@ const Home = () => {
           <img alt="unhappy" src={happy} className="home-img-happy" />
         </div>
       </div>
+      <Divider width={"15%"} thickness={"5px"} />
       <div className="flex-row-center w100 home-caption-wrapper">
         <h2 className="w100 home-caption">sign up now.</h2>
       </div>
+      <Divider width={"15%"} thickness={"5px"} />
     </section>
   );
 };

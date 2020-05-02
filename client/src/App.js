@@ -16,7 +16,6 @@ import Nav from "./components/Nav/Nav";
 import Home from "./components/Home";
 import Blogs from "./components/Blogs/Blogs";
 import Blog from "./components/Blog/Blog";
-import BlogTest from "./components/Blog/Blog.Test";
 import BlogAdmin from "./components/Blog.Admin";
 // import Merch from "./components/Merch";
 import Contact from "./components/Contact";
@@ -54,8 +53,7 @@ const App = () => {
         <Nav />
         <Switch>
           <Route exact path="/" render={() => <Home />} />
-          <Route exact path="/test" render={() => <BlogTest />} />
-          <Route path="/search" render={() => <Blogs topic={"all"} />} />
+          <Route exact path="/blogs" render={() => <Blogs topic={null} />} />
           <Route exact path="/money" render={() => <Blogs topic={"money"} />} />
           <Route
             path="/lifestyle"

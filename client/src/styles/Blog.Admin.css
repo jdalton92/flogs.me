@@ -66,12 +66,56 @@
   height: 30px !important;
 }
 
-.blog-add-tags-list {
+.blog-add-tags-list-wrapper {
   margin-top: 10px;
+  display: flex;
+}
+
+.blog-add-tags-list {
+  padding-left: 5px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.blog-add-tag {
+  padding: 0 10px;
+  border: 1px solid black;
+  margin-right: 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.blog-add-delete-tag-wrapper {
+  width: 30px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.blog-add-tag-delete-btn {
+  width: 15px !important;
+  border-radius: 15px;
+  border: none;
+  margin: 0 !important;
+  background-color: white;
+  color: black !important;
+  transition: background-color 0.2s ease;
+}
+
+.blog-add-tag-delete-btn:hover {
+  cursor: pointer;
+  background-color: lightgrey;
 }
 
 .blog-add-form textarea {
   height: 300px;
+}
+
+.blog-add-caption {
+  margin-top: 10px;
 }
 
 .featured-list-submit-btn,

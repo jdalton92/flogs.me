@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { useHistory } from "react-router-dom";
 import Context from "../../context/Context";
 import BlogsSearch from "./Blogs.Search";
 import BlogsCard from "./Blogs.Card";
@@ -8,16 +9,22 @@ const Blogs = ({ topic }) => {
   const { blogsSearch, blogsData, blogsLoading, blogsError } = useContext(
     Context
   );
+  const history = useHistory();
   const [sort, setSort] = useState("newest");
+  const search = history.location.search;
+  const params = new URLSearchParams(search);
 
+  //Update blogsData if category is clicked
   useEffect(() => {
-    if (topic !== "all") {
+    if (topic) {
       blogsSearch({ variables: { category: topic } });
+    } else if (search) {
+      blogsSearch({ variables: { search: params.get("search") } });
     } else {
       blogsSearch({ variables: { all: true } });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topic]);
+  }, [topic, search]);
 
   const handleSort = (e) => {
     e.preventDefault();

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import { v4 as uuid } from "uuid";
 import Context from "../context/Context";
 import { useMutation } from "@apollo/client";
 import {
@@ -14,7 +15,6 @@ import "../styles/Blog.Admin.css";
 const BlogAdd = () => {
   const {
     setNotification,
-    meData,
     blogsSearch,
     blogsData,
     blogsLoading,
@@ -22,9 +22,11 @@ const BlogAdd = () => {
   } = useContext(Context);
   const [deletedBlogs, setDeletedBlogsForm] = useState([]);
   const [featuredBlogs, setFeaturedBlogs] = useState([]);
+  const [similarBlogs, setSimilarBlogs] = useState([]);
   const [nonFeaturedBlogs, setNonFeaturedBlogs] = useState([]);
-  const [variables, setAddBlogForm] = useState({ tags: [] });
+  const [variables, setAddBlogForm] = useState({ tags: [], similarBlogs: [] });
   const [tag, setTag] = useState("");
+  const [tags, setTags] = useState([]);
   const [
     addBlog,
     { error: addBlogError, loading: addBlogLoading },
@@ -43,6 +45,18 @@ const BlogAdd = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  //Handle multi select options
+  const multiSelectHandler = (e) => {
+    let options = e.target.options;
+    let value = [];
+    for (let i = 0, l = options.length; i < l; i++) {
+      if (options[i].selected) {
+        value.push(options[i].value);
+      }
+    }
+    return value;
+  };
+
   //Handle add blog
   const addBlogFormHandler = (e) => {
     setAddBlogForm({ ...variables, [e.target.name]: e.target.value });
@@ -55,22 +69,40 @@ const BlogAdd = () => {
 
   const handleAddTag = (e) => {
     e.preventDefault();
-    setAddBlogForm({
-      ...variables,
-      tags: [...variables.tags, tag],
-    });
+    setTags([...tags, { tag, _id: uuid() }]);
     setTag("");
+  };
+
+  const handleRemoveTag = (id) => {
+    const filterTags = tags.filter((t) => t._id !== id);
+    setTags(filterTags);
+    setTag("");
+  };
+
+  const similarBlogsHandler = (e) => {
+    const value = multiSelectHandler(e);
+    setSimilarBlogs(value);
   };
 
   const handleAddBlog = (e) => {
     e.preventDefault();
+    const tagsReduced = tags.map((t) => t.tag);
     try {
       addBlog({
         variables: {
           ...variables,
-          authorId: meData.me._id,
+          tags: [...tagsReduced],
+          similarBlogs,
         },
+        refetchQueries: [
+          {
+            query: ALL_BLOGS,
+            variables: { all: true },
+          },
+        ],
+        awaitRefetchQueries: true,
       });
+      setTags([]);
       setNotification({
         type: "success",
         title: "ヽ(•‿•)ノ",
@@ -92,7 +124,16 @@ const BlogAdd = () => {
     const confirm = window.confirm(`permanently delete blog? `);
     if (confirm) {
       try {
-        deleteBlogs({ variables: { blogId: deletedBlogs } });
+        deleteBlogs({
+          variables: { blogId: deletedBlogs },
+          refetchQueries: [
+            {
+              query: ALL_BLOGS,
+              variables: { all: true },
+            },
+          ],
+          awaitRefetchQueries: true,
+        });
       } catch (e) {
         console.log(deleteBlogsError);
         setNotification({
@@ -106,24 +147,12 @@ const BlogAdd = () => {
 
   //Handle featured blogs actions
   const featuredBlogsHandler = (e) => {
-    let options = e.target.options;
-    let value = [];
-    for (let i = 0, l = options.length; i < l; i++) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
+    const value = multiSelectHandler(e);
     setFeaturedBlogs(value);
   };
 
   const nonFeaturedBlogsHandler = (e) => {
-    let options = e.target.options;
-    let value = [];
-    for (let i = 0, l = options.length; i < l; i++) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
+    const value = multiSelectHandler(e);
     setNonFeaturedBlogs(value);
   };
 
@@ -267,12 +296,18 @@ const BlogAdd = () => {
           <h1>add blog</h1>
           <Divider width={"100%"} />
         </div>
-        {addBlogLoading || addBlogError ? (
+        {addBlogLoading ||
+        addBlogError ||
+        blogsLoading ||
+        blogsError ||
+        blogsData === undefined ? (
           <>
-            {addBlogLoading && <div className="loader-spinner">loading...</div>}
-            {addBlogError && (
+            {(addBlogLoading || blogsLoading) && (
+              <div className="loader-spinner">loading...</div>
+            )}
+            {(addBlogError || blogsError || blogsData) && (
               <div style={{ marginTop: "10px", textAlign: "center" }}>
-                error deleting blog...
+                error adding blog...
               </div>
             )}
           </>
@@ -327,8 +362,26 @@ const BlogAdd = () => {
                 add tag
               </button>
             </div>
-            <div className="blog-add-input blog-add-tags-list">
-              tags: {!variables.tags ? "none" : variables.tags.join(", ")}
+            <div className="blog-add-input blog-add-tags-list-wrapper">
+              tags:{" "}
+              <span className="blog-add-tags-list">
+                {tags.length === 0
+                  ? "none"
+                  : tags.map((t, i) => (
+                      <div key={i} className="blog-add-tag">
+                        {t.tag}
+                        <div className="blog-add-delete-tag-wrapper">
+                          <button
+                            onClick={() => handleRemoveTag(t._id)}
+                            type="button"
+                            className="blog-add-tag-delete-btn"
+                          >
+                            x
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+              </span>
             </div>
             <input
               className="blog-add-input"
@@ -346,6 +399,20 @@ const BlogAdd = () => {
               placeholder="content"
               required
             />
+            <div className="blog-add-caption">similar blogs</div>
+            <select
+              className="blog-add-input"
+              onChange={similarBlogsHandler}
+              name="similarBlogs"
+              multiple
+            >
+              {blogsData.allBlogs.map((b, i) => (
+                <option key={i} value={b._id}>
+                  title: {b.title} | author: {b.author.name} | date:{" "}
+                  {new Intl.DateTimeFormat("en-GB").format(b.date)}
+                </option>
+              ))}
+            </select>
             <button className="primary-btn" type="submit">
               add blog
             </button>

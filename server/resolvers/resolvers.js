@@ -14,7 +14,7 @@ const Blog = require("../models/blog");
 const User = require("../models/user");
 const Subscription = require("../models/subscription");
 
-const pubsub = new PubSub();
+// const pubsub = new PubSub();
 
 module.exports = {
   Query: {
@@ -24,11 +24,7 @@ module.exports = {
         blogs = await Blog.find({ category }).populate("author");
       } else if (search) {
         blogs = await Blog.find({
-          $or: [
-            { category: { $regex: search, $options: "ix" } },
-            { tags: { $regex: search, $options: "ix" } },
-            { title: { $regex: search, $options: "ix" } },
-          ],
+          $text: { $search: search, $caseSensitive: false },
         }).populate("author");
       } else if (all) {
         blogs = await Blog.find({}).populate("author");
@@ -46,7 +42,17 @@ module.exports = {
             populate: {
               path: "author",
             },
+          })
+          .populate({
+            path: "similarBlogs",
+            populate: {
+              path: "author",
+            },
           });
+
+        if (!blog) {
+          throw new UserInputError("blog does not exist");
+        }
 
         return blog;
       } catch (e) {
@@ -181,8 +187,9 @@ module.exports = {
       }
 
       const user = await User.findById(currentUser._id);
+      const existing = user.savedBlogs.filter((b) => b === blogId);
 
-      if (user.savedBlogs.includes(blogId)) {
+      if (existing.length > 0) {
         throw new ApolloError("blog already saved");
       }
 
@@ -198,12 +205,15 @@ module.exports = {
     },
     addBlog: async (
       root,
-      { title, slug, category, tags, content, img },
+      { title, slug, category, tags, content, img, similarBlogs },
       { currentUser }
     ) => {
       if (!currentUser) {
         throw new AuthenticationError("not authenticated");
       }
+
+      //Ensure there are no 'spaces' in slug
+      slug.replace(" ", "-");
 
       let blog = new Blog({
         title,
@@ -213,6 +223,7 @@ module.exports = {
         content,
         img,
         author: currentUser._id,
+        similarBlogs,
       });
 
       try {
@@ -223,7 +234,15 @@ module.exports = {
         await blog.save();
       } catch (e) {
         throw new UserInputError(e.message, {
-          invalidArgs: { title, author, published, genres },
+          invalidArgs: {
+            title,
+            slug,
+            category,
+            tags,
+            content,
+            img,
+            similarBlogs,
+          },
         });
       }
 
@@ -315,21 +334,27 @@ module.exports = {
         // Remove blogs from blog collection
         const blog = await Blog.findByIdAndDelete(blogId);
 
+        // Remove blog from similarBlogs recomendation
+        await Blog.updateMany({}, { $pull: { similarBlogs: blogId } });
+
         // Remove blog from author
-        await User.update({ _id: blog.author }, { $pull: { blogs: blogId } });
+        await User.updateMany(
+          { _id: blog.author },
+          { $pull: { blogs: blogId } }
+        );
 
         //Remove comments from blog
         await Comment.deleteMany({ blog: blogId });
 
         //Remove blog from saved blogs list for each user
-        await User.update({}, { $pull: { savedBlogs: blogId } });
+        await User.updateMany({}, { $pull: { savedBlogs: blogId } });
       } catch (e) {
         throw new UserInputError(e.message, {
           invalidArgs: { blogId },
         });
       }
 
-      return blog;
+      return true;
     },
     featureBlogs: async (root, { blogId, type }, { currentUser }) => {
       if (!currentUser || currentUser.userType !== "admin") {

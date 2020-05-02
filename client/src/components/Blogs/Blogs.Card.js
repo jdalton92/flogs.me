@@ -13,7 +13,7 @@ const BlogCard = ({ blog }) => {
   };
 
   const handleClick = (category) => {
-    if (history.location.pathname.toLowerCase().includes("search")) {
+    if (history.location.pathname.toLowerCase().includes("blogs")) {
       handleLink(category);
     } else {
       setNotification({
@@ -28,11 +28,13 @@ const BlogCard = ({ blog }) => {
 
   return (
     <div className="p20 flex-col box-shadow-on-hover blogcard-wrapper">
-      <div
-        onClick={() => handleLink(`blog/${slug}`)}
-        className="blogcard-header-wrapper"
-      >
-        <h2 className="blogcard-title">{title}</h2>
+      <div className="blogcard-header-wrapper">
+        <h2
+          onClick={() => handleLink(`/blog/${slug}`)}
+          className="blogcard-title"
+        >
+          {title}
+        </h2>
         <div className="blogcard-tags">
           {tags.length > 0 ? (
             <>
@@ -41,7 +43,12 @@ const BlogCard = ({ blog }) => {
                 <b
                   key={i}
                   className="blogcard-link"
-                  onClick={() => handleLink("/search")}
+                  onClick={() =>
+                    handleLink({
+                      pathname: "/blogs",
+                      search: `?search=${t}`,
+                    })
+                  }
                 >
                   {t}
                   {i === tags.length - 1 ? "" : ", "}

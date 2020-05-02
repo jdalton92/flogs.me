@@ -1,17 +1,16 @@
 .blogcard-wrapper {
-  border-bottom: solid 0.5px black;
+  border: solid 1px black;
+  margin-bottom: 15px;
   transition: box-shadow 0.2s ease;
+  border-radius: 5px;
 }
 
 .blogcard-header-wrapper {
   margin-bottom: 20px;
 }
 
-.blogcard-header-wrapper:hover {
+.blogcard-title:hover {
   cursor: pointer;
-}
-
-.blogcard-header-wrapper:hover h2 {
   text-decoration: underline;
 }
 

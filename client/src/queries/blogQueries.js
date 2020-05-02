@@ -43,6 +43,18 @@ export const GET_BLOG = gql`
       ...BlogDetails
       content
       img
+      similarBlogs {
+        slug
+        title
+        date
+        author {
+          _id
+          name
+        }
+        comments {
+          _id
+        }
+      }
       comments {
         _id
       }
@@ -59,6 +71,7 @@ export const ADD_BLOG = gql`
     $tags: [String!]!
     $content: String!
     $img: String
+    $similarBlogs: [ID]
   ) {
     addBlog(
       title: $title
@@ -67,6 +80,7 @@ export const ADD_BLOG = gql`
       tags: $tags
       content: $content
       img: $img
+      similarBlogs: $similarBlogs
     ) {
       ...BlogDetails
     }
@@ -102,9 +116,7 @@ export const FEATURED_BLOGS = gql`
 
 export const DELETE_BLOGS = gql`
   mutation removeBlogs($blogId: ID!) {
-    removeBlogs(blogId: $blogId) {
-      _id
-    }
+    removeBlogs(blogId: $blogId)
   }
 `;
 

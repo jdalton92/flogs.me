@@ -111,6 +111,10 @@
   align-items: center;
 }
 
+.nav-user-name {
+  padding-right: 9px;
+}
+
 .nav-dropdown-wrapper-shrink {
   z-index: -1;
 }
@@ -287,6 +291,10 @@
 
   .nav-user-icon-wrapper {
     justify-content: center;
+  }
+
+  .nav-user-name {
+    padding: 0;
   }
 
   .user-icon {

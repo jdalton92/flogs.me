@@ -17,7 +17,7 @@ const schema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 3,
-    enum: ["money", "lifestyle", "other shit"],
+    enum: ["money", "lifestyle", "other-shit"],
   },
   tags: [
     {
@@ -30,6 +30,12 @@ const schema = new mongoose.Schema({
     required: true,
     default: false,
   },
+  similarBlogs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Blog",
+    },
+  ],
   date: {
     type: Date,
     require: true,
@@ -55,5 +61,12 @@ const schema = new mongoose.Schema({
 });
 
 schema.plugin(uniqueValidator);
+
+//Set which fields are 'text' for searching by string
+schema.index({
+  title: "text",
+  category: "text",
+  tags: "text",
+});
 
 module.exports = mongoose.model("Blog", schema);
