@@ -10,6 +10,7 @@ const BLOG_DETAILS = gql`
     author {
       _id
       name
+      userType
     }
     category
     tags

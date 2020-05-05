@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import { FEATURED_BLOGS } from "../queries/blogQueries";
-import flogs from "../styles/images/flogs.png";
+import flogs from "../styles/images/flogs.jpg";
 import unhappy from "../styles/images/unhappy-stick-figure.png";
 import happy from "../styles/images/happy-stick-figure.png";
 import FeaturedList from "./FeaturedList.js";
@@ -37,7 +37,7 @@ const Home = () => {
       <div className="w100 home-slogan-wrapper flex-row">
         <div className="home-slogan-left">
           <h1>flogs.me</h1>
-          <h3>when you got nothin' else going on</h3>
+          <h3>for when you got nothin' else going on</h3>
         </div>
         <div className="home-slogan-right">
           <img alt="flogs.me" src={flogs} className="home-slogan-img" />

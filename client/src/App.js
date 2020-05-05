@@ -17,6 +17,7 @@ import Home from "./components/Home";
 import Blogs from "./components/Blogs/Blogs";
 import Blog from "./components/Blog/Blog";
 import BlogAdmin from "./components/Blog.Admin";
+import Tools from "./components/Tools/Tools";
 // import Merch from "./components/Merch";
 import Contact from "./components/Contact";
 import FAQ from "./components/FAQ";
@@ -64,6 +65,7 @@ const App = () => {
             render={() => <Blogs topic={"other-shit"} />}
           />
           <Route path="/blog/:slug" render={() => <Blog />} />
+          <Route exact path="/tools" render={() => <Tools />} />
           {/* <Route path="/merch" render={() => <Merch />} /> */}
           <Route path="/contact" render={() => <Contact />} />
           <Route path="/faq" render={() => <FAQ />} />

@@ -38,6 +38,7 @@
 
 .footer-header {
   padding-bottom: 5px;
+  text-decoration: underline;
 }
 
 .footer-header:hover {

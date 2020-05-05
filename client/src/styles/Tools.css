@@ -1,0 +1,37 @@
+.tools-section {
+  min-height: 80vh;
+  width: 100%;
+}
+
+.tools-inputs-wrapper {
+  width: 80%;
+  max-width: 400px;
+}
+
+.tools-input-wrapper {
+  position: relative;
+}
+
+.tools-input-wrapper input {
+  width: 100%;
+  padding: 5px;
+  margin: 5px 0;
+}
+
+.tools-input-wrapper span {
+  position: absolute;
+  right: 15px;
+  width: 60px;
+  padding-left: 5px;
+}
+
+.tools-summary-wrapper {
+  width: 80%;
+  height: 50px;
+  margin: 20px 0;
+}
+
+.tools-chart-wrapper {
+  width: 80%;
+  height: 400px;
+}
