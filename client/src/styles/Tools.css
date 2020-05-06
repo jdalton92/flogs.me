@@ -1,37 +1,103 @@
 .tools-section {
   min-height: 80vh;
   width: 100%;
+  align-items: center;
 }
 
-.tools-inputs-wrapper {
+.tool-link-wrapper {
   width: 80%;
+}
+
+.tool-wrapper {
+  width: 80%;
+  margin-bottom: 50px;
+}
+
+.tool-link-wrapper li {
+  margin: 15px 0;
+}
+
+.tool-link:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.tool-header-wrapper {
+  position: relative;
+  margin: 25px 0;
+}
+
+.tool-header-wrapper h1,
+.tool-header-wrapper h2 {
+  margin-right: 60px;
+  margin-bottom: 5px;
+}
+
+.tool-top-btn {
+  position: absolute;
+  right: 0;
+  bottom: 10px;
+  font-size: 12px;
+  height: 25px !important;
+  width: 50px;
+}
+
+.tool-top-btn:hover .tool-arrow-up {
+  border-color: white;
+}
+
+.tool-arrow-up {
+  border: solid 1px black;
+  margin-top: 5px;
+  margin-left: 5px;
+  padding: 2px;
+  border-width: 2px 0 0 2px;
+  display: inline-block;
+  transform: rotate(5deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.tool-instruction-wrapper p {
+  margin: 5px 0;
+}
+
+.tool-instruction-wrapper li {
+  margin: 25px 0;
+}
+
+.tool-inputs-wrapper {
+  width: 100%;
   max-width: 400px;
 }
 
-.tools-input-wrapper {
+.tool-input-wrapper {
   position: relative;
 }
 
-.tools-input-wrapper input {
+.tool-input-wrapper:nth-child(1) {
+  margin-top: 5px;
+}
+
+.tool-input-wrapper input {
   width: 100%;
   padding: 5px;
   margin: 5px 0;
 }
 
-.tools-input-wrapper span {
+.tool-input-wrapper span {
   position: absolute;
   right: 15px;
   width: 60px;
   padding-left: 5px;
 }
 
-.tools-summary-wrapper {
-  width: 80%;
+.tool-summary-wrapper {
+  width: 100%;
   height: 50px;
   margin: 20px 0;
 }
 
-.tools-chart-wrapper {
-  width: 80%;
+.tool-chart-wrapper {
+  width: 100%;
   height: 400px;
 }

@@ -35,7 +35,7 @@ module.exports = {
     blogDetail: async (root, { slug }) => {
       try {
         blog = await Blog.findOne({ slug })
-          .populate("author", "name")
+          .populate("author")
           .populate("comments")
           .populate({
             path: "comments",

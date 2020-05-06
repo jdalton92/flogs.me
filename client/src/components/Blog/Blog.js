@@ -127,7 +127,7 @@ const Blog = () => {
         ) : (
           <>
             <Helmet>
-              <title>flogs.me: {title}</title>
+              <title>flogs.me | {title}</title>
             </Helmet>
             <div className="w100 blog-header-wrapper">
               <h2 className="blog-title">{title}</h2>
