@@ -11,18 +11,26 @@ import ToolsToTopBtn from "./Tools.ToTopBtn";
 import { Divider } from "../../styles/StyledComponents";
 
 const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
-  const [purchasePrice, setPurchasePrice] = useState(100);
-  const [deposit, setDeposit] = useState(10);
-  const [mortgageRate, setMortgageRate] = useState(3);
-  const [years, setYears] = useState(10);
-  const [growth, setGrowth] = useState(5);
+  const [view, setView] = useState("overall");
+  const [purchasePrice, setPurchasePrice] = useState("");
+  const [deposit, setDeposit] = useState("");
+  const [mortgageRate, setMortgageRate] = useState("");
+  const [years, setYears] = useState("");
+  const [growth, setGrowth] = useState("");
 
   const isValid = () =>
     purchasePrice && deposit && mortgageRate && years && growth;
 
-  const defaultData = [{ year: 0, house: 0, mortgage: 0 }];
-  let data = [];
+  const defaultData = [
+    {
+      year: 0,
+      cumulativePostFinanceCashflow: 0,
+      cumulativeMortgagePayment: 0,
+      cumulativeHouseCashflow: 0,
+    },
+  ];
 
+  let data = [];
   const dataSetCalc = () => {
     const g = growth / 100;
     const r = mortgageRate / 100;
@@ -62,8 +70,24 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
 
       const cumulativePostFinanceCashflow =
         x === 0
-          ? postFinanceCashflow
-          : data[x - 1].cumulativePostFinanceCashflow + postFinanceCashflow;
+          ? Math.round(postFinanceCashflow)
+          : Math.round(
+              data[x - 1].cumulativePostFinanceCashflow + postFinanceCashflow
+            );
+
+      const cumulativeMortgagePayment =
+        x === 0
+          ? Math.round(-loanInstallment - principalRepayment)
+          : Math.round(
+              data[x - 1].cumulativeMortgagePayment -
+                loanInstallment -
+                principalRepayment
+            );
+
+      const cumulativeHouseCashflow =
+        x === 0
+          ? Math.round(-purchasePrice)
+          : Math.round(data[x - 1].cumulativeHouseCashflow + sale);
 
       data.push({
         year: x,
@@ -79,12 +103,50 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
         closingBalance,
         postFinanceCashflow,
         cumulativePostFinanceCashflow,
+        cumulativeMortgagePayment,
+        cumulativeHouseCashflow,
       });
     }
   };
   dataSetCalc();
 
-  console.log("data: ", data);
+  let dataKey;
+  let message;
+  switch (view) {
+    case "house":
+      dataKey = "cumulativeHouseCashflow";
+      message = `you flipped the house for a ${
+        data[data.length - 1].cumulativeHouseCashflow > 0 ? "profit" : "loss"
+      } of ${new Intl.NumberFormat("en").format(
+        data[data.length - 1].cumulativeHouseCashflow
+      )} bucks`;
+      break;
+    case "mortgage":
+      dataKey = "cumulativeMortgagePayment";
+      message = `the mortgage cost you ${new Intl.NumberFormat("en").format(
+        -data[data.length - 1].cumulativeMortgagePayment
+      )} bucks`;
+      break;
+    case "overall":
+      dataKey = "cumulativePostFinanceCashflow";
+      message = `you ${
+        data[data.length - 1].cumulativePostFinanceCashflow > 0
+          ? "made"
+          : "lost"
+      } ${new Intl.NumberFormat("en").format(
+        data[data.length - 1].cumulativePostFinanceCashflow
+      )} bucks after ${years} years`;
+      break;
+    default:
+      dataKey = "cumulativePostFinanceCashflow";
+      message = `you ${
+        data[data.length - 1].cumulativePostFinanceCashflow > 0
+          ? "made"
+          : "lost"
+      } ${new Intl.NumberFormat("en").format(
+        data[data.length - 1].cumulativePostFinanceCashflow
+      )} bucks after ${years} years`;
+  }
 
   const CustomTooltip = ({ payload, active }) => {
     if (active && isValid()) {
@@ -94,10 +156,10 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
             year:{" "}
             {`${new Intl.NumberFormat("en").format(payload[0].payload.year)}`}
           </p>
-          <p className="balance">
-            balance:{" "}
+          <p className="position">
+            cumulative position:{" "}
             {`${new Intl.NumberFormat("en").format(
-              payload[0].payload.cumulativePostFinanceCashflow
+              payload[0].payload[dataKey]
             )}`}
           </p>
         </div>
@@ -105,6 +167,19 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
     }
 
     return null;
+  };
+
+  const handleChange = (e) => {
+    setView(e.target.value);
+  };
+
+  const handleClear = (e) => {
+    e.preventDefault();
+    setPurchasePrice("");
+    setDeposit("");
+    setMortgageRate("");
+    setYears("");
+    setGrowth("");
   };
 
   const handleLink = (e) => {
@@ -126,7 +201,7 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
         <h3>inputs</h3>
         <ol>
           <li>
-            <b>purchase price:</b> the amount the house costs
+            <b>purchase price:</b> the amount the house costs to buy today
           </li>
           <li>
             <b>desposit:</b> the size of the deposit
@@ -139,7 +214,7 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
             <b>years:</b> the total number of years you will own the house
           </li>
           <li>
-            <b>growth:</b> the annual compounding growth in price of the house
+            <b>growth:</b> the annual growth in price of the house
           </li>
         </ol>
       </div>
@@ -157,6 +232,7 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
             max="100000000"
             step="1"
           />
+          <span>{purchasePrice > 0 ? "price" : null}</span>
         </div>
         <div className="w100 flex-row-center tool-input-wrapper">
           <input
@@ -169,6 +245,7 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
             max="100000000"
             step="1"
           />
+          <span>{deposit > 0 ? "deposit" : null}</span>
         </div>
         <div className="w100 flex-row-center tool-input-wrapper">
           <input
@@ -211,23 +288,56 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
           />
           <span>{growth > 0 ? "% p.a." : null}</span>
         </div>
+        <button onClick={handleClear} className="tool-clear-btn secondary-btn">
+          clear
+        </button>
       </div>
       <div className="tool-summary-wrapper">
+        <h2>show</h2>
+        <div className="tool-radio-wrapper" onChange={handleChange}>
+          <div className="flex-row tool-radio">
+            <input
+              type="radio"
+              name="output"
+              value="house"
+              defaultChecked={view === "house"}
+            />
+            <label htmlFor="house">
+              house purchase/sale only (excl. mortgage payments)
+            </label>
+          </div>
+          <div className="flex-row tool-radio">
+            <input
+              type="radio"
+              name="output"
+              value="mortgage"
+              defaultChecked={view === "mortgage"}
+            />
+            <label htmlFor="mortgage">
+              mortgage payments only (excl. house purchase/sale)
+            </label>
+          </div>
+          <div className="flex-row tool-radio">
+            <input
+              type="radio"
+              name="output"
+              value="overall"
+              defaultChecked={view === "overall"}
+            />
+            <label htmlFor="other">
+              total (house puchase/sale + mortage payments)
+            </label>
+          </div>
+        </div>
         <h2>results</h2>
-        {/* {isValid()
-          ? `you made ${new Intl.NumberFormat("en").format(
-              data[data.length - 1].balance
-            )} bucks after ${years} years`
-          : "...waiting for inputs"} */}
+        <p className="tool-result">
+          {isValid() ? message : "...waiting for inputs"}
+        </p>
       </div>
       <div className="tool-chart-wrapper">
         <ResponsiveContainer>
           <LineChart data={isValid() ? data : defaultData}>
-            <Line
-              type="monotone"
-              dataKey="cumulativePostFinanceCashflow"
-              stroke="#000000"
-            />
+            <Line type="monotone" dataKey={dataKey} stroke="#000000" />
             <XAxis dataKey="year" />
             <YAxis
               tickFormatter={(value) =>
@@ -238,12 +348,21 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
           </LineChart>
         </ResponsiveContainer>
       </div>
-      <p>
-        for a more detailed calculation, visit our partners at{" "}
-        <span className="tool-link" onClick={handleLink}>
-          <u>PropertyInvestorDASH</u>
-        </span>
-      </p>
+      <div className="tool-chart-footer">
+        <b>note:</b>
+        <ul>
+          <li>
+            this calculator doesn't factor in tax, agents fees, legal costs, or
+            operatings costs of ownership etc
+          </li>
+          <li>
+            for a more detailed calculation, visit our partners at{" "}
+            <span className="tool-link" onClick={handleLink}>
+              <u>PropertyInvestorDASH</u>
+            </span>
+          </li>
+        </ul>
+      </div>
     </>
   );
 };

@@ -53,6 +53,13 @@ const ToolsCompounding = ({ handleFloatBlur, handleIntBlur }) => {
     return null;
   };
 
+  const handleClear = (e) => {
+    e.preventDefault();
+    setAnnualContribution("");
+    setYears("");
+    setGrowth("");
+  };
+
   return (
     <>
       <div className="tool-header-wrapper">
@@ -120,14 +127,19 @@ const ToolsCompounding = ({ handleFloatBlur, handleIntBlur }) => {
           />
           <span>{growth > 0 ? "% p.a." : null}</span>
         </div>
+        <button onClick={handleClear} className="tool-clear-btn secondary-btn">
+          clear
+        </button>
       </div>
       <div className="tool-summary-wrapper">
         <h2>results</h2>
-        {isValid()
-          ? `you have ${new Intl.NumberFormat("en").format(
-              data[data.length - 1].balance
-            )} bucks after ${years} years`
-          : "...waiting for inputs"}
+        <p className="tool-result">
+          {isValid()
+            ? `you have ${new Intl.NumberFormat("en").format(
+                data[data.length - 1].balance
+              )} bucks after ${years} years`
+            : "...waiting for inputs"}
+        </p>
       </div>
       <div className="tool-chart-wrapper">
         <ResponsiveContainer>

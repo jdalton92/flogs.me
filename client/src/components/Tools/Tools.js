@@ -75,7 +75,7 @@ const Tools = () => {
     <section className="flex-col tools-section">
       <div ref={compoundRef} className="tool-link-wrapper">
         <div className="tool-header-wrapper">
-          <h1>flogs.me calculators</h1>
+          <h1>tools</h1>
           <Divider width={"100%"} />
         </div>
         <ul>

@@ -17,7 +17,7 @@ const ToolsToTopButton = () => {
     }
   };
   return (
-    <button onClick={handleClick} className="secondary-btn tool-top-btn">
+    <button onClick={handleClick} className="primary-btn tool-top-btn">
       top
       <i className="tool-arrow-up"></i>
     </button>
