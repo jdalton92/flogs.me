@@ -8,8 +8,9 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
-const typeDefs = require("./schema/schema");
-const resolvers = require("./resolvers/resolvers");
+const typeDefs = require("./schema/index");
+const resolvers = require("./resolvers/index");
+
 const User = require("./models/user");
 
 mongoose.set("useFindAndModify", false);

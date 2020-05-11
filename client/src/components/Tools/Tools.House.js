@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   LineChart,
   Line,
@@ -7,11 +7,13 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import Context from "../../context/Context";
 import ToolsToTopBtn from "./Tools.ToTopBtn";
 import { Divider } from "../../styles/StyledComponents";
 
 const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
-  const [view, setView] = useState("overall");
+  const { setNotification } = useContext(Context);
+  const [houseView, setHouseView] = useState("overall");
   const [purchasePrice, setPurchasePrice] = useState("");
   const [deposit, setDeposit] = useState("");
   const [mortgageRate, setMortgageRate] = useState("");
@@ -112,7 +114,7 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
 
   let dataKey;
   let message;
-  switch (view) {
+  switch (houseView) {
     case "house":
       dataKey = "cumulativeHouseCashflow";
       message = `you flipped the house for a ${
@@ -123,7 +125,7 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
       break;
     case "mortgage":
       dataKey = "cumulativeMortgagePayment";
-      message = `the mortgage cost you ${new Intl.NumberFormat("en").format(
+      message = `the mortgage costs you ${new Intl.NumberFormat("en").format(
         -data[data.length - 1].cumulativeMortgagePayment
       )} bucks`;
       break;
@@ -170,7 +172,15 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
   };
 
   const handleChange = (e) => {
-    setView(e.target.value);
+    if (isValid()) {
+      setHouseView(e.target.value);
+    } else {
+      setNotification({
+        type: "fail",
+        title: "¯\\_(ツ)_/¯",
+        message: "update all inputs to see results",
+      });
+    }
   };
 
   const handleClear = (e) => {
@@ -300,7 +310,7 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
               type="radio"
               name="output"
               value="house"
-              defaultChecked={view === "house"}
+              defaultChecked={houseView === "house"}
             />
             <label htmlFor="house">
               house purchase/sale only (excl. mortgage payments)
@@ -311,7 +321,7 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
               type="radio"
               name="output"
               value="mortgage"
-              defaultChecked={view === "mortgage"}
+              defaultChecked={houseView === "mortgage"}
             />
             <label htmlFor="mortgage">
               mortgage payments only (excl. house purchase/sale)
@@ -322,7 +332,7 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
               type="radio"
               name="output"
               value="overall"
-              defaultChecked={view === "overall"}
+              defaultChecked={houseView === "overall"}
             />
             <label htmlFor="other">
               total (house puchase/sale + mortage payments)

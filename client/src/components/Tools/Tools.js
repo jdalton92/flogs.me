@@ -12,6 +12,7 @@ const Tools = () => {
   const houseRef = useRef(null);
   const budgetRef = useRef(null);
   const hash = history.location.hash;
+  const key = history.location.key;
 
   useEffect(() => {
     if (hash.includes("compound")) {
@@ -33,7 +34,7 @@ const Tools = () => {
         inline: "center",
       });
     }
-  }, [hash, history.location.key]);
+  }, [hash, key]);
 
   const handleLink = (hash) => {
     history.push(`/tools#${hash}`);

@@ -1,14 +1,11 @@
 import React, { useEffect, useContext } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ReactGA from "react-ga";
 import Context from "./context/Context";
 
+import CustomRoute from "./utils/CustomRoute";
 import ScrollToTop from "./utils/ScrollToTop";
+
 import DynamicTitle from "./utils/DynamicTitle";
 import NoMatch from "./components/NoMatch";
 import Notification from "./components/Notification";
@@ -18,7 +15,6 @@ import Blogs from "./components/Blogs/Blogs";
 import Blog from "./components/Blog/Blog";
 import BlogAdmin from "./components/Blog.Admin";
 import Tools from "./components/Tools/Tools";
-// import Merch from "./components/Merch";
 import Contact from "./components/Contact";
 import FAQ from "./components/FAQ";
 import AccountSummary from "./components/Account.Summary";
@@ -28,7 +24,8 @@ import Footer from "./components/Footer";
 import "./styles/App.css";
 
 const App = () => {
-  const { meError, meLoading, meData, meRefetch } = useContext(Context);
+  const { meRefetch } = useContext(Context);
+
   //Init user on page render if logged in previously
   useEffect(() => {
     const existingToken = localStorage.getItem("flogsToken");
@@ -66,18 +63,11 @@ const App = () => {
           />
           <Route path="/blog/:slug" render={() => <Blog />} />
           <Route exact path="/tools" render={() => <Tools />} />
-          {/* <Route path="/merch" render={() => <Merch />} /> */}
           <Route path="/contact" render={() => <Contact />} />
           <Route path="/faq" render={() => <FAQ />} />
           <Route path="/user/:id" render={() => <AccountSummary />} />
-          {!meError && !meLoading && meData.me !== null ? (
-            <>
-              <Route path="/blog-admin" render={() => <BlogAdmin />} />
-              <Route path="/settings" render={() => <AccountSettings />} />
-            </>
-          ) : (
-            <Redirect to="/" />
-          )}
+          <CustomRoute path="/blog-admin" render={() => <BlogAdmin />} />
+          <CustomRoute path="/settings" render={() => <AccountSettings />} />
           <Route render={() => <NoMatch />} />
         </Switch>
         <Footer />

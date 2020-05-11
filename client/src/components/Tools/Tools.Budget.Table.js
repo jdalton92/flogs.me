@@ -9,8 +9,17 @@ const ToolsBudgetTable = ({ handleIntBlur, title, data, setData }) => {
   const [monthly, setMonthly] = useState("");
   const [annual, setAnnual] = useState("");
 
-  const addItem = (e) => {
+  const handleAdd = (e) => {
     e.preventDefault();
+
+    if (data.length > 6) {
+      setNotification({
+        type: "fail",
+        title: "¯\\_(ツ)_/¯",
+        message: "max 6 income, or expense items",
+      });
+      return;
+    }
     if (isValid()) {
       setData([
         ...data,
@@ -20,6 +29,7 @@ const ToolsBudgetTable = ({ handleIntBlur, title, data, setData }) => {
           id: uuid(),
         },
       ]);
+      setDescription("");
       setWeekly("");
       setMonthly("");
       setAnnual("");
@@ -56,97 +66,108 @@ const ToolsBudgetTable = ({ handleIntBlur, title, data, setData }) => {
   const isValid = () => description && weekly && monthly && annual;
 
   return (
-    <table className="w100 tool-table-wrapper">
-      <thead>
-        <tr className="flex-row">
-          <th className="flex-1">{title}</th>
-          <th className="flex-1">amount p.w.</th>
-          <th className="flex-1">amount p.m.</th>
-          <th className="flex-1">amount p.a.</th>
-          <th className="tool-table-action"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr key={title} className="flex-row">
-          <td className="flex-1">
-            <input
-              placeholder="description"
-              value={description}
-              onChange={({ target }) => setDescription(target.value || "")}
-              type="text"
-              minLength={0}
-              maxLength={50}
-            />
-          </td>
-          <td className="flex-1">
-            <input
-              placeholder="weekly amount"
-              name="weekly"
-              value={weekly}
-              onChange={handleNumberChange}
-              onBlur={({ target }) => handleIntBlur(target, setWeekly)}
-              type="number"
-              min="0"
-              max="1000000"
-              step="1"
-            />
-          </td>
-          <td className="flex-1">
-            <input
-              name="monthly"
-              placeholder="monthly amount"
-              value={monthly}
-              onChange={handleNumberChange}
-              onBlur={({ target }) => handleIntBlur(target, setMonthly)}
-              type="number"
-              min="0"
-              max="1000000"
-              step="1"
-            />
-          </td>
-          <td className="flex-1">
-            <input
-              name="annual"
-              placeholder="annual amount"
-              value={annual}
-              onChange={handleNumberChange}
-              onBlur={({ target }) => handleIntBlur(target, setAnnual)}
-              type="number"
-              min="0"
-              max="1000000"
-              step="1"
-            />
-          </td>
-          <td className="tool-table-action">
-            <button
-              onClick={addItem}
-              type="button"
-              className="primary-btn tool-table-add"
-              // disabled={!isValid()}
-            >
-              add
-            </button>
-          </td>
-        </tr>
-        {data.map((d) => (
-          <tr className="flex-row tool-table-row" key={d.id}>
-            <td className="flex-1">{d.description}</td>
-            <td className="flex-1">{parseInt(d.amount / 52)}</td>
-            <td className="flex-1">{parseInt(d.amount / 12)}</td>
-            <td className="flex-1">{parseInt(d.amount)}</td>
+    <form className="tool-table-form" onSubmit={handleAdd}>
+      <table className="w100 tool-table-wrapper">
+        <thead>
+          <tr className="flex-row">
+            <th className="flex-1">{title}</th>
+            <th className="flex-1">amount p.w.</th>
+            <th className="flex-1 tool-desktop-input">amount p.m.</th>
+            <th className="flex-1 tool-desktop-input">amount p.a.</th>
+            <th className="tool-table-action"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr key={title} className="flex-row">
+            <td className="flex-1">
+              <input
+                placeholder="description"
+                value={description}
+                onChange={({ target }) => setDescription(target.value || "")}
+                type="text"
+                minLength={0}
+                maxLength={50}
+                required
+              />
+            </td>
+            <td className="flex-1">
+              <input
+                placeholder="weekly amount"
+                name="weekly"
+                value={weekly}
+                onChange={handleNumberChange}
+                onBlur={({ target }) => handleIntBlur(target, setWeekly)}
+                type="number"
+                min="0"
+                max="1000000"
+                step="1"
+                required
+              />
+            </td>
+            <td className="flex-1 tool-desktop-input">
+              <input
+                name="monthly"
+                placeholder="monthly amount"
+                value={monthly}
+                onChange={handleNumberChange}
+                onBlur={({ target }) => handleIntBlur(target, setMonthly)}
+                type="number"
+                min="0"
+                max="4000000"
+                step="1"
+                required
+              />
+            </td>
+            <td className="flex-1 tool-desktop-input">
+              <input
+                name="annual"
+                placeholder="annual amount"
+                value={annual}
+                onChange={handleNumberChange}
+                onBlur={({ target }) => handleIntBlur(target, setAnnual)}
+                type="number"
+                min="0"
+                max="52000000"
+                step="1"
+                required
+              />
+            </td>
             <td className="tool-table-action">
               <button
-                onClick={() => deleteItem(d.id)}
-                type="button"
-                className="secondary-btn tool-table-delete"
+                type="submit"
+                className="primary-btn tool-table-add"
+                // disabled={!isValid()}
               >
-                x
+                add
               </button>
             </td>
           </tr>
-        ))}
-      </tbody>
-    </table>
+          {data.map((d) => (
+            <tr className="flex-row tool-table-row" key={d.id}>
+              <td className="flex-1">{d.description}</td>
+              <td className="flex-1">
+                {new Intl.NumberFormat("en").format(parseInt(d.amount / 52))}
+              </td>
+              <td className="flex-1 tool-desktop-input">
+                {new Intl.NumberFormat("en").format(parseInt(d.amount / 12))}
+              </td>
+              <td className="flex-1 tool-desktop-input">
+                {new Intl.NumberFormat("en").format(parseInt(d.amount))}
+              </td>
+              <td className="tool-table-action">
+                <button
+                  onClick={() => deleteItem(d.id)}
+                  type="button"
+                  className="secondary-btn tool-table-delete"
+                >
+                  x
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </form>
   );
 };
 
