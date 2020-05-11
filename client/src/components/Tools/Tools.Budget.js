@@ -44,11 +44,11 @@ const ToolsBudget = ({ handleIntBlur }) => {
     totalIncome =
       income.length === 1
         ? income[0].amount
-        : income.reduce((a, c) => a.amount + c.amount);
+        : income.reduce((a, c) => a + (c.amount || 0), 0);
     totalExpenses =
       expenses.length === 1
         ? expenses[0].amount
-        : expenses.reduce((a, c) => a.amount + c.amount);
+        : expenses.reduce((a, c) => a + (c.amount || 0), 0);
   }
 
   //Transform data to be weekly/monthly/annual

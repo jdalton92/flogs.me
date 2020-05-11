@@ -389,7 +389,6 @@ const BlogAdd = () => {
               type="url"
               name="img"
               placeholder="image url"
-              required
             />
             <textarea
               className="blog-add-input"
