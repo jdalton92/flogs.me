@@ -12,7 +12,7 @@ const FeaturedList = ({ title, dataObject, loading, error }) => {
 
   const Body = ({ data }) => {
     if (data.length === 0) {
-      return <div>No data</div>;
+      return <div>no data</div>;
     } else if (Object.keys(dataObject)[0].toLowerCase().includes("blog")) {
       return (
         <>

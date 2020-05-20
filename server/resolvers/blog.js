@@ -80,15 +80,17 @@ module.exports = {
       }
 
       const user = await User.findById(currentUser._id);
-      const existing = user.savedBlogs.filter((b) => b === blogId);
+      const existing = user.savedBlogs.filter((b) => b == blogId);
 
       if (existing.length > 0) {
         throw new ApolloError("blog already saved");
       }
 
       try {
-        user.savedBlogs = user.blogs.concat(blogId);
-        await user.save();
+        await User.findOneAndUpdate(
+          { _id: currentUser._id },
+          { $push: { savedBlogs: blogId } }
+        );
         return;
       } catch (e) {
         throw new UserInputError(e.message, {
@@ -120,10 +122,11 @@ module.exports = {
       });
 
       try {
-        const user = await User.findById(currentUser._id);
-        user.blogs = user.blogs.concat(blog._id);
+        await User.findOneAndUpdate(
+          { _id: currentUser._id },
+          { $push: { blogs: blog._id } }
+        );
 
-        await user.save();
         await blog.save();
       } catch (e) {
         throw new UserInputError(e.message, {

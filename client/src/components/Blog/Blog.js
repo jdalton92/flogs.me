@@ -84,7 +84,7 @@ const Blog = () => {
       setNotification({
         type: "success",
         title: "ヽ(•‿•)ノ",
-        message: "blog saved",
+        message: "blog saved, view account summary for saved blog list",
       });
     } catch (e) {
       console.log(saveBlogError);

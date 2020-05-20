@@ -15,6 +15,7 @@
 
 .tool-link-wrapper li {
   margin: 15px 0;
+  text-decoration: underline;
 }
 
 .tool-link:hover {

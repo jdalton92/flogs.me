@@ -89,7 +89,7 @@
 .blog-body-image {
   width: 100%;
   height: auto;
-  max-height: 700px;
+  max-height: 800px;
   object-fit: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -97,6 +97,7 @@
 
 .blog-body-content {
   padding: 0 30px 0 30px;
+  line-height: 1.7em;
 }
 
 .blog-aside-wrapper {
@@ -116,7 +117,7 @@
 }
 
 .blog-aside-li-wrapper {
-  padding: 5px;
+  padding: 10px;
   border-radius: 5px;
   transition: all 0.3s ease;
 }

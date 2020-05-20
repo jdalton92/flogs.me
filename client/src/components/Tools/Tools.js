@@ -81,10 +81,10 @@ const Tools = () => {
         </div>
         <ul>
           <li className="tool-link" onClick={() => handleLink("compound")}>
-            compounding savings
+            compounding savings calculator
           </li>
           <li className="tool-link" onClick={() => handleLink("house")}>
-            buy a house
+            buy a house calculator
           </li>
           <li className="tool-link" onClick={() => handleLink("budget")}>
             budget tool
