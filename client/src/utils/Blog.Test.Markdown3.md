@@ -20,9 +20,13 @@ TO DO
 
 TO DO
 
-Algorithm efficiency O(n) etc
+# Algorithm efficiency
+
 &nbsp;
 &nbsp;
+
+**O(1)**
+**Constant**
 
 # Software Engineering Environments
 
@@ -38,16 +42,6 @@ Algorithm efficiency O(n) etc
 &nbsp;
 
 **- DevOps:** TO DO
-
-&nbsp;
-&nbsp;
-
-# Software Development Life Cycle (SDLC)
-
-&nbsp;
-&nbsp;
-
-TO DO
 
 &nbsp;
 &nbsp;

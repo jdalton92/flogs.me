@@ -16,6 +16,7 @@ const Home = () => {
   } = useQuery(FEATURED_BLOGS, {
     variables: { field: "comments.length", top: 5, order: "descending" },
   });
+
   const {
     data: recentBlogData,
     error: recentBlogError,
