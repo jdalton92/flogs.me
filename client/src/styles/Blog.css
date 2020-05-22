@@ -2,6 +2,20 @@
   min-height: 80vh;
 }
 
+.blog-top-btn-wrapper {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  margin: 0 25px 10px 0;
+  transition: opacity 0.5s;
+  opacity: 1;
+}
+
+.hide-btn {
+  opacity: 0;
+  pointer-events: none;
+}
+
 .blog-wrapper {
   padding-bottom: 50px;
 }

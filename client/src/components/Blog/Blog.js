@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useRef } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import Context from "../../context/Context";
 import { Helmet } from "react-helmet";
 import { useParams, useHistory } from "react-router-dom";
@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_BLOG, SAVE_BLOG } from "../../queries/blogQueries";
 import { GET_COMMENTS } from "../../queries/commentQueries";
+import ToTopBtn from "../ToTopBtn";
 import BlogComments from "./Blog.Comments";
 import BlogAddComment from "./Blog.AddComment";
 import "../../styles/Blog.css";
@@ -16,6 +17,7 @@ const Blog = () => {
   const slug = useParams().slug;
   const history = useHistory();
   const { setNotification, meData } = useContext(Context);
+  const [viewButton, setViewButton] = useState(false);
   const [saveBlog, { error: saveBlogError }] = useMutation(SAVE_BLOG);
   const {
     data: blogData,
@@ -32,10 +34,28 @@ const Blog = () => {
   } = useQuery(GET_COMMENTS, {
     variables: { slug },
   });
+
+  // Get new blog when slug changes
   useEffect(() => {
     blogRefetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
+
+  // Show "to top" btn when scroll past blog image
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 350) {
+        setViewButton(true);
+      } else {
+        setViewButton(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Remove on clean up
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [viewButton]);
 
   let title;
   let blogId;
@@ -116,6 +136,13 @@ const Blog = () => {
 
   return (
     <section className="blog-section w100 h100">
+      <div
+        className={`${
+          viewButton ? "show-btn" : "hide-btn"
+        } blog-top-btn-wrapper`}
+      >
+        <ToTopBtn />
+      </div>
       <div className="flex-col-center blog-wrapper">
         {blogLoading || blogError ? (
           <>

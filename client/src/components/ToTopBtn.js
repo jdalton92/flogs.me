@@ -1,11 +1,8 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 
-const ToolsToTopButton = () => {
-  const history = useHistory();
+const ToTopButton = () => {
   const handleClick = (e) => {
     e.preventDefault();
-    history.push("/tools");
     try {
       window.scroll({
         top: 0,
@@ -24,4 +21,4 @@ const ToolsToTopButton = () => {
   );
 };
 
-export default ToolsToTopButton;
+export default ToTopButton;

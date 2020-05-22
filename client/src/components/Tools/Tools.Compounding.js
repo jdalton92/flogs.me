@@ -7,7 +7,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import ToolsToTopBtn from "./Tools.ToTopBtn";
+import ToTopBtn from "../ToTopBtn";
 import { Divider } from "../../styles/StyledComponents";
 
 const ToolsCompounding = ({ handleFloatBlur, handleIntBlur }) => {
@@ -65,7 +65,7 @@ const ToolsCompounding = ({ handleFloatBlur, handleIntBlur }) => {
       <div className="tool-header-wrapper">
         <h2>compounding savings calculator</h2>
         <Divider width={"100%"} />
-        <ToolsToTopBtn />
+        <ToTopBtn />
       </div>
       <div className="w100 tool-instruction-wrapper">
         <h3>inputs</h3>

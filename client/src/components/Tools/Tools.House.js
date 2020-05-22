@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import Context from "../../context/Context";
-import ToolsToTopBtn from "./Tools.ToTopBtn";
+import ToTopBtn from "../ToTopBtn";
 import { Divider } from "../../styles/StyledComponents";
 
 const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
@@ -205,7 +205,7 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
       <div className="tool-header-wrapper">
         <h2>buy a house</h2>
         <Divider width={"100%"} />
-        <ToolsToTopBtn />
+        <ToTopBtn />
       </div>
       <div className="w100 tool-instruction-wrapper">
         <h3>inputs</h3>

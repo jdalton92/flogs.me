@@ -7,7 +7,7 @@ import {
   YAxis,
   ResponsiveContainer,
 } from "recharts";
-import ToolsToTopBtn from "./Tools.ToTopBtn";
+import ToTopBtn from "../ToTopBtn";
 import ToolsBudgetTable from "./Tools.Budget.Table";
 import Context from "../../context/Context";
 import { Divider } from "../../styles/StyledComponents";
@@ -121,7 +121,7 @@ const ToolsBudget = ({ handleIntBlur }) => {
       <div className="tool-header-wrapper">
         <h2>budget calculator</h2>
         <Divider width={"100%"} />
-        <ToolsToTopBtn />
+        <ToTopBtn />
       </div>
       <div className="w100 tool-instruction-wrapper">
         <h3>inputs</h3>

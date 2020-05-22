@@ -38,7 +38,7 @@ const Home = () => {
       <div className="w100 home-slogan-wrapper flex-row">
         <div className="home-slogan-left">
           <h1>flogs.me</h1>
-          <h3>for when you got nothin' else going on</h3>
+          <h3>the blog for when you got nothin' else going on</h3>
         </div>
         <div className="home-slogan-right">
           <img alt="flogs.me" src={flogs} className="home-slogan-img" />
