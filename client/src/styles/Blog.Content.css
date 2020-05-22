@@ -6,10 +6,16 @@
   margin: 30px 0;
 }
 
+.blog-body-content span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .blog-content-img-small,
 .blog-content-img-medium,
 .blog-content-img-large {
-  margin: 10px auto;
+  margin: 10px auto 10px auto;
   max-width: 100%;
   width: auto;
   object-fit: cover;

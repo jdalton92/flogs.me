@@ -127,6 +127,13 @@ module.exports = {
           { $push: { blogs: blog._id } }
         );
 
+        // Add new blog to similar blogs of
+        // existing blogs for those selected
+        await Blog.updateMany(
+          { _id: { $in: similarBlogs } },
+          { $push: { similarBlogs: blog._id } }
+        );
+
         await blog.save();
       } catch (e) {
         throw new UserInputError(e.message, {

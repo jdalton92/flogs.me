@@ -200,10 +200,10 @@ const Blog = () => {
                   </button>
                 </div>
               </div>
-              <div className="flex-3 flex-col blog-body-content">
+              <div className="flex-col blog-body-content">
                 <ReactMarkdown source={content} escapeHtml={false} />
               </div>
-              <aside className="flex-1 blog-aside-wrapper">
+              <aside className="blog-aside-wrapper">
                 <div className="blog-aside-detail">
                   <h2>if you like this, then check out:</h2>
                   {similarBlogs.length === 0 && (
