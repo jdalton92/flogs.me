@@ -223,7 +223,9 @@ const BlogAdd = () => {
         featuredBlogsError ||
         featuredBlogsLoading ? (
           <>
-            {(blogsLoading || featuredBlogsLoading) && (
+            {(blogsLoading ||
+              featuredBlogsLoading ||
+              blogsData === undefined) && (
               <div className="loader-spinner">loading...</div>
             )}
             {(blogsError || featuredBlogsError) && (
@@ -302,10 +304,10 @@ const BlogAdd = () => {
         blogsError ||
         blogsData === undefined ? (
           <>
-            {(addBlogLoading || blogsLoading) && (
+            {(addBlogLoading || blogsLoading || blogsData === undefined) && (
               <div className="loader-spinner">loading...</div>
             )}
-            {(addBlogError || blogsError || blogsData) && (
+            {(addBlogError || blogsError) && (
               <div style={{ marginTop: "10px", textAlign: "center" }}>
                 error adding blog...
               </div>
@@ -429,7 +431,9 @@ const BlogAdd = () => {
         deleteBlogsError ||
         deleteBlogsLoading ? (
           <>
-            {(blogsLoading || deleteBlogsLoading) && (
+            {(blogsLoading ||
+              deleteBlogsLoading ||
+              blogsData === undefined) && (
               <div className="loader-spinner">loading...</div>
             )}
             {(blogsError || deleteBlogsError) && (

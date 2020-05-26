@@ -52,7 +52,7 @@ A summary of some of the most common primitive data types and structures is belo
 
 &nbsp;
 
-**- Array:** an array is a data structure that stores items next to each other. In lower order languages, arrays are generally fixed in size, and to modify would require creating a new array.
+**- Array:** an array is a data structure that stores items next to each other. In lower order languages, arrays are generally fixed in size, and to modify would require creating a new array. Arrays are typically used as building blocks for more complex data structures.
 
 &nbsp;
 
@@ -60,11 +60,7 @@ A summary of some of the most common primitive data types and structures is belo
 
 &nbsp;
 
-**- Object:** an object is similar to a record where it can contain data field's, however an object also contains various _methods_ that can be performed on the data. A _method_ defines the behaviour of the data within the object.
-
-&nbsp;
-
-<img class="blog-content-img-medium" src="https://i.imgur.com/rmUPP6l.png" />
+**- Object:** an object is similar to a record where it can contain data fields, however an object also contains various _methods_ that can be performed on the data. A _method_ defines the behaviour of the data within the object.
 
 &nbsp;
 
@@ -104,3 +100,5 @@ To store every word of a dictionary as a hash table, each letter of the alphabet
 
 &nbsp;
 &nbsp;
+
+There are many more complex data types, and data structures, that are common in computer science application however the above concise over gives a good footing into some fundamental concepts that are important to understand for all levels of programming, and data science.
