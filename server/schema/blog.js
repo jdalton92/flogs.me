@@ -33,6 +33,17 @@ module.exports = gql`
       similarBlogs: [ID]
     ): Blog
 
+    editBlog(
+      _id: ID!
+      title: String!
+      slug: String!
+      category: String!
+      tags: [String]!
+      content: String!
+      img: String
+      similarBlogs: [ID]
+    ): Blog
+
     saveBlog(blogId: ID!): Blog
 
     removeBlogs(blogId: ID!): Boolean

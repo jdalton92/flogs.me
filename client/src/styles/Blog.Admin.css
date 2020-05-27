@@ -26,58 +26,62 @@
 }
 
 .blog-featured-wrapper,
+.blog-edit-wrapper,
 .blog-delete-wrapper,
-.blog-add-wrapper {
+.blog-action-wrapper {
   width: 90%;
   padding: 50px 5px 0 5px;
 }
 
 .blog-featured-header-wrapper h1,
+.blog-edit-wrapper h1,
 .blog-delete-header-wrapper h1,
-.blog-add-header-wrapper h1 {
+.blog-action-header-wrapper h1 {
   font-size: 36px;
   margin-bottom: 10px;
 }
 
+.blog-edit-form,
 .blog-featured-form,
 .blog-delete-form,
-.blog-add-form {
+.blog-action-form {
   margin-top: 25px;
 }
 
+.blog-edit-form select,
 .blog-featured-form select,
 .blog-delete-form select,
-.blog-add-form select,
-.blog-add-form textarea,
-.blog-add-form input {
+.blog-action-form select,
+.blog-action-form textarea,
+.blog-action-form input {
   margin-top: 10px;
   padding: 5px;
 }
 
-.blog-add-input {
+.blog-action-input {
   width: 100%;
 }
 
-.blog-add-tags-wrapper input {
+.blog-action-tags-wrapper input {
   width: 100%;
 }
 
-.blog-add-tags-btn {
+.blog-action-tags-btn {
   height: 30px !important;
 }
 
-.blog-add-tags-list-wrapper {
+.blog-action-tags-list-wrapper {
   margin-top: 10px;
   display: flex;
 }
 
-.blog-add-tags-list {
+.blog-action-tags-list {
   padding-left: 5px;
   display: flex;
   flex-wrap: wrap;
 }
 
-.blog-add-tag {
+.blog-action-tag {
   padding: 0 10px;
   border: 1px solid black;
   margin-right: 10px;
@@ -88,14 +92,14 @@
   margin-bottom: 5px;
 }
 
-.blog-add-delete-tag-wrapper {
+.blog-action-delete-tag-wrapper {
   width: 30px;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
 }
 
-.blog-add-tag-delete-btn {
+.blog-action-tag-delete-btn {
   width: 15px !important;
   border-radius: 15px;
   border: none;
@@ -105,22 +109,23 @@
   transition: background-color 0.2s ease;
 }
 
-.blog-add-tag-delete-btn:hover {
+.blog-action-tag-delete-btn:hover {
   cursor: pointer;
   background-color: lightgrey;
 }
 
-.blog-add-form textarea {
+.blog-action-form textarea {
   height: 300px;
 }
 
-.blog-add-caption {
+.blog-action-caption {
   margin-top: 10px;
 }
 
 .featured-list-submit-btn,
 .blog-delete-form button,
-.blog-add-form button {
+.blog-action-form button,
+.blog-edit-form button {
   margin-top: 10px;
   width: 200px;
 }
@@ -131,12 +136,46 @@
 }
 
 .blog-delete-form button,
-.blog-add-form button {
+.blog-action-form button,
+.blog-edit-form button {
   max-width: 50%;
 }
 
+.blog-admin-overlay {
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.5);
+  transition: opacity 200ms;
+  opacity: 1;
+}
+
+.blog-admin-modal {
+  margin: 50px auto;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #666;
+  width: 90%;
+  border-radius: 6px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.blog-admin-close {
+  text-align: end;
+}
+
+.blog-admin-close span:hover {
+  cursor: pointer;
+}
+
 @media screen and (max-width: 768px) {
-  .blog-add-form button {
+  .blog-action-form button {
     width: 100%;
   }
 

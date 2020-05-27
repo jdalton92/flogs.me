@@ -1,18 +1,20 @@
 import React, { useState, useEffect, useContext } from "react";
-import { v4 as uuid } from "uuid";
-import Context from "../context/Context";
-import { useMutation } from "@apollo/client";
+import Context from "../../context/Context";
+import { useMutation, useLazyQuery } from "@apollo/client";
 import {
   ALL_BLOGS,
   ADD_BLOG,
   DELETE_BLOGS,
   FEATURED_BLOGS,
   SET_FEATURE_BLOGS,
-} from "../queries/blogQueries";
-import { Divider } from "../styles/StyledComponents";
-import "../styles/Blog.Admin.css";
+  GET_BLOG,
+} from "../../queries/blogQueries";
+import BlogAdminBlogAction from "./Blog.Admin.BlogAction";
+import BlogAdminModal from "./Blog.Admin.Modal";
+import { Divider } from "../../styles/StyledComponents";
+import "../../styles/Blog.Admin.css";
 
-const BlogAdd = () => {
+const BlogAdmin = () => {
   const {
     setNotification,
     blogsSearch,
@@ -20,13 +22,11 @@ const BlogAdd = () => {
     blogsLoading,
     blogsError,
   } = useContext(Context);
+  const [editBlogSlug, setEditBlogSlug] = useState("");
+  const [showModal, setShowModal] = useState(false);
   const [deletedBlogs, setDeletedBlogsForm] = useState([]);
   const [featuredBlogs, setFeaturedBlogs] = useState([]);
-  const [similarBlogs, setSimilarBlogs] = useState([]);
   const [nonFeaturedBlogs, setNonFeaturedBlogs] = useState([]);
-  const [variables, setAddBlogForm] = useState({ tags: [], similarBlogs: [] });
-  const [tag, setTag] = useState("");
-  const [tags, setTags] = useState([]);
   const [
     addBlog,
     { error: addBlogError, loading: addBlogLoading },
@@ -39,6 +39,10 @@ const BlogAdd = () => {
     featureBlogs,
     { error: featuredBlogsError, loading: featuredBlogsLoading },
   ] = useMutation(SET_FEATURE_BLOGS);
+  const [
+    getBlog,
+    { data: blogData, error: blogError, loading: blogLoading },
+  ] = useLazyQuery(GET_BLOG);
 
   useEffect(() => {
     blogsSearch({ variables: { all: true } });
@@ -58,42 +62,10 @@ const BlogAdd = () => {
   };
 
   //Handle add blog
-  const addBlogFormHandler = (e) => {
-    setAddBlogForm({ ...variables, [e.target.name]: e.target.value });
-  };
-
-  const tagHandler = (e) => {
-    e.preventDefault();
-    setTag(e.target.value);
-  };
-
-  const handleAddTag = (e) => {
-    e.preventDefault();
-    setTags([...tags, { tag, _id: uuid() }]);
-    setTag("");
-  };
-
-  const handleRemoveTag = (id) => {
-    const filterTags = tags.filter((t) => t._id !== id);
-    setTags(filterTags);
-    setTag("");
-  };
-
-  const similarBlogsHandler = (e) => {
-    const value = multiSelectHandler(e);
-    setSimilarBlogs(value);
-  };
-
-  const handleAddBlog = (e) => {
-    e.preventDefault();
-    const tagsReduced = tags.map((t) => t.tag);
+  const handleAddBlog = (variables) => {
     try {
       addBlog({
-        variables: {
-          ...variables,
-          tags: [...tagsReduced],
-          similarBlogs,
-        },
+        variables,
         refetchQueries: [
           {
             query: ALL_BLOGS,
@@ -102,7 +74,6 @@ const BlogAdd = () => {
         ],
         awaitRefetchQueries: true,
       });
-      setTags([]);
       setNotification({
         type: "success",
         title: "ヽ(•‿•)ノ",
@@ -118,29 +89,52 @@ const BlogAdd = () => {
     }
   };
 
+  //Handle edit blog
+  const handleEditBlog = (e) => {
+    e.preventDefault();
+    if (!editBlogSlug) {
+      setNotification({
+        type: "fail",
+        title: "¯\\_(ツ)_/¯",
+        message: "select blog to edit",
+      });
+    } else {
+      getBlog({ variables: { slug: editBlogSlug } });
+      setShowModal(true);
+    }
+  };
+
   //Handle delete blogs
   const handleDeleteBlogs = (e) => {
     e.preventDefault();
-    const confirm = window.confirm(`permanently delete blog? `);
-    if (confirm) {
-      try {
-        deleteBlogs({
-          variables: { blogId: deletedBlogs },
-          refetchQueries: [
-            {
-              query: ALL_BLOGS,
-              variables: { all: true },
-            },
-          ],
-          awaitRefetchQueries: true,
-        });
-      } catch (e) {
-        console.log(deleteBlogsError);
-        setNotification({
-          type: "fail",
-          title: "¯\\_(ツ)_/¯",
-          message: e.message,
-        });
+    if (deletedBlogs.length === 0) {
+      setNotification({
+        type: "fail",
+        title: "¯\\_(ツ)_/¯",
+        message: "select blog to delete",
+      });
+    } else {
+      const confirm = window.confirm(`permanently delete blog? `);
+      if (confirm) {
+        try {
+          deleteBlogs({
+            variables: { blogId: deletedBlogs },
+            refetchQueries: [
+              {
+                query: ALL_BLOGS,
+                variables: { all: true },
+              },
+            ],
+            awaitRefetchQueries: true,
+          });
+        } catch (e) {
+          console.log(deleteBlogsError);
+          setNotification({
+            type: "fail",
+            title: "¯\\_(ツ)_/¯",
+            message: e.message,
+          });
+        }
       }
     }
   };
@@ -293,132 +287,71 @@ const BlogAdd = () => {
           </form>
         )}
       </div>
-      <div className="m-auto blog-add-wrapper">
-        <div className="blog-add-header-wrapper">
-          <h1>add blog</h1>
+      <BlogAdminBlogAction
+        header={"add blog"}
+        blogsData={blogsData}
+        blogsLoading={blogsLoading}
+        blogsError={blogsError}
+        blogAction={handleAddBlog}
+        blogActionLoading={addBlogLoading}
+        blogActionError={addBlogError}
+        multiSelectHandler={multiSelectHandler}
+      />
+      <div className="m-auto blog-edit-wrapper">
+        <div className="blog-delete-edit-wrapper">
+          <h1>edit blog</h1>
           <Divider width={"100%"} />
         </div>
-        {addBlogLoading ||
-        addBlogError ||
-        blogsLoading ||
-        blogsError ||
-        blogsData === undefined ? (
+        {blogsLoading || blogsError || blogsData === undefined ? (
           <>
-            {(addBlogLoading || blogsLoading || blogsData === undefined) && (
+            {(blogsLoading || blogsData === undefined) && (
               <div className="loader-spinner">loading...</div>
             )}
-            {(addBlogError || blogsError) && (
+            {blogsError && (
               <div style={{ marginTop: "10px", textAlign: "center" }}>
-                error adding blog...
+                error loading blogs...
               </div>
             )}
           </>
         ) : (
           <form
-            className="w100 flex-col blog-add-form"
-            onSubmit={handleAddBlog}
+            className="w100 flex-col blog-edit-form"
+            onSubmit={handleEditBlog}
           >
-            <input
-              className="blog-add-input"
-              onChange={addBlogFormHandler}
-              type="text"
-              name="title"
-              placeholder="title"
-              required
-            />
-            <input
-              className="blog-add-input"
-              onChange={addBlogFormHandler}
-              type="text"
-              name="slug"
-              placeholder="slug"
-              required
-            />
             <select
-              className="blog-add-input"
-              onChange={addBlogFormHandler}
+              className="blog-edit-input"
+              onChange={({ target }) => setEditBlogSlug(target.value)}
+              defaultValue={"default"}
               name="category"
-              defaultValue={""}
               required
             >
-              <option value="" hidden disabled>
-                choose a category...
+              <option value="default" disabled>
+                select blog
               </option>
-              <option value="money">money</option>
-              <option value="lifestyle">lifestyle</option>
-              <option value="other-shit">other shit</option>
-            </select>
-            <div className="flex-row blog-add-input blog-add-tags-wrapper">
-              <input
-                value={tag}
-                onChange={tagHandler}
-                type="text"
-                name="tags"
-                placeholder="add tag"
-              />
-              <button
-                onClick={handleAddTag}
-                type="button"
-                className="secondary-btn blog-add-tags-btn"
-              >
-                add tag
-              </button>
-            </div>
-            <div className="blog-add-input blog-add-tags-list-wrapper">
-              tags:{" "}
-              <span className="blog-add-tags-list">
-                {tags.length === 0
-                  ? "none"
-                  : tags.map((t, i) => (
-                      <div key={i} className="blog-add-tag">
-                        {t.tag}
-                        <div className="blog-add-delete-tag-wrapper">
-                          <button
-                            onClick={() => handleRemoveTag(t._id)}
-                            type="button"
-                            className="blog-add-tag-delete-btn"
-                          >
-                            x
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-              </span>
-            </div>
-            <input
-              className="blog-add-input"
-              onChange={addBlogFormHandler}
-              type="url"
-              name="img"
-              placeholder="image url"
-            />
-            <textarea
-              className="blog-add-input"
-              onChange={addBlogFormHandler}
-              type="text"
-              name="content"
-              placeholder="content"
-              required
-            />
-            <div className="blog-add-caption">similar blogs</div>
-            <select
-              className="blog-add-input"
-              onChange={similarBlogsHandler}
-              name="similarBlogs"
-              multiple
-            >
               {blogsData.allBlogs.map((b, i) => (
-                <option key={i} value={b._id}>
-                  title: {b.title} | author: {b.author.name} | date:{" "}
+                <option key={i} value={b.slug}>
+                  title: {b.title} | author: {b.author.name} | comments:{" "}
+                  {b.comments.length} | date:{" "}
                   {new Intl.DateTimeFormat("en-GB").format(b.date)}
                 </option>
               ))}
             </select>
             <button className="primary-btn" type="submit">
-              add blog
+              edit blog
             </button>
           </form>
         )}
+        <BlogAdminModal
+          setShowModal={setShowModal}
+          blogData={blogData}
+          blogLoading={blogLoading}
+          blogError={blogError}
+          blogsData={blogsData}
+          blogsLoading={blogsLoading}
+          blogsError={blogsError}
+          visible={showModal}
+          multiSelectHandler={multiSelectHandler}
+        />
       </div>
       <div className="m-auto blog-delete-wrapper">
         <div className="blog-delete-header-wrapper">
@@ -450,9 +383,13 @@ const BlogAdd = () => {
             <select
               className="blog-delete-input"
               onChange={({ target }) => setDeletedBlogsForm(target.value)}
+              defaultValue={"default"}
               name="category"
               required
             >
+              <option value="default" disabled>
+                select blog
+              </option>
               {blogsData.allBlogs.map((b, i) => (
                 <option key={i} value={b._id}>
                   title: {b.title} | author: {b.author.name} | comments:{" "}
@@ -462,7 +399,7 @@ const BlogAdd = () => {
               ))}
             </select>
             <button className="primary-btn" type="submit">
-              delete blog(s)
+              delete blog
             </button>
           </form>
         )}
@@ -471,4 +408,4 @@ const BlogAdd = () => {
   );
 };
 
-export default BlogAdd;
+export default BlogAdmin;

@@ -153,6 +153,57 @@ module.exports = {
 
       return blog;
     },
+    editBlog: async (
+      root,
+      { _id, title, slug, category, tags, content, img, similarBlogs },
+      { currentUser }
+    ) => {
+      if (!currentUser) {
+        throw new AuthenticationError("not authenticated");
+      }
+
+      //Ensure there are no 'spaces' in slug
+      slug.replace(" ", "-");
+
+      const updatedBlog = {
+        ...(title && { title }),
+        ...(slug && { slug }),
+        ...(category && { category }),
+        ...(tags && { tags }),
+        ...(content && { content }),
+        ...(img && { img }),
+        ...(similarBlogs && { similarBlogs }),
+      };
+
+      try {
+        // Add new blog to similar blogs of
+        // existing blogs for those selected
+        // if not already in similarBlogs array
+        await Blog.updateMany(
+          { _id: { $in: similarBlogs }, "similarBlogs._id": { $ne: _id } },
+          { $push: { similarBlogs: _id } }
+        );
+
+        const newBlog = await Blog.findByIdAndUpdate(_id, updatedBlog, {
+          new: true,
+        }).populate("author");
+      } catch (e) {
+        throw new UserInputError(e.message, {
+          invalidArgs: {
+            _id,
+            title,
+            slug,
+            category,
+            tags,
+            content,
+            img,
+            similarBlogs,
+          },
+        });
+      }
+
+      return newBlog;
+    },
     removeBlogs: async (root, { blogId }, { currentUser }) => {
       if (!currentUser || currentUser.userType !== "admin") {
         throw new AuthenticationError("not authenticated");

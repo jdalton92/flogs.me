@@ -52,6 +52,7 @@
   flex: 1;
   background-color: black;
   transition: background-color 0.2s ease;
+  z-index: -1;
 }
 
 .twitter-icon {

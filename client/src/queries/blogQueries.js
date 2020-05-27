@@ -89,6 +89,33 @@ export const ADD_BLOG = gql`
   ${BLOG_DETAILS}
 `;
 
+export const EDIT_BLOG = gql`
+  mutation editBlog(
+    $_id: ID!
+    $title: String!
+    $slug: String!
+    $category: String!
+    $tags: [String!]!
+    $content: String!
+    $img: String
+    $similarBlogs: [ID]
+  ) {
+    editBlog(
+      _id: $_id
+      title: $title
+      slug: $slug
+      category: $category
+      tags: $tags
+      content: $content
+      img: $img
+      similarBlogs: $similarBlogs
+    ) {
+      ...BlogDetails
+    }
+  }
+  ${BLOG_DETAILS}
+`;
+
 export const COMMENT_ADDED = gql`
   subscription {
     commentAdded {

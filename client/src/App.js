@@ -13,7 +13,7 @@ import Nav from "./components/Nav/Nav";
 import Home from "./components/Home";
 import Blogs from "./components/Blogs/Blogs";
 import Blog from "./components/Blog/Blog";
-import BlogAdmin from "./components/Blog.Admin";
+import BlogAdmin from "./components/BlogAdmin/Blog.Admin";
 import Tools from "./components/Tools/Tools";
 import Contact from "./components/Contact";
 import FAQ from "./components/FAQ";
