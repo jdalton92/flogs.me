@@ -45,6 +45,7 @@ export const GET_BLOG = gql`
       content
       img
       similarBlogs {
+        _id
         slug
         title
         date

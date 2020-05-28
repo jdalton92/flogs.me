@@ -74,11 +74,11 @@ const Home = () => {
           <img alt="unhappy" src={happy} className="home-img-happy" />
         </div>
       </div>
-      <Divider width={"35%"} thickness={"5px"} />
+      <Divider width={"200px"} thickness={"5px"} />
       <div className="flex-row-center w100 home-caption-wrapper">
         <h2 className="w100 home-caption">sign up now.</h2>
       </div>
-      <Divider width={"35%"} thickness={"5px"} />
+      <Divider width={"200px"} thickness={"5px"} />
     </section>
   );
 };

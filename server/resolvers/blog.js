@@ -184,9 +184,9 @@ module.exports = {
           { $push: { similarBlogs: _id } }
         );
 
-        const newBlog = await Blog.findByIdAndUpdate(_id, updatedBlog, {
+        await Blog.findByIdAndUpdate(_id, updatedBlog, {
           new: true,
-        }).populate("author");
+        });
       } catch (e) {
         throw new UserInputError(e.message, {
           invalidArgs: {
@@ -201,7 +201,7 @@ module.exports = {
           },
         });
       }
-
+      const newBlog = await Blog.findById(_id).populate("author");
       return newBlog;
     },
     removeBlogs: async (root, { blogId }, { currentUser }) => {

@@ -156,8 +156,9 @@
 }
 
 .blog-admin-modal {
+  z-index: 2;
   margin: 50px auto;
-  padding: 20px;
+  padding: 20px 20px 90px 20px;
   background: #fff;
   border: 1px solid #666;
   width: 90%;
@@ -185,5 +186,17 @@
 
   .blog-featured-list {
     margin-bottom: 15px;
+  }
+
+  .blog-admin-modal {
+    z-index: 2;
+    margin: 50px auto;
+    padding: 10px 10px 90px 10px;
+    background: #fff;
+    border: 1px solid #666;
+    width: 95%;
+    border-radius: 6px;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+    position: relative;
   }
 }

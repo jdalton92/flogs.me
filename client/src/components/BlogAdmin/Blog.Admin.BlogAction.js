@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 import { Divider } from "../../styles/StyledComponents";
 
@@ -16,14 +16,37 @@ const BlogAdminBlogAction = ({
   multiSelectHandler,
 }) => {
   const [similarBlogs, setSimilarBlogs] = useState([]);
-  const [variables, setBlogForm] = useState({ tags: [], similarBlogs: [] });
+  const [variables, setBlogForm] = useState({
+    title: "",
+    slug: "",
+    category: "",
+    content: "",
+    img: "",
+    tags: [],
+    similarBlogs: [],
+  });
   const [tag, setTag] = useState("");
   const [tags, setTags] = useState([]);
 
   //Set default values for edit blog view
-  if (blogData !== undefined && !blogLoading && !blogError) {
-    console.log("blogDetails");
-  }
+  useEffect(() => {
+    if (blogData !== undefined && !blogLoading && !blogError) {
+      setBlogForm({
+        title: blogData.blogDetail.title,
+        slug: blogData.blogDetail.slug,
+        category: blogData.blogDetail.category,
+        content: blogData.blogDetail.content,
+        img: blogData.blogDetail.img,
+      });
+      setSimilarBlogs(blogData.blogDetail.similarBlogs.map((b) => b._id));
+      setTags(
+        blogData.blogDetail.tags.map((tag) => ({
+          tag,
+          _id: uuid(),
+        }))
+      );
+    }
+  }, [blogLoading, blogData, blogError]);
 
   //Handle blog action
   const blogFormHandler = (e) => {
@@ -60,7 +83,18 @@ const BlogAdminBlogAction = ({
       tags: [...tagsReduced],
       similarBlogs,
     });
+    setBlogForm({
+      title: "",
+      slug: "",
+      category: "",
+      content: "",
+      img: "",
+      tags: [],
+      similarBlogs: [],
+    });
+    setTag("");
     setTags([]);
+    setSimilarBlogs([]);
   };
 
   return (
@@ -73,14 +107,19 @@ const BlogAdminBlogAction = ({
       blogActionError ||
       blogsLoading ||
       blogsError ||
-      blogsData === undefined ? (
+      blogsData === undefined ||
+      blogLoading ||
+      blogError ? (
         <>
-          {(blogActionLoading || blogsLoading || blogsData === undefined) && (
+          {(blogActionLoading ||
+            blogsLoading ||
+            blogLoading ||
+            blogsData === undefined) && (
             <div className="loader-spinner">loading...</div>
           )}
-          {(blogActionError || blogsError) && (
+          {(blogActionError || blogsError || blogError) && (
             <div style={{ marginTop: "10px", textAlign: "center" }}>
-              error adding blog...
+              error...
             </div>
           )}
         </>
@@ -92,6 +131,7 @@ const BlogAdminBlogAction = ({
           <input
             className="blog-action-input"
             onChange={blogFormHandler}
+            value={variables.title}
             type="text"
             name="title"
             placeholder="title"
@@ -100,6 +140,7 @@ const BlogAdminBlogAction = ({
           <input
             className="blog-action-input"
             onChange={blogFormHandler}
+            value={variables.slug}
             type="text"
             name="slug"
             placeholder="slug"
@@ -108,8 +149,8 @@ const BlogAdminBlogAction = ({
           <select
             className="blog-action-input"
             onChange={blogFormHandler}
+            value={variables.category}
             name="category"
-            defaultValue={""}
             required
           >
             <option value="" hidden disabled>
@@ -159,6 +200,7 @@ const BlogAdminBlogAction = ({
           <input
             className="blog-action-input"
             onChange={blogFormHandler}
+            value={variables.img}
             type="url"
             name="img"
             placeholder="image url"
@@ -166,6 +208,7 @@ const BlogAdminBlogAction = ({
           <textarea
             className="blog-action-input"
             onChange={blogFormHandler}
+            value={variables.content}
             type="text"
             name="content"
             placeholder="content"
@@ -175,6 +218,7 @@ const BlogAdminBlogAction = ({
           <select
             className="blog-action-input"
             onChange={similarBlogsHandler}
+            value={similarBlogs}
             name="similarBlogs"
             multiple
           >
@@ -186,7 +230,7 @@ const BlogAdminBlogAction = ({
             ))}
           </select>
           <button className="primary-btn" type="submit">
-            add blog
+            {header.toLowerCase().includes("add") ? "add blog" : "update blog"}
           </button>
         </form>
       )}

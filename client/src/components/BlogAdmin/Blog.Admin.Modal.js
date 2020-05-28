@@ -20,6 +20,7 @@ const BlogAdminModal = ({
     editBlog,
     { error: editBlogError, loading: editBlogLoading },
   ] = useMutation(EDIT_BLOG);
+
   //Close modal if esc key pressed
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
@@ -39,7 +40,7 @@ const BlogAdminModal = ({
   const handleEditBlog = (variables) => {
     try {
       editBlog({
-        variables: { ...variables, _id: blogData._id },
+        variables: { ...variables, _id: blogData.blogDetail._id },
         refetchQueries: [
           {
             query: ALL_BLOGS,
