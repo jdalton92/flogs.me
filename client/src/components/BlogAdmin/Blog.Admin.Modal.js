@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useCallback } from "react";
 import BlogAdminBlogAction from "./Blog.Admin.BlogAction";
 import Context from "../../context/Context";
 import { useMutation } from "@apollo/client";
-import { ALL_BLOGS, EDIT_BLOG } from "../../queries/blogQueries";
+import { ALL_BLOGS, EDIT_BLOG, GET_BLOG } from "../../queries/blogQueries";
 
 const BlogAdminModal = ({
-  visible,
+  showModal,
   setShowModal,
   blogData,
   blogError,
@@ -46,6 +46,10 @@ const BlogAdminModal = ({
             query: ALL_BLOGS,
             variables: { all: true },
           },
+          {
+            query: GET_BLOG,
+            variables: { slug: variables.slug },
+          },
         ],
         awaitRefetchQueries: true,
       });
@@ -54,6 +58,7 @@ const BlogAdminModal = ({
         title: "ヽ(•‿•)ノ",
         message: "blog updated",
       });
+      setShowModal(false);
     } catch (e) {
       console.log(editBlogError);
       setNotification({
@@ -64,7 +69,7 @@ const BlogAdminModal = ({
     }
   };
 
-  if (!visible) {
+  if (!showModal) {
     return null;
   }
   return (

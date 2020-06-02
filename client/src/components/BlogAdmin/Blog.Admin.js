@@ -342,14 +342,14 @@ const BlogAdmin = () => {
           </form>
         )}
         <BlogAdminModal
-          setShowModal={setShowModal}
           blogData={blogData}
           blogLoading={blogLoading}
           blogError={blogError}
           blogsData={blogsData}
           blogsLoading={blogsLoading}
           blogsError={blogsError}
-          visible={showModal}
+          showModal={showModal}
+          setShowModal={setShowModal}
           multiSelectHandler={multiSelectHandler}
         />
       </div>

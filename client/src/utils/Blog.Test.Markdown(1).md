@@ -65,5 +65,5 @@ TO DO
 &nbsp;
 &nbsp;
 
-**O(1)**
-**Constant**
+**O(1), O(log N), O(N log N), O(N), O(N²), and O(2ⁿ)**
+https://medium.com/better-programming/cracking-the-big-o-notation-interview-questions-4ec56f14b026
