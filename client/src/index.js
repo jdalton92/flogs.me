@@ -1,4 +1,5 @@
 import React from "react";
+import ReactGA from "react-ga";
 import ReactDOM from "react-dom";
 import ContextProvider from "./context/Provider";
 import {
@@ -31,6 +32,12 @@ if (process.env.NODE_ENV === "production") {
 const httpLink = new HttpLink({
   uri,
 });
+
+// Google analytics
+if (process.env.NODE_ENV === "production") {
+  ReactGA.initialize("UA-158975814-4");
+  ReactGA.pageview(window.location.pathname + window.location.search);
+}
 
 // TO DO, SUBSCRIPTIONS/CACHE MANIPULATION
 // const wsLink = new WebSocketLink({

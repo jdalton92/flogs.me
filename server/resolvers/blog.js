@@ -117,7 +117,6 @@ module.exports = {
         tags,
         content,
         img,
-        author: currentUser._id,
         similarBlogs,
       });
 
@@ -169,7 +168,7 @@ module.exports = {
         ...(title && { title }),
         ...(slug && { slug }),
         ...(category && { category }),
-        ...(tags && { tags }),
+        ...(tags.length > 0 && { tags }),
         ...(content && { content }),
         ...(img && { img }),
         ...(similarBlogs && { similarBlogs }),
@@ -180,8 +179,8 @@ module.exports = {
         // existing blogs for those selected
         // if not already in similarBlogs array
         await Blog.updateMany(
-          { _id: { $in: similarBlogs }, "similarBlogs._id": { $ne: _id } },
-          { $push: { similarBlogs: _id } }
+          { _id: { $in: similarBlogs } },
+          { $addToSet: { similarBlogs: _id } }
         );
 
         await Blog.findByIdAndUpdate(_id, updatedBlog, {

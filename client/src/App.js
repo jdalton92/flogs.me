@@ -1,6 +1,5 @@
 import React, { useEffect, useContext } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import ReactGA from "react-ga";
 import Context from "./context/Context";
 
 import CustomRoute from "./utils/CustomRoute";
@@ -35,12 +34,6 @@ const App = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // Google analytics
-  if (process.env.NODE_ENV === "production") {
-    ReactGA.initialize("UA-158975814-4");
-    ReactGA.pageview(window.location.pathname + window.location.search);
-  }
 
   return (
     <>

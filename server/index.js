@@ -8,8 +8,8 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
-const typeDefs = require("./schema/index");
-const resolvers = require("./resolvers/index");
+const typeDefs = require("./schema");
+const resolvers = require("./resolvers");
 
 const User = require("./models/user");
 
