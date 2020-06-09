@@ -111,6 +111,7 @@ module.exports = {
       slug.replace(" ", "-");
 
       let blog = new Blog({
+        author: currentUser._id,
         title,
         slug,
         category,

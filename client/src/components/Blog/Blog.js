@@ -7,6 +7,7 @@ import { useQuery, useMutation } from "@apollo/client";
 import { GET_BLOG, SAVE_BLOG } from "../../queries/blogQueries";
 import { GET_COMMENTS } from "../../queries/commentQueries";
 import ToTopBtn from "../ToTopBtn";
+import CodeBlock from "./CodeBlock";
 import BlogComments from "./Blog.Comments";
 import BlogAddComment from "./Blog.AddComment";
 import "../../styles/Blog.css";
@@ -228,7 +229,13 @@ const Blog = () => {
                 </div>
               </div>
               <div className="flex-col blog-body-content">
-                <ReactMarkdown source={content} escapeHtml={false} />
+                <ReactMarkdown
+                  source={content}
+                  escapeHtml={false}
+                  renderers={{
+                    code: CodeBlock,
+                  }}
+                />
               </div>
               <aside className="blog-aside-wrapper">
                 <div className="blog-aside-detail">

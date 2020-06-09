@@ -38,7 +38,6 @@ const BlogAdminModal = ({
   }, []);
 
   const handleEditBlog = (variables) => {
-    console.log(variables);
     try {
       editBlog({
         variables: { ...variables, _id: blogData.blogDetail._id },
