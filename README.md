@@ -17,3 +17,7 @@ A blog for your entire life
 - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) - Database built for agile teams who’d rather spend time building apps than managing databases.
 - [NodeJS](https://nodejs.org/en/) - Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine
 - [Visual Studio Code](https://code.visualstudio.com/) - IDE
+
+## Licence
+
+This project is licensed under the terms of the MIT license

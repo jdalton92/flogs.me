@@ -50,7 +50,7 @@ module.exports = {
       const existingUser = await User.find({ email });
 
       if (!name || name.length < 3) {
-        throw new UserInputError("name must be more than 3 characters");
+        throw new UserInputError("name must be 3 or more characters");
       }
 
       if (existingUser.length > 0) {
@@ -127,10 +127,11 @@ module.exports = {
         throw new AuthenticationError("not authenticated");
       }
 
+      const user = await User.findOne({ email: currentUser.email });
       const passwordCorrect =
         user === null
           ? false
-          : await bcrypt.compare(password, currentUser.passwordHash);
+          : await bcrypt.compare(password, user.passwordHash);
 
       if (!(user && passwordCorrect)) {
         throw new UserInputError("incorrect current password");
