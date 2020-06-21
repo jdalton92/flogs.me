@@ -5,7 +5,7 @@ import SignUp from "./SignUp";
 import "../styles/Footer.css";
 
 const Footer = () => {
-  const { setNotification } = useContext(Context);
+  const { setNotification, showEditBlogModal } = useContext(Context);
   const history = useHistory();
 
   const handleLink = (link) => {
@@ -51,17 +51,23 @@ const Footer = () => {
                 <div
                   title="Twitter"
                   onClick={handleTwitter}
-                  className="footer-icon twitter-icon"
+                  className={`${
+                    showEditBlogModal ? "icon-disable" : ""
+                  } footer-icon twitter-icon`}
                 />
                 <div
                   title="GitHub"
                   onClick={handleGitHub}
-                  className="footer-icon github-icon"
+                  className={`${
+                    showEditBlogModal ? "icon-disable" : ""
+                  } footer-icon github-icon`}
                 />
                 <div
                   title="Email"
                   onClick={handleEmail}
-                  className="footer-icon email-icon"
+                  className={`${
+                    showEditBlogModal ? "icon-disable" : ""
+                  } footer-icon email-icon`}
                 />
               </div>
             </div>

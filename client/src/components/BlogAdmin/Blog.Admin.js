@@ -21,9 +21,10 @@ const BlogAdmin = () => {
     blogsData,
     blogsLoading,
     blogsError,
+    showEditBlogModal,
+    setShowEditBlogModal,
   } = useContext(Context);
   const [editBlogSlug, setEditBlogSlug] = useState("");
-  const [showModal, setShowModal] = useState(false);
   const [deletedBlogs, setDeletedBlogsForm] = useState([]);
   const [featuredBlogs, setFeaturedBlogs] = useState([]);
   const [nonFeaturedBlogs, setNonFeaturedBlogs] = useState([]);
@@ -100,7 +101,7 @@ const BlogAdmin = () => {
       });
     } else {
       getBlog({ variables: { slug: editBlogSlug } });
-      setShowModal(true);
+      setShowEditBlogModal(true);
     }
   };
 
@@ -348,8 +349,8 @@ const BlogAdmin = () => {
           blogsData={blogsData}
           blogsLoading={blogsLoading}
           blogsError={blogsError}
-          showModal={showModal}
-          setShowModal={setShowModal}
+          showModal={showEditBlogModal}
+          setShowModal={setShowEditBlogModal}
           multiSelectHandler={multiSelectHandler}
         />
       </div>

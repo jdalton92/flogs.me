@@ -47,6 +47,9 @@ const Provider = ({ children }) => {
   // Landing page view state
   const [loginView, setLoginView] = useState("landing");
 
+  // Edit blog modal in "Blog Admin" view
+  const [showEditBlogModal, setShowEditBlogModal] = useState(false);
+
   return (
     <Context.Provider
       value={{
@@ -67,6 +70,8 @@ const Provider = ({ children }) => {
         blogsData,
         blogsError,
         blogsLoading,
+        showEditBlogModal,
+        setShowEditBlogModal,
       }}
     >
       {children}

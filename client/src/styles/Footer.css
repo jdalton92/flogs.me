@@ -52,6 +52,9 @@
   flex: 1;
   background-color: black;
   transition: background-color 0.2s ease;
+}
+
+.icon-disable {
   z-index: -1;
 }
 
