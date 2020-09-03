@@ -63,6 +63,10 @@
   line-height: 1.7em;
 }
 
+.blog-body-content span {
+  display: initial !important;
+}
+
 .blog-aside-wrapper,
 .blog-author-wrapper {
   flex: 1;
