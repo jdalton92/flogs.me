@@ -81,6 +81,7 @@ const ToolsBudgetTable = ({ handleIntBlur, title, data, setData }) => {
           <tr key={title} className="flex-row">
             <td className="flex-1">
               <input
+                className="box-shadow-3"
                 placeholder="description"
                 value={description}
                 onChange={({ target }) => setDescription(target.value || "")}
@@ -92,6 +93,7 @@ const ToolsBudgetTable = ({ handleIntBlur, title, data, setData }) => {
             </td>
             <td className="flex-1">
               <input
+                className="box-shadow-3"
                 placeholder="weekly amount"
                 name="weekly"
                 value={weekly}
@@ -106,6 +108,7 @@ const ToolsBudgetTable = ({ handleIntBlur, title, data, setData }) => {
             </td>
             <td className="flex-1 tool-desktop-input">
               <input
+                className="box-shadow-3"
                 name="monthly"
                 placeholder="monthly amount"
                 value={monthly}
@@ -120,6 +123,7 @@ const ToolsBudgetTable = ({ handleIntBlur, title, data, setData }) => {
             </td>
             <td className="flex-1 tool-desktop-input">
               <input
+                className="box-shadow-3"
                 name="annual"
                 placeholder="annual amount"
                 value={annual}
@@ -135,7 +139,7 @@ const ToolsBudgetTable = ({ handleIntBlur, title, data, setData }) => {
             <td className="tool-table-action">
               <button
                 type="submit"
-                className="primary-btn tool-table-add"
+                className="primary-btn tool-table-add box-shadow-3"
                 // disabled={!isValid()}
               >
                 add

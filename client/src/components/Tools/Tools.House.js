@@ -231,6 +231,7 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
       <div className="flex-col tool-inputs-wrapper">
         <div className="w100 flex-row-center tool-input-wrapper">
           <input
+            className="box-shadow-3"
             placeholder="purchase price"
             value={purchasePrice}
             onChange={({ target }) =>
@@ -246,6 +247,7 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
         </div>
         <div className="w100 flex-row-center tool-input-wrapper">
           <input
+            className="box-shadow-3"
             placeholder="deposit"
             value={deposit}
             onChange={({ target }) => setDeposit(parseInt(target.value) || "")}
@@ -259,6 +261,7 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
         </div>
         <div className="w100 flex-row-center tool-input-wrapper">
           <input
+            className="box-shadow-3"
             placeholder="mortgage rate"
             value={mortgageRate}
             onChange={({ target }) =>
@@ -274,6 +277,7 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
         </div>
         <div className="w100 flex-row-center tool-input-wrapper">
           <input
+            className="box-shadow-3"
             placeholder="years"
             value={years}
             onChange={({ target }) => setYears(parseInt(target.value) || "")}
@@ -287,6 +291,7 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
         </div>
         <div className="w100 flex-row-center tool-input-wrapper">
           <input
+            className="box-shadow-3"
             placeholder="annual growth"
             value={growth}
             onChange={({ target }) => setGrowth(parseFloat(target.value) || "")}
@@ -298,7 +303,7 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
           />
           <span>{growth > 0 ? "% p.a." : null}</span>
         </div>
-        <button onClick={handleClear} className="tool-clear-btn secondary-btn">
+        <button onClick={handleClear} className="tool-clear-btn secondary-btn box-shadow-3">
           clear
         </button>
       </div>

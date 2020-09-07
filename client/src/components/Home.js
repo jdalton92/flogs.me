@@ -14,7 +14,7 @@ const Home = () => {
     error: commentBlogError,
     loading: commentBlogLoading,
   } = useQuery(FEATURED_BLOGS, {
-    variables: { field: "comments.length", top: 5, order: "descending" },
+    variables: { field: "comments", top: 5, order: "descending" },
   });
 
   const {
@@ -47,18 +47,21 @@ const Home = () => {
       <div className="featured-lists-wrapper">
         <FeaturedList
           title={"featured blogs"}
+          noDataMessage={"no featured blogs"}
           dataObject={featuredBlogData}
           error={featuredBlogError}
           loading={featuredBlogLoading}
         />
         <FeaturedList
           title={"most commented blogs"}
+          noDataMessage={"no commented blogs"}
           dataObject={commentBlogData}
           error={commentBlogError}
           loading={commentBlogLoading}
         />
         <FeaturedList
           title={"most recent blogs"}
+          noDataMessage={"no blogs"}
           dataObject={recentBlogData}
           error={recentBlogError}
           loading={recentBlogLoading}

@@ -73,7 +73,7 @@ const Blogs = ({ topic }) => {
               {blogsData.allBlogs.length > 0 && (
                 <>
                   <div className="blogs-sort">
-                    <select defaultValue="newest" onChange={handleSort}>
+                    <select className="box-shadow-3" defaultValue="newest" onChange={handleSort}>
                       <option value="newest">newest</option>
                       <option value="oldest">oldest</option>
                       <option value="comments">most comments</option>

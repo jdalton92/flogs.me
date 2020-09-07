@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Divider } from "../styles/StyledComponents";
 import "../styles/FeaturedList.css";
 
-const FeaturedList = ({ title, dataObject, loading, error }) => {
+const FeaturedList = ({ title, dataObject, loading, error, noDataMessage }) => {
   const history = useHistory();
 
   const handleLink = (link) => {
@@ -12,7 +12,7 @@ const FeaturedList = ({ title, dataObject, loading, error }) => {
 
   const Body = ({ data }) => {
     if (data.length === 0) {
-      return <div>no data</div>;
+      return <div>{ noDataMessage }</div>;
     } else if (Object.keys(dataObject)[0].toLowerCase().includes("blog")) {
       return (
         <>
@@ -105,7 +105,7 @@ const FeaturedList = ({ title, dataObject, loading, error }) => {
   };
 
   return (
-    <div className="featured-list-wrapper">
+    <div className="featured-list-wrapper box-shadow-1">
       <div className="featured-list-header">
         <h2>{title}</h2>
         <Divider width={"15%"} thickness={"3px"} />

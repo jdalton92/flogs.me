@@ -78,18 +78,21 @@ const AccountSummary = () => {
             <div className="featured-lists-wrapper">
               <FeaturedList
                 title={"saved blogs"}
+                noDataMessage={"no saved blogs"}
                 dataObject={userSavedBlogs}
                 loading={userLoading}
                 error={userError}
               />
               <FeaturedList
                 title={"blogs written"}
+                noDataMessage={"no blogs writtend"}
                 dataObject={userBlogs}
                 loading={userLoading}
                 error={userError}
               />
               <FeaturedList
                 title={"comments"}
+                noDataMessage={"no comments"}
                 dataObject={userComments}
                 loading={userLoading}
                 error={userError}

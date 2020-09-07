@@ -16,7 +16,7 @@ const BlogsSearch = () => {
       <form className="w100 blog-search-form" onSubmit={handleSubmit}>
         <div className="w100 flex-row">
           <input
-            className="w100 p5"
+            className="w100 p5 box-shadow-3"
             value={search}
             name="search"
             placeholder="search title, tags, or category"
@@ -25,7 +25,7 @@ const BlogsSearch = () => {
             maxLength={50}
             required
           ></input>
-          <button className="primary-btn" type="submit">
+          <button className="primary-btn box-shadow-3" type="submit">
             search
           </button>
         </div>

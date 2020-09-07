@@ -151,7 +151,7 @@ const ToolsBudget = ({ handleIntBlur }) => {
         />
         <button
           onClick={handleClear}
-          className="tool-clear-btn tool-budget-clear secondary-btn"
+          className="tool-clear-btn tool-budget-clear secondary-btn box-shadow-3"
         >
           clear
         </button>

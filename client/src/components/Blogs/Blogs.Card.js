@@ -27,7 +27,7 @@ const BlogCard = ({ blog }) => {
   const formatDate = new Intl.DateTimeFormat("en-GB").format(date);
 
   return (
-    <div className="p20 flex-col box-shadow-on-hover blogcard-wrapper">
+    <div className="p20 flex-col box-shadow-on-hover blogcard-wrapper box-shadow-3">
       <div className="blogcard-header-wrapper">
         <h2
           onClick={() => handleLink(`/blog/${slug}`)}

@@ -154,8 +154,9 @@ const AccountSettings = () => {
               <div className="user-settings-item">
                 <h2>change email</h2>
                 <form onSubmit={handleEmailChange}>
-                  <input value={email} type="email" disabled />
+                  <input className="box-shadow-3" value={email} type="email" disabled />
                   <input
+                    className="box-shadow-3"
                     value={newEmail}
                     onChange={({ target }) => setNewEmail(target.value)}
                     placeholder="new@email.com"
@@ -163,7 +164,7 @@ const AccountSettings = () => {
                     minLength={3}
                     required
                   />
-                  <button type="submit" className="primary-btn">
+                  <button type="submit" className="primary-btn box-shadow-3">
                     submit
                   </button>
                 </form>
@@ -172,6 +173,7 @@ const AccountSettings = () => {
                 <h2>change password</h2>
                 <form onSubmit={handlePasswordChange}>
                   <input
+                    className="box-shadow-3"
                     value={password}
                     onChange={({ target }) => setPassword(target.value)}
                     placeholder="old password"
@@ -180,6 +182,7 @@ const AccountSettings = () => {
                     required
                   />
                   <input
+                    className="box-shadow-3"
                     value={newPassword}
                     onChange={({ target }) => setNewPassword(target.value)}
                     placeholder="new password"
@@ -187,7 +190,7 @@ const AccountSettings = () => {
                     minLength={3}
                     required
                   />
-                  <button type="submit" className="primary-btn">
+                  <button type="submit" className="primary-btn box-shadow-3">
                     submit
                   </button>
                 </form>

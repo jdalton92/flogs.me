@@ -14,7 +14,7 @@ const ToTopButton = () => {
     }
   };
   return (
-    <button onClick={handleClick} className="primary-btn tool-top-btn">
+    <button onClick={handleClick} className="primary-btn tool-top-btn box-shadow-3">
       top
       <i className="tool-arrow-up"></i>
     </button>

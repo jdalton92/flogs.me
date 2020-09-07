@@ -235,7 +235,7 @@ const BlogAdmin = () => {
               <div className="blog-featured-list">
                 <h2>blogs</h2>
                 <select
-                  className="blog-featured-input"
+                  className="blog-featured-input box-shadow-3"
                   onChange={nonFeaturedBlogsHandler}
                   name="non-featured-blogs"
                   multiple
@@ -252,7 +252,7 @@ const BlogAdmin = () => {
                 </select>
                 <button
                   onClick={setFeatured}
-                  className="secondary-btn featured-list-update-btn"
+                  className="secondary-btn featured-list-update-btn box-shadow-3"
                   type="button"
                 >
                   {"feature >>"}
@@ -261,7 +261,7 @@ const BlogAdmin = () => {
               <div className="blog-featured-list">
                 <h2>featured blogs</h2>
                 <select
-                  className="blog-featured-input"
+                  className="blog-featured-input box-shadow-3"
                   onChange={featuredBlogsHandler}
                   name="featured-blogs"
                   multiple
@@ -278,7 +278,7 @@ const BlogAdmin = () => {
                 </select>
                 <button
                   onClick={setNonFeatured}
-                  className="secondary-btn featured-list-update-btn"
+                  className="secondary-btn featured-list-update-btn box-shadow-3"
                   type="button"
                 >
                   {"<< unfeature"}
@@ -320,7 +320,7 @@ const BlogAdmin = () => {
             onSubmit={handleEditBlog}
           >
             <select
-              className="blog-edit-input"
+              className="blog-edit-input box-shadow-3"
               onChange={({ target }) => setEditBlogSlug(target.value)}
               defaultValue={"default"}
               name="category"
@@ -337,7 +337,7 @@ const BlogAdmin = () => {
                 </option>
               ))}
             </select>
-            <button className="primary-btn" type="submit">
+            <button className="primary-btn box-shadow-3" type="submit">
               edit blog
             </button>
           </form>
@@ -382,7 +382,7 @@ const BlogAdmin = () => {
             onSubmit={handleDeleteBlogs}
           >
             <select
-              className="blog-delete-input"
+              className="blog-delete-input box-shadow-3"
               onChange={({ target }) => setDeletedBlogsForm(target.value)}
               defaultValue={"default"}
               name="category"
@@ -399,7 +399,7 @@ const BlogAdmin = () => {
                 </option>
               ))}
             </select>
-            <button className="primary-btn" type="submit">
+            <button className="primary-btn box-shadow-3" type="submit">
               delete blog
             </button>
           </form>

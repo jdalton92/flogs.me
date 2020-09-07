@@ -45,7 +45,7 @@ const SignUp = ({ type }) => {
         ) : (
           <>
             <input
-              className="subscribe-form-input"
+              className="subscribe-form-input box-shadow-3"
               name="email"
               placeholder="your@email.com"
               type="email"
@@ -53,7 +53,7 @@ const SignUp = ({ type }) => {
               onChange={formHandler}
               required
             />
-            <button className="subscribe-form-btn primary-btn" type="submit">
+            <button className="subscribe-form-btn primary-btn box-shadow-3" type="submit">
               subscribe
             </button>
           </>

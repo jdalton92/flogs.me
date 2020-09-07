@@ -220,10 +220,10 @@ const Blog = () => {
                 </div>
                 <div className="blog-author-description">{authorType}</div>
                 <div className="flex-row blog-author-btn-wrapper">
-                  <button onClick={handleSave} className="primary-btn">
+                  <button onClick={handleSave} className="primary-btn box-shadow-3">
                     save
                   </button>
-                  <button onClick={handleAddComment} className="secondary-btn">
+                  <button onClick={handleAddComment} className="secondary-btn box-shadow-3">
                     comment
                   </button>
                 </div>

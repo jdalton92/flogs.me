@@ -129,7 +129,7 @@ const BlogAdminBlogAction = ({
           onSubmit={handleAction}
         >
           <input
-            className="blog-action-input"
+            className="blog-action-input box-shadow-3"
             onChange={blogFormHandler}
             value={variables.title}
             type="text"
@@ -138,7 +138,7 @@ const BlogAdminBlogAction = ({
             required
           />
           <input
-            className="blog-action-input"
+            className="blog-action-input box-shadow-3"
             onChange={blogFormHandler}
             value={variables.slug}
             type="text"
@@ -147,7 +147,7 @@ const BlogAdminBlogAction = ({
             required
           />
           <select
-            className="blog-action-input"
+            className="blog-action-input box-shadow-3"
             onChange={blogFormHandler}
             value={variables.category}
             name="category"
@@ -162,6 +162,7 @@ const BlogAdminBlogAction = ({
           </select>
           <div className="flex-row blog-action-input blog-action-tags-wrapper">
             <input
+              className="box-shadow-3"
               value={tag}
               onChange={tagHandler}
               type="text"
@@ -171,7 +172,7 @@ const BlogAdminBlogAction = ({
             <button
               onClick={handleAddTag}
               type="button"
-              className="secondary-btn blog-action-tags-btn"
+              className="secondary-btn blog-action-tags-btn box-shadow-3"
             >
               add tag
             </button>
@@ -188,7 +189,7 @@ const BlogAdminBlogAction = ({
                         <button
                           onClick={() => handleRemoveTag(t._id)}
                           type="button"
-                          className="blog-action-tag-delete-btn"
+                          className="blog-action-tag-delete-btn box-shadow-3"
                         >
                           x
                         </button>
@@ -198,7 +199,7 @@ const BlogAdminBlogAction = ({
             </span>
           </div>
           <input
-            className="blog-action-input"
+            className="blog-action-input box-shadow-3"
             onChange={blogFormHandler}
             value={variables.img}
             type="url"
@@ -206,7 +207,7 @@ const BlogAdminBlogAction = ({
             placeholder="image url"
           />
           <textarea
-            className="blog-action-input"
+            className="blog-action-input box-shadow-3"
             onChange={blogFormHandler}
             value={variables.content}
             type="text"
@@ -216,7 +217,7 @@ const BlogAdminBlogAction = ({
           />
           <div className="blog-action-caption">similar blogs</div>
           <select
-            className="blog-action-input"
+            className="blog-action-input box-shadow-3"
             onChange={similarBlogsHandler}
             value={similarBlogs}
             name="similarBlogs"
@@ -229,7 +230,7 @@ const BlogAdminBlogAction = ({
               </option>
             ))}
           </select>
-          <button className="primary-btn" type="submit">
+          <button className="primary-btn box-shadow-3" type="submit">
             {header.toLowerCase().includes("add") ? "add blog" : "update blog"}
           </button>
         </form>

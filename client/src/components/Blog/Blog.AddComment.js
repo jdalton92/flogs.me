@@ -60,6 +60,7 @@ const BlogAddComment = ({ id, commentRef }) => {
         onSubmit={handleSubmit}
       >
         <input
+          className="box-shadow-3"
           ref={commentRef}
           value={title}
           onChange={({ target }) => setTitle(target.value)}
@@ -71,6 +72,7 @@ const BlogAddComment = ({ id, commentRef }) => {
           required
         />
         <textarea
+          className="box-shadow-3"
           value={comment}
           onChange={({ target }) => setComment(target.value)}
           type="text"
@@ -80,7 +82,7 @@ const BlogAddComment = ({ id, commentRef }) => {
           autoComplete="off"
           required
         />
-        <button className="primary-btn" type="submit">
+        <button className="primary-btn box-shadow-3" type="submit">
           add comment
         </button>
       </form>

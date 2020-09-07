@@ -96,13 +96,13 @@ const NavLanding = () => {
       ) : (
         <>
           <button
-            className="primary-btn login-btn"
+            className="primary-btn login-btn box-shadow-3"
             onClick={() => setLoginView("login")}
           >
             login
           </button>
           <button
-            className="secondary-btn signup-btn"
+            className="secondary-btn signup-btn box-shadow-3"
             onClick={() => setLoginView("signUp")}
           >
             sign up

@@ -40,6 +40,7 @@ const NavLogin = () => {
   return (
     <form className="nav-login-form" onSubmit={handleLogin}>
       <input
+        className="box-shadow-3"
         value={email}
         onChange={({ target }) => setEmail(target.value)}
         placeholder="your@email.com"
@@ -47,6 +48,7 @@ const NavLogin = () => {
         required
       />
       <input
+        className="box-shadow-3"
         value={password}
         onChange={({ target }) => setPassword(target.value)}
         placeholder="password"
@@ -54,12 +56,12 @@ const NavLogin = () => {
         minLength={3}
         required
       />
-      <div className="flex-row">
+      <div className="flex-row box-shadow-3">
         <button className="primary-btn" type="submit">
           login
         </button>
         <button
-          className="secondary-btn nav-cancel-btn"
+          className="secondary-btn nav-cancel-btn box-shadow-3"
           onClick={() => setLoginView("landing")}
           type="button"
         >
