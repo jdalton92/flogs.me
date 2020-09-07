@@ -3,6 +3,7 @@ const {
   AuthenticationError,
   ApolloError,
 } = require("apollo-server-express");
+const mongoose = require("mongoose");
 
 const Comment = require("../models/comment");
 const Blog = require("../models/blog");
@@ -55,14 +56,21 @@ module.exports = {
     },
     featuredBlogDetail: async (root, { top, field, order }) => {
       const sortOrder = order === "descending" ? "-" : "";
+      const fieldLength = `${field}.length`
       let blogs;
       try {
         if (field === "featured") {
           blogs = await Blog.find({ featured: true }).populate("author");
         } else {
-          blogs = await Blog.find({}, null, { sort: `${sortOrder}${field}` })
-            .limit(top)
-            .populate("author");
+          if (Blog.schema.path(field) instanceof mongoose.Schema.Types.Array) {
+            blogs = await Blog.find({ fieldLength: { $gt: 0 }} , null, { sort: `${sortOrder}${fieldLength}` })
+              .limit(top)
+              .populate("author");
+          } else {
+            blogs = await Blog.find({} , null, { sort: `${sortOrder}${field}` })
+              .limit(top)
+              .populate("author");
+          }
         }
       } catch (e) {
         throw new UserInputError(e.message, {
@@ -70,7 +78,7 @@ module.exports = {
         });
       }
 
-      return blogs;
+      return blogs
     },
   },
   Mutation: {
