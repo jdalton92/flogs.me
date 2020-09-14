@@ -17,7 +17,7 @@
     "express": "^4.17.1",
     "graphql": "^14.6.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.18",
+    "mongoose": "^5.10.5",
     "mongoose-unique-validator": "^2.0.3",
     "nodemailer": "^6.4.8",
     "nodemailer-mailgun-transport": "^2.0.0"
