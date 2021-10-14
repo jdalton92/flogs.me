@@ -37,8 +37,8 @@ module.exports = {
         });
       }
     },
-    me: (root, args, context) => {
-      return context.currentUser;
+    me: (root, args, { currentUser }) => {
+      return currentUser;
     },
   },
   Mutation: {
@@ -168,7 +168,7 @@ module.exports = {
     login: async (root, { email, password }, { currentUser }) => {
       if (currentUser) {
         throw new AuthenticationError(
-          "logout first to login with alternate account"
+          "please logout prior to logging in with alternate account"
         );
       }
 

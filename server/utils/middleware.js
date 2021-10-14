@@ -1,4 +1,4 @@
-const logger = require("./logger");
+import logger from "./logger.js";
 
 const requestLogger = (req, res, next) => {
   logger.info("Method:", req.method);
@@ -8,18 +8,23 @@ const requestLogger = (req, res, next) => {
   next();
 };
 
-const errorHandler = (e, req, res, next) => {
-  if (error.name === "ValidationError" || "ValidatorError") {
-    return res.status(400).json({ error: e.message });
-  } else if (error.name === "Error") {
-    return res.status(400).json({ error: "invalid request" });
+const errorHandler = (error, req, res, next) => {
+  if (error) {
+    const status = error.status || error.statusCode || 500;
+    const message =
+      error.message || error.statusMessage || "Internal server error";
+    logger.info(error);
+
+    return res.status(status).send({
+      status,
+      message,
+    });
   }
 
-  logger.error(e.message);
-  next(e);
+  next(error);
 };
 
-module.exports = {
+export default {
   errorHandler,
-  requestLogger
+  requestLogger,
 };

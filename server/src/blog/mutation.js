@@ -1,0 +1,172 @@
+const {
+  UserInputError,
+  AuthenticationError,
+} = require("apollo-server-express");
+const mongoose = require("mongoose");
+
+const User = require("./model");
+const Blog = require("../blog/model");
+const Comment = require("../comment/model");
+
+export const addBlog = async (
+  root,
+  { title, slug, category, tags, content, img, similarBlogs },
+  { currentUser }
+) => {
+  if (!currentUser) {
+    throw new AuthenticationError("not authenticated");
+  }
+
+  // TODO: use slugify utility
+  // Ensure there are no 'spaces' in slug
+  slug.replace(" ", "-");
+
+  let blog = new Blog({
+    author: currentUser._id,
+    title,
+    slug,
+    category,
+    tags,
+    content,
+    img,
+    similarBlogs,
+  });
+
+  try {
+    await User.findOneAndUpdate(
+      { _id: currentUser._id },
+      { $push: { blogs: blog._id } }
+    );
+
+    // Add new blog to similar blogs of
+    // existing blogs for those selected
+    await Blog.updateMany(
+      { _id: { $in: similarBlogs } },
+      { $push: { similarBlogs: blog._id } }
+    );
+
+    await blog.save();
+  } catch (e) {
+    throw new UserInputError(e.message, {
+      invalidArgs: {
+        title,
+        slug,
+        category,
+        tags,
+        content,
+        img,
+        similarBlogs,
+      },
+    });
+  }
+
+  blog = await Blog.findById(blog._id).populate("author");
+
+  return blog;
+};
+
+export const editBlog = async (
+  root,
+  { _id, title, slug, category, tags, content, img, similarBlogs },
+  { currentUser }
+) => {
+  if (!currentUser) {
+    throw new AuthenticationError("not authenticated");
+  }
+
+  // TODO: use slugify utility
+  // Ensure there are no 'spaces' in slug
+  slug.replace(" ", "-");
+
+  const updatedBlog = {
+    ...(title && { title }),
+    ...(slug && { slug }),
+    ...(category && { category }),
+    ...(tags.length > 0 && { tags }),
+    ...(content && { content }),
+    ...(img && { img }),
+    ...(similarBlogs && { similarBlogs }),
+  };
+
+  try {
+    // Add new blog to similar blogs of existing blogs for those selected if
+    // not already in similarBlogs array
+    await Blog.updateMany(
+      { _id: { $in: similarBlogs } },
+      { $addToSet: { similarBlogs: _id } }
+    );
+
+    await Blog.findByIdAndUpdate(_id, updatedBlog, {
+      new: true,
+    });
+  } catch (e) {
+    throw new UserInputError(e.message, {
+      invalidArgs: {
+        _id,
+        title,
+        slug,
+        category,
+        tags,
+        content,
+        img,
+        similarBlogs,
+      },
+    });
+  }
+  const newBlog = await Blog.findById(_id).populate("author");
+  return newBlog;
+};
+
+export const removeBlogs = async (root, { blogId }, { currentUser }) => {
+  if (!currentUser || currentUser.userType !== "admin") {
+    throw new AuthenticationError("not authenticated");
+  }
+
+  try {
+    // Remove blogs from blog collection
+    const blog = await Blog.findByIdAndDelete(blogId);
+
+    // Remove blog from similarBlogs recommendation
+    await Blog.updateMany({}, { $pull: { similarBlogs: blogId } });
+
+    // Remove blog from author
+    await User.updateMany({ _id: blog.author }, { $pull: { blogs: blogId } });
+
+    // Remove comments from blog
+    await Comment.deleteMany({ blog: blogId });
+
+    // Remove blog from saved blogs list for each user
+    await User.updateMany({}, { $pull: { savedBlogs: blogId } });
+  } catch (e) {
+    throw new UserInputError(e.message, {
+      invalidArgs: { blogId },
+    });
+  }
+
+  return true;
+};
+
+export const featureBlog = async (root, { blogId, type }, { currentUser }) => {
+  if (!currentUser || currentUser.userType !== "admin") {
+    throw new AuthenticationError("not authenticated");
+  }
+  try {
+    if (type === "setFeatured") {
+      await Blog.updateMany(
+        { _id: { $in: blogId } },
+        { $set: { featured: true } }
+      );
+    } else if (type.toString() === "setNonFeatured") {
+      await Blog.updateMany(
+        { _id: { $in: blogId } },
+        { $set: { featured: false } }
+      );
+    }
+  } catch (e) {
+    throw new UserInputError(e.message, {
+      invalidArgs: { blogId },
+    });
+  }
+
+  return true;
+};

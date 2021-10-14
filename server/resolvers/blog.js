@@ -56,18 +56,20 @@ module.exports = {
     },
     featuredBlogDetail: async (root, { top, field, order }) => {
       const sortOrder = order === "descending" ? "-" : "";
-      const fieldLength = `${field}.length`
+      const fieldLength = `${field}.length`;
       let blogs;
       try {
         if (field === "featured") {
           blogs = await Blog.find({ featured: true }).populate("author");
         } else {
           if (Blog.schema.path(field) instanceof mongoose.Schema.Types.Array) {
-            blogs = await Blog.find({ fieldLength: { $gt: 0 }} , null, { sort: `${sortOrder}${fieldLength}` })
+            blogs = await Blog.find({ fieldLength: { $gt: 0 } }, null, {
+              sort: `${sortOrder}${fieldLength}`,
+            })
               .limit(top)
               .populate("author");
           } else {
-            blogs = await Blog.find({} , null, { sort: `${sortOrder}${field}` })
+            blogs = await Blog.find({}, null, { sort: `${sortOrder}${field}` })
               .limit(top)
               .populate("author");
           }
@@ -78,7 +80,7 @@ module.exports = {
         });
       }
 
-      return blogs
+      return blogs;
     },
   },
   Mutation: {
@@ -230,10 +232,10 @@ module.exports = {
           { $pull: { blogs: blogId } }
         );
 
-        //Remove comments from blog
+        // Remove comments from blog
         await Comment.deleteMany({ blog: blogId });
 
-        //Remove blog from saved blogs list for each user
+        // Remove blog from saved blogs list for each user
         await User.updateMany({}, { $pull: { savedBlogs: blogId } });
       } catch (e) {
         throw new UserInputError(e.message, {

@@ -51,7 +51,7 @@ const schema = new mongoose.Schema({
     required: true,
   },
   img: {
-    type: String, //Store URL of image
+    type: String, // Store URL of image
   },
   comments: [
     {
