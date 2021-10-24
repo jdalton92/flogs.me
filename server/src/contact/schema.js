@@ -1,6 +1,7 @@
-const { gql } = require("apollo-server-express");
+import apollo from "apollo-server-express";
+const { gql } = apollo;
 
-module.exports = gql`
+export default gql`
   type Contact {
     fullName: String!
     email: String!

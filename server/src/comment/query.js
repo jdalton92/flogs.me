@@ -1,9 +1,10 @@
-const { UserInputError, PubSub } = require("apollo-server-express");
+import apollo from "apollo-server-express";
+const { UserInputError, PubSub } = apollo;
 
-const Comment = require("./model");
-const Blog = require("../blog/model");
+import Comment from "./model.js";
+import Blog from "../blog/model.js";
 
-export const commentDetail = async (root, { slug }) => {
+const getComment = async (root, { slug }) => {
   try {
     blog = await Blog.findOne({ slug });
     comments = await Comment.find({ blog: blog._id }).populate(
@@ -17,3 +18,5 @@ export const commentDetail = async (root, { slug }) => {
     });
   }
 };
+
+export default { getComment };

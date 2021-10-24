@@ -1,8 +1,9 @@
-const { UserInputError } = require("apollo-server-express");
+import apollo from "apollo-server-express";
+const { UserInputError } = apollo;
 
-const User = require("./model");
+import User from "./model.js";
 
-export const getUser = async (root, { userId }) => {
+const getUser = async (root, { userId }) => {
   try {
     user = await User.findById(userId)
       .populate({
@@ -31,6 +32,8 @@ export const getUser = async (root, { userId }) => {
   }
 };
 
-export const getMe = (root, args, { currentUser }) => {
+const getMe = (root, args, { currentUser }) => {
   return currentUser;
 };
+
+export default { getUser, getMe };

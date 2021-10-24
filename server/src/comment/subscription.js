@@ -1,7 +1,11 @@
-const { PubSub } = require("apollo-server-express");
+import apollo from "apollo-server-express";
+const { PubSub } = apollo;
 
-const pubsub = new PubSub();
+// TODO: Include pubsub subscriptions
+// const pubsub = new PubSub();
 
-export const commentAdded = {
-  subscribe: () => pubsub.asyncIterator(["COMMENT_ADDED"]),
+const commentAdded = {
+  // subscribe: () => pubsub.asyncIterator(["COMMENT_ADDED"]),
 };
+
+export default { commentAdded };

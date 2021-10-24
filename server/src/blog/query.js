@@ -1,9 +1,10 @@
-const { UserInputError } = require("apollo-server-express");
-const mongoose = require("mongoose");
+import apollo from "apollo-server-express";
+const { UserInputError } = apollo;
+import mongoose from "mongoose";
 
-const Blog = require("../blog/model");
+import Blog from "./model.js";
 
-export const allBlogs = async (root, { category, search, all }) => {
+const getBlogs = async (root, { category, search, all }) => {
   let blogs = [];
   if (category) {
     blogs = await Blog.find({ category }).populate("author");
@@ -18,7 +19,7 @@ export const allBlogs = async (root, { category, search, all }) => {
   return blogs;
 };
 
-export const blogDetail = async (root, { slug }) => {
+const getBlog = async (root, { slug }) => {
   try {
     blog = await Blog.findOne({ slug })
       .populate("author")
@@ -48,7 +49,7 @@ export const blogDetail = async (root, { slug }) => {
   }
 };
 
-export const featuredBlogDetail = async (root, { top, field, order }) => {
+const getFeaturedBlog = async (root, { top, field, order }) => {
   const sortOrder = order === "descending" ? "-" : "";
   const fieldLength = `${field}.length`;
   let blogs;
@@ -76,3 +77,5 @@ export const featuredBlogDetail = async (root, { top, field, order }) => {
 
   return blogs;
 };
+
+export default { getBlogs, getBlog, getFeaturedBlog };

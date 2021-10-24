@@ -1,8 +1,9 @@
-import { UserInputError, ApolloError } from "apollo-server-express";
+import apollo from "apollo-server-express";
+const { UserInputError, ApolloError } = apollo;
 import nodemailer from "nodemailer";
 import mailGun from "nodemailer-mailgun-transport";
 
-export const contact = async (root, { fullName, email, message }) => {
+const contact = async (root, { fullName, email, message }) => {
   const date = new Intl.DateTimeFormat("en-GB").format(Date.now());
 
   if (!fullName || !email || !message) {
@@ -11,8 +12,8 @@ export const contact = async (root, { fullName, email, message }) => {
 
   const auth = {
     auth: {
-      api_key: process.env.API_KEY,
-      domain: process.env.DOMAIN,
+      api_key: config.API_KEY,
+      domain: config.DOMAIN,
     },
   };
 
@@ -20,7 +21,7 @@ export const contact = async (root, { fullName, email, message }) => {
     const transporter = nodemailer.createTransport(mailGun(auth));
     const mailOptions = {
       from: `"${fullName}" <${email}>`,
-      to: process.env.EMAIL,
+      to: config.EMAIL,
       subject: "flogs.me: New Message",
       text: `
             Date: ${date}
@@ -37,3 +38,5 @@ export const contact = async (root, { fullName, email, message }) => {
     throw new ApolloError(e.message);
   }
 };
+
+export default { contact };

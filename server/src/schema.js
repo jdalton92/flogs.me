@@ -1,9 +1,10 @@
-const { gql } = require("apollo-server-express");
-const userTypeDef = require("./user/schema");
-const commentTypeDef = require("./comment/schema");
-const contactTypeDef = require("./contact/schema");
-const subscriptionTypeDef = require("./subscription/schema");
-const blogTypeDef = require("./blog/schema");
+import apollo from "apollo-server-express";
+const { gql } = apollo;
+import userTypeDef from "./user/schema.js";
+import commentTypeDef from "./comment/schema.js";
+import contactTypeDef from "./contact/schema.js";
+import subscriptionTypeDef from "./subscription/schema.js";
+import blogTypeDef from "./blog/schema.js";
 
 const rootTypeDef = gql`
   type Query {

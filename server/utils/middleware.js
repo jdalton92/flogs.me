@@ -1,6 +1,6 @@
 import logger from "./logger.js";
 
-const requestLogger = (req, res, next) => {
+export const requestLogger = (req, res, next) => {
   logger.info("Method:", req.method);
   logger.info("Path:  ", req.path);
   logger.info("Body:  ", req.body);
@@ -8,7 +8,7 @@ const requestLogger = (req, res, next) => {
   next();
 };
 
-const errorHandler = (error, req, res, next) => {
+export const errorHandler = (error, req, res, next) => {
   if (error) {
     const status = error.status || error.statusCode || 500;
     const message =
@@ -24,7 +24,7 @@ const errorHandler = (error, req, res, next) => {
   next(error);
 };
 
-export default {
-  errorHandler,
-  requestLogger,
-};
+// export default {
+//   errorHandler,
+//   requestLogger,
+// };

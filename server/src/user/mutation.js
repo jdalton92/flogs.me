@@ -1,17 +1,12 @@
-const {
-  UserInputError,
-  AuthenticationError,
-} = require("apollo-server-express");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+import apollo from "apollo-server-express";
+const { UserInputError, AuthenticationError } = apollo;
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-const User = require("./model");
+import config from "../../utils/config.js";
+import User from "./model.js";
 
-export const createUser = async (
-  root,
-  { name, email, password },
-  { currentUser }
-) => {
+const createUser = async (root, { name, email, password }, { currentUser }) => {
   if (currentUser) {
     throw new AuthenticationError("logout first to create user");
   }
@@ -45,11 +40,7 @@ export const createUser = async (
   }
 };
 
-export const updateUserSubscription = async (
-  root,
-  { subscribe },
-  { currentUser }
-) => {
+const updateUserSubscription = async (root, { subscribe }, { currentUser }) => {
   if (!currentUser) {
     throw new AuthenticationError("not authenticated");
   }
@@ -65,7 +56,7 @@ export const updateUserSubscription = async (
   return user;
 };
 
-export const updateUserEmail = async (root, { newEmail }, { currentUser }) => {
+const updateUserEmail = async (root, { newEmail }, { currentUser }) => {
   if (!currentUser) {
     throw new AuthenticationError("not authenticated");
   }
@@ -89,12 +80,12 @@ export const updateUserEmail = async (root, { newEmail }, { currentUser }) => {
     id: newUser._id,
   };
 
-  const token = { value: jwt.sign(userForToken, process.env.SECRET) };
+  const token = { value: jwt.sign(userForToken, config.SECRET) };
 
   return token;
 };
 
-export const updateUserPassword = async (
+const updateUserPassword = async (
   root,
   { password, newPassword },
   { currentUser }
@@ -131,12 +122,12 @@ export const updateUserPassword = async (
     id: newUser._id,
   };
 
-  const token = { value: jwt.sign(userForToken, process.env.SECRET) };
+  const token = { value: jwt.sign(userForToken, config.SECRET) };
 
   return token;
 };
 
-export const login = async (root, { email, password }, { currentUser }) => {
+const login = async (root, { email, password }, { currentUser }) => {
   if (currentUser) {
     throw new AuthenticationError(
       "please logout prior to logging in with alternate account"
@@ -156,7 +147,15 @@ export const login = async (root, { email, password }, { currentUser }) => {
     id: user._id,
   };
 
-  const token = { value: jwt.sign(userForToken, process.env.SECRET) };
+  const token = { value: jwt.sign(userForToken, config.SECRET) };
 
   return token;
+};
+
+export default {
+  createUser,
+  updateUserSubscription,
+  updateUserEmail,
+  updateUserPassword,
+  login,
 };

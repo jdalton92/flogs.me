@@ -11,26 +11,21 @@ import blogMutation from "./blog/mutation.js";
 // Subscriptions
 import commentSubscription from "./comment/subscription.js";
 
-const queries = [
-  userQuery,
-  commentQuery,
-  subscriptionQuery,
-  contactQuery,
-  blogQuery,
-];
+const queries = { ...userQuery, ...commentQuery, ...blogQuery };
 
-const mutations = [
-  userMutation,
-  commentMutation,
-  subscriptionMutation,
-  contactMutation,
-  blogMutation,
-];
+const mutations = {
+  ...userMutation,
+  ...commentMutation,
+  ...subscriptionMutation,
+  ...contactMutation,
+  ...blogMutation,
+};
 
-const subscriptions = [commentSubscription];
+const subscriptions = commentSubscription;
 
 export default {
   Query: queries,
   Mutation: mutations,
-  Subscription: subscriptions,
+  // TODO: fix pubsub subscriptions
+  // Subscription: subscriptions,
 };

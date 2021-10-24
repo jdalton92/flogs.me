@@ -1,14 +1,12 @@
-const {
-  UserInputError,
-  AuthenticationError,
-} = require("apollo-server-express");
-const mongoose = require("mongoose");
+import apollo from "apollo-server-express";
+const { UserInputError, AuthenticationError } = apollo;
+import mongoose from "mongoose";
 
-const User = require("./model");
-const Blog = require("../blog/model");
-const Comment = require("../comment/model");
+import Blog from "./model.js";
+import User from "../user/model.js";
+import Comment from "../comment/model.js";
 
-export const addBlog = async (
+const createBlog = async (
   root,
   { title, slug, category, tags, content, img, similarBlogs },
   { currentUser }
@@ -65,7 +63,7 @@ export const addBlog = async (
   return blog;
 };
 
-export const editBlog = async (
+const updateBlog = async (
   root,
   { _id, title, slug, category, tags, content, img, similarBlogs },
   { currentUser }
@@ -117,7 +115,7 @@ export const editBlog = async (
   return newBlog;
 };
 
-export const removeBlogs = async (root, { blogId }, { currentUser }) => {
+const deleteBlog = async (root, { blogId }, { currentUser }) => {
   if (!currentUser || currentUser.userType !== "admin") {
     throw new AuthenticationError("not authenticated");
   }
@@ -146,7 +144,7 @@ export const removeBlogs = async (root, { blogId }, { currentUser }) => {
   return true;
 };
 
-export const featureBlog = async (root, { blogId, type }, { currentUser }) => {
+const featureBlog = async (root, { blogId, type }, { currentUser }) => {
   if (!currentUser || currentUser.userType !== "admin") {
     throw new AuthenticationError("not authenticated");
   }
@@ -170,3 +168,5 @@ export const featureBlog = async (root, { blogId, type }, { currentUser }) => {
 
   return true;
 };
+
+export default { createBlog, updateBlog, deleteBlog, featureBlog };

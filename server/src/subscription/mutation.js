@@ -1,8 +1,9 @@
-const { UserInputError, ApolloError } = require("apollo-server-express");
+import apollo from "apollo-server-express";
+const { UserInputError, ApolloError } = apollo;
 
-const Subscription = require("./model");
+import Subscription from "./model.js";
 
-export const subscribe = async (root, { email }) => {
+const subscribe = async (root, { email }) => {
   try {
     existingSubscriber = await Subscription.find({ email });
 
@@ -21,3 +22,5 @@ export const subscribe = async (root, { email }) => {
     throw new ApolloError(e.message);
   }
 };
+
+export default { subscribe };

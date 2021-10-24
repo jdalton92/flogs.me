@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const schema = new mongoose.Schema({
   date: {
@@ -32,4 +32,4 @@ const schema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Comment", schema);
+export default mongoose.model("Comment", schema);

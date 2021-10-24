@@ -1,16 +1,13 @@
-const {
-  UserInputError,
-  AuthenticationError,
-  PubSub,
-} = require("apollo-server-express");
+import apollo from "apollo-server-express";
+const { UserInputError, AuthenticationError, PubSub } = apollo;
 
-const Comment = require("./model");
-const Blog = require("../blog/model");
-const User = require("../user/model");
+import Comment from "./model.js";
+import Blog from "../blog/model.js";
+import User from "../user/model.js";
 
-const pubsub = new PubSub();
+// const pubsub = new PubSub();
 
-export const addComment = async (
+const createComment = async (
   root,
   { blogId, title, comment },
   { currentUser }
@@ -54,7 +51,7 @@ export const addComment = async (
   return returnComment;
 };
 
-export const likeComment = async (root, { commentId }, { currentUser }) => {
+const likeComment = async (root, { commentId }, { currentUser }) => {
   if (!currentUser) {
     throw new AuthenticationError("not authenticated");
   }
@@ -74,7 +71,7 @@ export const likeComment = async (root, { commentId }, { currentUser }) => {
   return newComment;
 };
 
-export const dislikeComment = async (root, { commentId }, { currentUser }) => {
+const dislikeComment = async (root, { commentId }, { currentUser }) => {
   if (!currentUser) {
     throw new AuthenticationError("not authenticated");
   }
@@ -93,3 +90,5 @@ export const dislikeComment = async (root, { commentId }, { currentUser }) => {
 
   return newComment;
 };
+
+export default { createComment, likeComment, dislikeComment };
