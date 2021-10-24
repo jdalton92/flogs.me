@@ -5,7 +5,7 @@ import Subscription from "./model.js";
 
 const subscribe = async (root, { email }) => {
   try {
-    existingSubscriber = await Subscription.find({ email });
+    const existingSubscriber = await Subscription.find({ email });
 
     if (existingSubscriber.length > 0) {
       throw new UserInputError("already subscribed");
@@ -17,7 +17,7 @@ const subscribe = async (root, { email }) => {
 
     await subscriber.save();
 
-    return { email };
+    return email;
   } catch (e) {
     throw new ApolloError(e.message);
   }

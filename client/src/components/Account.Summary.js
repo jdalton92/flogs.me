@@ -32,16 +32,16 @@ const AccountSummary = () => {
     userType;
 
   if (!userError && !userLoading && userData !== undefined) {
-    name = userData.userDetail.name;
+    name = userData.getUser.name;
     createdDate = new Intl.DateTimeFormat("en-GB").format(
-      userData.userDetail.createdDate
+      userData.getUser.createdDate
     );
-    blogs = userData.userDetail.blogs;
-    comments = userData.userDetail.comments;
-    userType = userData.userDetail.userType;
-    userComments = { comments: userData.userDetail.comments };
-    userBlogs = { blogs: userData.userDetail.blogs };
-    userSavedBlogs = { blogs: userData.userDetail.savedBlogs };
+    blogs = userData.getUser.blogs;
+    comments = userData.getUser.comments;
+    userType = userData.getUser.userType;
+    userComments = { comments: userData.getUser.comments };
+    userBlogs = { blogs: userData.getUser.blogs };
+    userSavedBlogs = { blogs: userData.getUser.savedBlogs };
   }
 
   return (
@@ -85,7 +85,7 @@ const AccountSummary = () => {
               />
               <FeaturedList
                 title={"blogs written"}
-                noDataMessage={"no blogs writtend"}
+                noDataMessage={"no blogs written"}
                 dataObject={userBlogs}
                 loading={userLoading}
                 error={userError}

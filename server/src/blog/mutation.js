@@ -1,10 +1,34 @@
 import apollo from "apollo-server-express";
 const { UserInputError, AuthenticationError } = apollo;
-import mongoose from "mongoose";
 
 import Blog from "./model.js";
 import User from "../user/model.js";
 import Comment from "../comment/model.js";
+
+const favoriteBlog = async (root, { blogId }, { currentUser }) => {
+  if (!currentUser) {
+    throw new AuthenticationError("not authenticated");
+  }
+
+  const user = await User.findById(currentUser._id);
+  const existing = user.savedBlogs.filter((b) => b == blogId);
+
+  if (existing.length > 0) {
+    throw new ApolloError("blog already saved");
+  }
+
+  try {
+    await User.findOneAndUpdate(
+      { _id: currentUser._id },
+      { $push: { savedBlogs: blogId } }
+    );
+    return;
+  } catch (e) {
+    throw new UserInputError(e.message, {
+      invalidArgs: { blogId },
+    });
+  }
+};
 
 const createBlog = async (
   root,
@@ -144,7 +168,7 @@ const deleteBlog = async (root, { blogId }, { currentUser }) => {
   return true;
 };
 
-const featureBlog = async (root, { blogId, type }, { currentUser }) => {
+const featureBlogs = async (root, { blogId, type }, { currentUser }) => {
   if (!currentUser || currentUser.userType !== "admin") {
     throw new AuthenticationError("not authenticated");
   }
@@ -169,4 +193,10 @@ const featureBlog = async (root, { blogId, type }, { currentUser }) => {
   return true;
 };
 
-export default { createBlog, updateBlog, deleteBlog, featureBlog };
+export default {
+  createBlog,
+  favoriteBlog,
+  updateBlog,
+  deleteBlog,
+  featureBlogs,
+};

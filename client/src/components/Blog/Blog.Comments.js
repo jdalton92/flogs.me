@@ -15,7 +15,7 @@ const BlogComments = ({ commentData }) => {
     history.push(`/user/${id}`);
   };
 
-  let sortedComments = [...commentData.commentDetail];
+  let sortedComments = [...commentData.getComments];
 
   switch (sort) {
     case "newest":
@@ -31,7 +31,7 @@ const BlogComments = ({ commentData }) => {
       sortedComments.sort((a, b) => b.dislikes - a.dislikes);
       break;
     default:
-      sortedComments = [...commentData.commentDetail];
+      sortedComments = [...commentData.getComments];
       break;
   }
 

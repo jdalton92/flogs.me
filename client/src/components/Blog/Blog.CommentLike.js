@@ -13,16 +13,13 @@ import dislike from "../../styles/images/dislike.png";
 const BlogCommentLike = ({ id }) => {
   const slug = useParams().slug;
   const { setNotification, meData } = useContext(Context);
-  const [likeComment, { loading: likeLoading, error: likeError }] = useMutation(
-    LIKE_COMMENT
-  );
-  const [
-    dislikeComment,
-    { loading: dislikeLoading, error: dislikeError },
-  ] = useMutation(DISLIKE_COMMENT);
+  const [likeComment, { loading: likeLoading, error: likeError }] =
+    useMutation(LIKE_COMMENT);
+  const [dislikeComment, { loading: dislikeLoading, error: dislikeError }] =
+    useMutation(DISLIKE_COMMENT);
 
   const handleLike = (id) => {
-    if (!meData.me) {
+    if (!meData.getMe) {
       setNotification({
         type: "fail",
         title: "¯\\_(ツ)_/¯",
@@ -54,7 +51,7 @@ const BlogCommentLike = ({ id }) => {
   };
 
   const handleDislike = (id) => {
-    if (!meData.me) {
+    if (!meData.getMe) {
       setNotification({
         type: "fail",
         title: "¯\\_(ツ)_/¯",

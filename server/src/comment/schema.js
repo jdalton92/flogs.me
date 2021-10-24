@@ -14,7 +14,7 @@ export default gql`
   }
 
   extend type Query {
-    getComment(slug: String!): [Comment]
+    getComments(slug: String!): [Comment]
   }
 
   extend type Mutation {

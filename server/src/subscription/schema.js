@@ -3,6 +3,6 @@ const { gql } = apollo;
 
 export default gql`
   extend type Mutation {
-    subscribe(email: String!): User
+    subscribe(email: String!): String
   }
 `;

@@ -4,10 +4,10 @@ const { UserInputError, PubSub } = apollo;
 import Comment from "./model.js";
 import Blog from "../blog/model.js";
 
-const getComment = async (root, { slug }) => {
+const getComments = async (root, { slug }) => {
   try {
-    blog = await Blog.findOne({ slug });
-    comments = await Comment.find({ blog: blog._id }).populate(
+    const blog = await Blog.findOne({ slug });
+    const comments = await Comment.find({ blog: blog._id }).populate(
       "author",
       "name"
     );
@@ -19,4 +19,4 @@ const getComment = async (root, { slug }) => {
   }
 };
 
-export default { getComment };
+export default { getComments };

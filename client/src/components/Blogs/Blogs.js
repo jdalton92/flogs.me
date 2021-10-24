@@ -6,9 +6,8 @@ import BlogsCard from "./Blogs.Card";
 import "../../styles/Blogs.css";
 
 const Blogs = ({ topic }) => {
-  const { blogsSearch, blogsData, blogsLoading, blogsError } = useContext(
-    Context
-  );
+  const { blogsSearch, blogsData, blogsLoading, blogsError } =
+    useContext(Context);
   const history = useHistory();
   const [sort, setSort] = useState("newest");
   const search = history.location.search;
@@ -33,7 +32,7 @@ const Blogs = ({ topic }) => {
 
   let sortedBlogs = [];
   if (!blogsLoading && !blogsError && blogsData !== undefined) {
-    sortedBlogs = [...blogsData.allBlogs];
+    sortedBlogs = [...blogsData.getBlogs];
   }
 
   switch (sort) {
@@ -67,13 +66,17 @@ const Blogs = ({ topic }) => {
             </>
           ) : (
             <>
-              {blogsData.allBlogs.length === 0 && (
+              {blogsData.getBlogs.length === 0 && (
                 <div style={{ paddingTop: "25px" }}>no results...</div>
               )}
-              {blogsData.allBlogs.length > 0 && (
+              {blogsData.getBlogs.length > 0 && (
                 <>
                   <div className="blogs-sort">
-                    <select className="box-shadow-3" defaultValue="newest" onChange={handleSort}>
+                    <select
+                      className="box-shadow-3"
+                      defaultValue="newest"
+                      onChange={handleSort}
+                    >
                       <option value="newest">newest</option>
                       <option value="oldest">oldest</option>
                       <option value="comments">most comments</option>

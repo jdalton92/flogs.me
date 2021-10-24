@@ -3,6 +3,8 @@ const { UserInputError, ApolloError } = apollo;
 import nodemailer from "nodemailer";
 import mailGun from "nodemailer-mailgun-transport";
 
+import config from "../../utils/config.js";
+
 const contact = async (root, { fullName, email, message }) => {
   const date = new Intl.DateTimeFormat("en-GB").format(Date.now());
 

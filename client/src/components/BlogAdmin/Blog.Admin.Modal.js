@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useCallback } from "react";
 import BlogAdminBlogAction from "./Blog.Admin.BlogAction";
 import Context from "../../context/Context";
 import { useMutation } from "@apollo/client";
-import { ALL_BLOGS, EDIT_BLOG, GET_BLOG } from "../../queries/blogQueries";
+import { GET_BLOGS, UPDATE_BLOG, GET_BLOG } from "../../queries/blogQueries";
 
 const BlogAdminModal = ({
   showModal,
@@ -16,10 +16,8 @@ const BlogAdminModal = ({
   multiSelectHandler,
 }) => {
   const { setNotification } = useContext(Context);
-  const [
-    editBlog,
-    { error: editBlogError, loading: editBlogLoading },
-  ] = useMutation(EDIT_BLOG);
+  const [editBlog, { error: editBlogError, loading: editBlogLoading }] =
+    useMutation(UPDATE_BLOG);
 
   //Close modal if esc key pressed
   const escFunction = useCallback((event) => {
@@ -40,10 +38,10 @@ const BlogAdminModal = ({
   const handleEditBlog = (variables) => {
     try {
       editBlog({
-        variables: { ...variables, _id: blogData.blogDetail._id },
+        variables: { ...variables, _id: blogData.getBlog._id },
         refetchQueries: [
           {
-            query: ALL_BLOGS,
+            query: GET_BLOGS,
             variables: { all: true },
           },
           {

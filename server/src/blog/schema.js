@@ -22,7 +22,7 @@ export default gql`
 
     getBlog(slug: String!): Blog!
 
-    getFeaturedBlog(top: Int!, field: String!, order: String!): [Blog!]
+    getFeaturedBlogs(top: Int!, field: String!, order: String!): [Blog!]
   }
 
   extend type Mutation {
@@ -47,8 +47,10 @@ export default gql`
       similarBlogs: [ID]
     ): Blog
 
+    favoriteBlog(blogId: ID!): Blog
+
     deleteBlog(blogId: ID!): Boolean
 
-    featureBlog(blogId: [ID!], type: String!): Boolean
+    featureBlogs(blogId: [ID!], type: String!): Boolean
   }
 `;

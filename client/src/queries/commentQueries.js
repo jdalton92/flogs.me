@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client";
 
 export const GET_COMMENTS = gql`
-  query commentDetail($slug: String!) {
-    commentDetail(slug: $slug) {
+  query getComments($slug: String!) {
+    getComments(slug: $slug) {
       _id
       author {
         _id
@@ -17,9 +17,9 @@ export const GET_COMMENTS = gql`
   }
 `;
 
-export const ADD_COMMENT = gql`
-  mutation addComment($blogId: ID!, $title: String!, $comment: String!) {
-    addComment(blogId: $blogId, title: $title, comment: $comment) {
+export const CREATE_COMMENT = gql`
+  mutation createComment($blogId: ID!, $title: String!, $comment: String!) {
+    createComment(blogId: $blogId, title: $title, comment: $comment) {
       title
       author {
         name

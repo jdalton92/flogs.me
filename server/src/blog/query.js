@@ -21,7 +21,7 @@ const getBlogs = async (root, { category, search, all }) => {
 
 const getBlog = async (root, { slug }) => {
   try {
-    blog = await Blog.findOne({ slug })
+    const blog = await Blog.findOne({ slug })
       .populate("author")
       .populate("comments")
       .populate({
@@ -49,25 +49,28 @@ const getBlog = async (root, { slug }) => {
   }
 };
 
-const getFeaturedBlog = async (root, { top, field, order }) => {
+const getFeaturedBlogs = async (root, { top, field, order }) => {
   const sortOrder = order === "descending" ? "-" : "";
-  const fieldLength = `${field}.length`;
   let blogs;
   try {
-    if (field === "featured") {
-      blogs = await Blog.find({ featured: true }).populate("author");
-    } else {
-      if (Blog.schema.path(field) instanceof mongoose.Schema.Types.Array) {
-        blogs = await Blog.find({ fieldLength: { $gt: 0 } }, null, {
-          sort: `${sortOrder}${fieldLength}`,
+    switch (field) {
+      case "featured":
+        blogs = await Blog.find({ featured: true }).populate("author");
+        break;
+      case "comments":
+        blogs = await Blog.find({ "comments.0": { $exists: true } }, null, {
+          sort: `${sortOrder}${field}`,
         })
           .limit(top)
           .populate("author");
-      } else {
+        break;
+      case "date":
         blogs = await Blog.find({}, null, { sort: `${sortOrder}${field}` })
           .limit(top)
           .populate("author");
-      }
+        break;
+      default:
+        throw new UserInputError("invalid field");
     }
   } catch (e) {
     throw new UserInputError(e.message, {
@@ -78,4 +81,4 @@ const getFeaturedBlog = async (root, { top, field, order }) => {
   return blogs;
 };
 
-export default { getBlogs, getBlog, getFeaturedBlog };
+export default { getBlogs, getBlog, getFeaturedBlogs };

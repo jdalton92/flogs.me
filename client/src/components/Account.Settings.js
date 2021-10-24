@@ -15,18 +15,16 @@ const AccountSettings = () => {
   const [newPassword, setNewPassword] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [changeEmail, { error: changeEmailError }] = useMutation(CHANGE_EMAIL);
-  const [changePassword, { error: changePasswordError }] = useMutation(
-    CHANGE_PASSWORD
-  );
-  const [changeSubscription, { error: changeSubscriptionError }] = useMutation(
-    CHANGE_SUBSCRIPTION
-  );
+  const [changePassword, { error: changePasswordError }] =
+    useMutation(CHANGE_PASSWORD);
+  const [changeSubscription, { error: changeSubscriptionError }] =
+    useMutation(CHANGE_SUBSCRIPTION);
 
   let email, id, subscribed;
   if (!meLoading && !meError && meData !== undefined) {
-    email = meData.me.email;
-    id = meData.me._id;
-    subscribed = meData.me.subscribed;
+    email = meData.getMe.email;
+    id = meData.getMe._id;
+    subscribed = meData.getMe.subscribed;
   }
 
   const handleSubscribe = async (e) => {
@@ -52,11 +50,11 @@ const AccountSettings = () => {
     } catch (e) {
       console.log(e);
       console.log(changeSubscriptionError);
-      //   setNotification({
-      //     type: "fail",
-      //     title: "¯\\_(ツ)_/¯",
-      //     message: e.message,
-      //   });
+      setNotification({
+        type: "fail",
+        title: "¯\\_(ツ)_/¯",
+        message: e.message,
+      });
     }
   };
 
@@ -75,7 +73,7 @@ const AccountSettings = () => {
         ],
         awaitRefetchQueries: true,
       });
-      localStorage.setItem("flogsToken", data.editEmail.value);
+      localStorage.setItem("flogsToken", data.updateUserEmail.value);
       setNotification({
         type: "success",
         title: "ヽ(•‿•)ノ",
@@ -85,11 +83,11 @@ const AccountSettings = () => {
     } catch (e) {
       console.log(changeEmailError);
       console.log(e);
-      //   setNotification({
-      //     type: "fail",
-      //     title: "¯\\_(ツ)_/¯",
-      //     message: changeEmailError,
-      //   });
+      setNotification({
+        type: "fail",
+        title: "¯\\_(ツ)_/¯",
+        message: changeEmailError,
+      });
     }
   };
 
@@ -102,7 +100,7 @@ const AccountSettings = () => {
           newPassword,
         },
       });
-      localStorage.setItem("flogsToken", data.editPassword.value);
+      localStorage.setItem("flogsToken", data.updateUserPassword.value);
       setNotification({
         type: "success",
         title: "ヽ(•‿•)ノ",
@@ -111,11 +109,12 @@ const AccountSettings = () => {
       setPassword("");
       setNewPassword("");
     } catch (e) {
+      console.log(e);
       console.log(changePasswordError);
       setNotification({
         type: "fail",
         title: "¯\\_(ツ)_/¯",
-        message: changePasswordError,
+        message: e.message,
       });
     }
   };
@@ -154,7 +153,12 @@ const AccountSettings = () => {
               <div className="user-settings-item">
                 <h2>change email</h2>
                 <form onSubmit={handleEmailChange}>
-                  <input className="box-shadow-3" value={email} type="email" disabled />
+                  <input
+                    className="box-shadow-3"
+                    value={email}
+                    type="email"
+                    disabled
+                  />
                   <input
                     className="box-shadow-3"
                     value={newEmail}

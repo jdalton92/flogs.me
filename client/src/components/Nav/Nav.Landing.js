@@ -38,7 +38,7 @@ const NavLanding = () => {
   }
   return (
     <>
-      {meData !== undefined && meData.me ? (
+      {meData !== undefined && meData.getMe ? (
         <div className="h100 nav-user-wrapper">
           <OutsideAlerter>
             <div
@@ -49,7 +49,7 @@ const NavLanding = () => {
                 <div alt="user" title="user" className="user-icon" />
                 <i className="navbar-arrow-down"></i>
               </div>
-              <div className="nav-user-name">{meData.me.name}</div>
+              <div className="nav-user-name">{meData.getMe.name}</div>
             </div>
             <div
               className={`${
@@ -64,7 +64,7 @@ const NavLanding = () => {
                 } flex-col-center nav-dropdown`}
               >
                 <div
-                  onClick={() => handleLink(`/user/${meData.me._id}`)}
+                  onClick={() => handleLink(`/user/${meData.getMe._id}`)}
                   className="flex-1 w100 flex-row-center nav-link"
                 >
                   account summary
@@ -75,7 +75,7 @@ const NavLanding = () => {
                 >
                   account settings
                 </div>
-                {meData.me.userType === "admin" && (
+                {meData.getMe.userType === "admin" && (
                   <div
                     onClick={() => handleLink("/blog-admin")}
                     className="flex-1 w100 flex-row-center nav-link"

@@ -31,8 +31,15 @@ const createUser = async (root, { name, email, password }, { currentUser }) => {
   });
 
   try {
-    const savedUser = await user.save();
-    return savedUser;
+    const newUser = await user.save();
+    const userForToken = {
+      email: newUser.email,
+      id: newUser._id,
+    };
+
+    const token = { value: jwt.sign(userForToken, config.SECRET) };
+
+    return token;
   } catch (e) {
     throw new UserInputError(e.message, {
       invalidArgs: { name, email, password },
@@ -99,15 +106,15 @@ const updateUserPassword = async (
     user === null ? false : await bcrypt.compare(password, user.passwordHash);
 
   if (!(user && passwordCorrect)) {
-    throw new UserInputError("incorrect current password");
+    throw new UserInputError("Incorrect current password");
   }
 
   if (!newPassword || newPassword.length < 3) {
-    throw new UserInputError("password minimum length 3");
+    throw new UserInputError("Password minimum length 3");
   }
 
   const saltRounds = 10;
-  passwordHash = await bcrypt.hash(newPassword, saltRounds);
+  const passwordHash = await bcrypt.hash(newPassword, saltRounds);
 
   const updatedUser = {
     passwordHash,

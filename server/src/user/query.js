@@ -5,7 +5,7 @@ import User from "./model.js";
 
 const getUser = async (root, { userId }) => {
   try {
-    user = await User.findById(userId)
+    const user = await User.findById(userId)
       .populate({
         path: "blogs",
         populate: {

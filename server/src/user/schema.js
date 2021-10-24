@@ -20,11 +20,12 @@ export default gql`
 
   extend type Query {
     getUser(userId: ID!): User!
+
     getMe: User
   }
 
   extend type Mutation {
-    createUser(name: String!, email: String!, password: String!): User
+    createUser(name: String!, email: String!, password: String!): Token
 
     updateUserEmail(newEmail: String!): Token
 
