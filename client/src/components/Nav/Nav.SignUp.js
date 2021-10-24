@@ -4,35 +4,37 @@ import { CREATE_USER } from "../../queries/userQueries";
 import Context from "../../context/Context";
 
 const NavLogin = () => {
-  const { setLoginView, setNotification } = useContext(Context);
+  const { meRefetch, setLoginView, setNotification } = useContext(Context);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [createUser, { loading: createUserLoading }] = useMutation(CREATE_USER);
 
-  const handleSignUp = async e => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      await createUser({
+      const { data } = await createUser({
         variables: {
           name,
           email,
-          password
-        }
+          password,
+        },
       });
+      localStorage.setItem("flogsToken", data.createUser.value);
+      meRefetch();
       setLoginView("landing");
       setNotification({
         type: "success",
         title: "ヽ(•‿•)ノ",
-        message: "account created"
+        message: "account created",
       });
     } catch (e) {
       console.log(e);
       setNotification({
         type: "fail",
         title: "¯\\_(ツ)_/¯",
-        message: e.message
+        message: e.message,
       });
       setName("");
       setEmail("");

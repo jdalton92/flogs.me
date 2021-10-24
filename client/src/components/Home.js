@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
-import { FEATURED_BLOGS } from "../queries/blogQueries";
+import { GET_FEATURED_BLOGS } from "../queries/blogQueries";
 import flogs from "../styles/images/flogs.jpg";
 import unhappy from "../styles/images/unhappy-stick-figure.png";
 import happy from "../styles/images/happy-stick-figure.png";
@@ -13,7 +13,7 @@ const Home = () => {
     data: commentBlogData,
     error: commentBlogError,
     loading: commentBlogLoading,
-  } = useQuery(FEATURED_BLOGS, {
+  } = useQuery(GET_FEATURED_BLOGS, {
     variables: { field: "comments", top: 5, order: "descending" },
   });
 
@@ -21,7 +21,7 @@ const Home = () => {
     data: recentBlogData,
     error: recentBlogError,
     loading: recentBlogLoading,
-  } = useQuery(FEATURED_BLOGS, {
+  } = useQuery(GET_FEATURED_BLOGS, {
     variables: { field: "date", top: 5, order: "descending" },
   });
 
@@ -29,7 +29,7 @@ const Home = () => {
     data: featuredBlogData,
     error: featuredBlogError,
     loading: featuredBlogLoading,
-  } = useQuery(FEATURED_BLOGS, {
+  } = useQuery(GET_FEATURED_BLOGS, {
     variables: { field: "featured", top: 5, order: "descending" },
   });
 

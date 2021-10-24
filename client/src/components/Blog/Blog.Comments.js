@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import Context from "../../context/Context";
 import { useHistory } from "react-router-dom";
-import BlogCommentLike from "./Blog.CommentLike";
+import BlogCommentLikeDelete from "./Blog.CommentLikeDelete";
 
 const BlogComments = ({ commentData }) => {
+  const { meData } = useContext(Context);
   const history = useHistory();
   const [sort, setSort] = useState("newest");
+
+  const isAuthor = (comment) => {
+    return comment.author._id === meData.getMe._id;
+  };
 
   const handleSort = (e) => {
     e.preventDefault();
@@ -15,7 +21,7 @@ const BlogComments = ({ commentData }) => {
     history.push(`/user/${id}`);
   };
 
-  let sortedComments = [...commentData.commentDetail];
+  let sortedComments = [...commentData.getComments];
 
   switch (sort) {
     case "newest":
@@ -31,7 +37,7 @@ const BlogComments = ({ commentData }) => {
       sortedComments.sort((a, b) => b.dislikes - a.dislikes);
       break;
     default:
-      sortedComments = [...commentData.commentDetail];
+      sortedComments = [...commentData.getComments];
       break;
   }
 
@@ -54,7 +60,7 @@ const BlogComments = ({ commentData }) => {
             <div className="flex-col">
               <div className="flex-row blog-comment-header">
                 <div className="blog-comment-title">{c.title}</div>
-                <BlogCommentLike id={c._id} />
+                <BlogCommentLikeDelete id={c._id} isAuthor={isAuthor(c)} />
               </div>
               <div className="flex-row blog-comment-subheader">
                 <div className="blog-comment-author">

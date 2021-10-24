@@ -17,9 +17,9 @@ const BLOG_DETAILS = gql`
   }
 `;
 
-export const ALL_BLOGS = gql`
-  query allBlogs($category: String, $search: String, $all: Boolean) {
-    allBlogs(category: $category, search: $search, all: $all) {
+export const GET_BLOGS = gql`
+  query getBlogs($category: String, $search: String, $all: Boolean) {
+    getBlogs(category: $category, search: $search, all: $all) {
       ...BlogDetails
       _id
       comments {
@@ -30,17 +30,17 @@ export const ALL_BLOGS = gql`
   ${BLOG_DETAILS}
 `;
 
-export const SAVE_BLOG = gql`
-  mutation saveBlog($blogId: ID!) {
-    saveBlog(blogId: $blogId) {
+export const FAVORITE_BLOG = gql`
+  mutation favoriteBlog($blogId: ID!) {
+    favoriteBlog(blogId: $blogId) {
       _id
     }
   }
 `;
 
 export const GET_BLOG = gql`
-  query blogDetail($slug: String!) {
-    blogDetail(slug: $slug) {
+  query getBlog($slug: String!) {
+    getBlog(slug: $slug) {
       ...BlogDetails
       content
       img
@@ -65,8 +65,8 @@ export const GET_BLOG = gql`
   ${BLOG_DETAILS}
 `;
 
-export const ADD_BLOG = gql`
-  mutation addBlog(
+export const CREATE_BLOG = gql`
+  mutation createBlog(
     $title: String!
     $slug: String!
     $category: String!
@@ -75,7 +75,7 @@ export const ADD_BLOG = gql`
     $img: String
     $similarBlogs: [ID]
   ) {
-    addBlog(
+    createBlog(
       title: $title
       slug: $slug
       category: $category
@@ -90,8 +90,8 @@ export const ADD_BLOG = gql`
   ${BLOG_DETAILS}
 `;
 
-export const EDIT_BLOG = gql`
-  mutation editBlog(
+export const UPDATE_BLOG = gql`
+  mutation updateBlog(
     $_id: ID!
     $title: String!
     $slug: String!
@@ -101,7 +101,7 @@ export const EDIT_BLOG = gql`
     $img: String
     $similarBlogs: [ID]
   ) {
-    editBlog(
+    updateBlog(
       _id: $_id
       title: $title
       slug: $slug
@@ -125,9 +125,9 @@ export const COMMENT_ADDED = gql`
   }
 `;
 
-export const FEATURED_BLOGS = gql`
-  query featuredBlogDetail($top: Int!, $field: String!, $order: String!) {
-    featuredBlogDetail(top: $top, field: $field, order: $order) {
+export const GET_FEATURED_BLOGS = gql`
+  query getFeaturedBlogs($top: Int!, $field: String!, $order: String!) {
+    getFeaturedBlogs(top: $top, field: $field, order: $order) {
       title
       date
       slug
@@ -143,14 +143,14 @@ export const FEATURED_BLOGS = gql`
   }
 `;
 
-export const DELETE_BLOGS = gql`
-  mutation removeBlogs($blogId: ID!) {
-    removeBlogs(blogId: $blogId)
+export const DELETE_BLOG = gql`
+  mutation deleteBlog($blogId: ID!) {
+    deleteBlog(blogId: $blogId)
   }
 `;
 
-export const SET_FEATURE_BLOGS = gql`
-  mutation featureBlogs($blogId: [ID!], $type: String!) {
-    featureBlogs(blogId: $blogId, type: $type)
+export const FEATURE_BLOGS = gql`
+  mutation featureBlog($blogId: [ID!], $type: String!) {
+    featureBlog(blogId: $blogId, type: $type)
   }
 `;

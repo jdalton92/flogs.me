@@ -25,7 +25,7 @@ const Nav = () => {
         </h1>
         <div
           className={`login-wrapper ${
-            meData !== undefined && meData.me ? "login-wrapper-loggedin" : ""
+            meData !== undefined && meData.getMe ? "login-wrapper-loggedin" : ""
           }`}
         >
           {loginView === "landing" && <NavLanding />}

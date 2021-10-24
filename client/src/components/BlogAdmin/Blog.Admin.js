@@ -2,12 +2,12 @@ import React, { useState, useEffect, useContext } from "react";
 import Context from "../../context/Context";
 import { useMutation, useLazyQuery } from "@apollo/client";
 import {
-  ALL_BLOGS,
-  ADD_BLOG,
-  DELETE_BLOGS,
-  FEATURED_BLOGS,
-  SET_FEATURE_BLOGS,
+  GET_BLOGS,
   GET_BLOG,
+  CREATE_BLOG,
+  DELETE_BLOG,
+  GET_FEATURED_BLOGS,
+  FEATURE_BLOGS,
 } from "../../queries/blogQueries";
 import BlogAdminBlogAction from "./Blog.Admin.BlogAction";
 import BlogAdminModal from "./Blog.Admin.Modal";
@@ -28,22 +28,16 @@ const BlogAdmin = () => {
   const [deletedBlogs, setDeletedBlogsForm] = useState([]);
   const [featuredBlogs, setFeaturedBlogs] = useState([]);
   const [nonFeaturedBlogs, setNonFeaturedBlogs] = useState([]);
-  const [
-    addBlog,
-    { error: addBlogError, loading: addBlogLoading },
-  ] = useMutation(ADD_BLOG);
-  const [
-    deleteBlogs,
-    { error: deleteBlogsError, loading: deleteBlogsLoading },
-  ] = useMutation(DELETE_BLOGS);
+  const [createBlog, { error: createBlogError, loading: createBlogLoading }] =
+    useMutation(CREATE_BLOG);
+  const [deleteBlog, { error: deleteBlogError, loading: deleteBlogLoading }] =
+    useMutation(DELETE_BLOG);
   const [
     featureBlogs,
     { error: featuredBlogsError, loading: featuredBlogsLoading },
-  ] = useMutation(SET_FEATURE_BLOGS);
-  const [
-    getBlog,
-    { data: blogData, error: blogError, loading: blogLoading },
-  ] = useLazyQuery(GET_BLOG);
+  ] = useMutation(FEATURE_BLOGS);
+  const [getBlog, { data: blogData, error: blogError, loading: blogLoading }] =
+    useLazyQuery(GET_BLOG);
 
   useEffect(() => {
     blogsSearch({ variables: { all: true } });
@@ -62,14 +56,13 @@ const BlogAdmin = () => {
     return value;
   };
 
-  //Handle add blog
   const handleAddBlog = (variables) => {
     try {
-      addBlog({
+      createBlog({
         variables,
         refetchQueries: [
           {
-            query: ALL_BLOGS,
+            query: GET_BLOGS,
             variables: { all: true },
           },
         ],
@@ -81,7 +74,7 @@ const BlogAdmin = () => {
         message: "blog added",
       });
     } catch (e) {
-      console.log(addBlogError);
+      console.log(createBlogError);
       setNotification({
         type: "fail",
         title: "¯\\_(ツ)_/¯",
@@ -90,7 +83,6 @@ const BlogAdmin = () => {
     }
   };
 
-  //Handle edit blog
   const handleEditBlog = (e) => {
     e.preventDefault();
     if (!editBlogSlug) {
@@ -105,7 +97,6 @@ const BlogAdmin = () => {
     }
   };
 
-  //Handle delete blogs
   const handleDeleteBlogs = (e) => {
     e.preventDefault();
     if (deletedBlogs.length === 0) {
@@ -118,18 +109,18 @@ const BlogAdmin = () => {
       const confirm = window.confirm(`permanently delete blog? `);
       if (confirm) {
         try {
-          deleteBlogs({
+          deleteBlog({
             variables: { blogId: deletedBlogs },
             refetchQueries: [
               {
-                query: ALL_BLOGS,
+                query: GET_BLOGS,
                 variables: { all: true },
               },
             ],
             awaitRefetchQueries: true,
           });
         } catch (e) {
-          console.log(deleteBlogsError);
+          console.log(deleteBlogError);
           setNotification({
             type: "fail",
             title: "¯\\_(ツ)_/¯",
@@ -158,11 +149,11 @@ const BlogAdmin = () => {
         variables: { blogId: [...nonFeaturedBlogs], type: "setFeatured" },
         refetchQueries: [
           {
-            query: ALL_BLOGS,
+            query: GET_BLOGS,
             variables: { all: true },
           },
           {
-            query: FEATURED_BLOGS,
+            query: GET_FEATURED_BLOGS,
             variables: { field: "featured", top: 5, order: "descending" },
           },
         ],
@@ -185,11 +176,11 @@ const BlogAdmin = () => {
         variables: { blogId: [...featuredBlogs], type: "setNonFeatured" },
         refetchQueries: [
           {
-            query: ALL_BLOGS,
+            query: GET_BLOGS,
             variables: { all: true },
           },
           {
-            query: FEATURED_BLOGS,
+            query: GET_FEATURED_BLOGS,
             variables: { field: "featured", top: 5, order: "descending" },
           },
         ],
@@ -241,7 +232,7 @@ const BlogAdmin = () => {
                   multiple
                   required
                 >
-                  {blogsData.allBlogs
+                  {blogsData.getBlogs
                     .filter((b) => !b.featured)
                     .map((b, i) => (
                       <option key={i} value={b._id}>
@@ -267,7 +258,7 @@ const BlogAdmin = () => {
                   multiple
                   required
                 >
-                  {blogsData.allBlogs
+                  {blogsData.getBlogs
                     .filter((b) => b.featured)
                     .map((b, i) => (
                       <option key={i} value={b._id}>
@@ -294,8 +285,8 @@ const BlogAdmin = () => {
         blogsLoading={blogsLoading}
         blogsError={blogsError}
         blogAction={handleAddBlog}
-        blogActionLoading={addBlogLoading}
-        blogActionError={addBlogError}
+        blogActionLoading={createBlogLoading}
+        blogActionError={createBlogError}
         multiSelectHandler={multiSelectHandler}
       />
       <div className="m-auto blog-edit-wrapper">
@@ -329,7 +320,7 @@ const BlogAdmin = () => {
               <option value="default" disabled>
                 select blog
               </option>
-              {blogsData.allBlogs.map((b, i) => (
+              {blogsData.getBlogs.map((b, i) => (
                 <option key={i} value={b.slug}>
                   title: {b.title} | author: {b.author.name} | comments:{" "}
                   {b.comments.length} | date:{" "}
@@ -362,15 +353,13 @@ const BlogAdmin = () => {
         {blogsLoading ||
         blogsError ||
         blogsData === undefined ||
-        deleteBlogsError ||
-        deleteBlogsLoading ? (
+        deleteBlogError ||
+        deleteBlogLoading ? (
           <>
-            {(blogsLoading ||
-              deleteBlogsLoading ||
-              blogsData === undefined) && (
+            {(blogsLoading || deleteBlogLoading || blogsData === undefined) && (
               <div className="loader-spinner">loading...</div>
             )}
-            {(blogsError || deleteBlogsError) && (
+            {(blogsError || deleteBlogError) && (
               <div style={{ marginTop: "10px", textAlign: "center" }}>
                 error deleting blog...
               </div>
@@ -391,7 +380,7 @@ const BlogAdmin = () => {
               <option value="default" disabled>
                 select blog
               </option>
-              {blogsData.allBlogs.map((b, i) => (
+              {blogsData.getBlogs.map((b, i) => (
                 <option key={i} value={b._id}>
                   title: {b.title} | author: {b.author.name} | comments:{" "}
                   {b.comments.length} | date:{" "}

@@ -11,10 +11,9 @@ const USER_DETAILS = gql`
 export const CREATE_USER = gql`
   mutation createUser($name: String!, $email: String!, $password: String!) {
     createUser(name: $name, email: $email, password: $password) {
-      ...UserDetails
+      value
     }
   }
-  ${USER_DETAILS}
 `;
 
 export const LOGIN = gql`
@@ -26,32 +25,32 @@ export const LOGIN = gql`
 `;
 
 export const CHANGE_PASSWORD = gql`
-  mutation editPassword($password: String!, $newPassword: String!) {
-    editPassword(password: $password, newPassword: $newPassword) {
+  mutation updateUserPassword($password: String!, $newPassword: String!) {
+    updateUserPassword(password: $password, newPassword: $newPassword) {
       value
     }
   }
 `;
 
 export const CHANGE_EMAIL = gql`
-  mutation editEmail($newEmail: String!) {
-    editEmail(newEmail: $newEmail) {
+  mutation updateUserEmail($newEmail: String!) {
+    updateUserEmail(newEmail: $newEmail) {
       value
     }
   }
 `;
 
 export const CHANGE_SUBSCRIPTION = gql`
-  mutation changeSubscription($subscribe: Boolean!) {
-    changeSubscription(subscribe: $subscribe) {
+  mutation updateUserSubscription($subscribe: Boolean!) {
+    updateUserSubscription(subscribe: $subscribe) {
       subscribed
     }
   }
 `;
 
-export const ME = gql`
+export const GET_ME = gql`
   query {
-    me {
+    getMe {
       name
       email
       userType
@@ -62,8 +61,8 @@ export const ME = gql`
 `;
 
 export const GET_USER = gql`
-  query userDetail($userId: ID!) {
-    userDetail(userId: $userId) {
+  query getUser($userId: ID!) {
+    getUser(userId: $userId) {
       ...UserDetails
       userType
       subscribed

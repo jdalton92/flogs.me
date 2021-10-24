@@ -232,14 +232,20 @@
   right: -5px;
 }
 
+.blog-comment-delete {
+  margin-right: 5px;
+}
+
 .blog-comment-like {
   margin-right: 5px;
+  margin-left: 5px;
 }
 
 .blog-comment-dislike {
   margin-left: 5px;
 }
 
+.blog-comment-delete,
 .blog-comment-like,
 .blog-comment-dislike {
   height: 20px;
@@ -247,6 +253,7 @@
   transition: transform 0.2s ease;
 }
 
+.blog-comment-delete:hover,
 .blog-comment-like:hover,
 .blog-comment-dislike:hover {
   cursor: pointer;

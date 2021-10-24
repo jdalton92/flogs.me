@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const uniqueValidator = require("mongoose-unique-validator");
+import mongoose from "mongoose";
+import uniqueValidator from "mongoose-unique-validator";
 
 const schema = new mongoose.Schema({
   title: {
@@ -51,7 +51,7 @@ const schema = new mongoose.Schema({
     required: true,
   },
   img: {
-    type: String, //Store URL of image
+    type: String, // Store URL of image
   },
   comments: [
     {
@@ -70,4 +70,4 @@ schema.index({
   tags: "text",
 });
 
-module.exports = mongoose.model("Blog", schema);
+export default mongoose.model("Blog", schema);

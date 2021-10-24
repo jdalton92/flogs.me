@@ -1,6 +1,7 @@
-const { gql } = require("apollo-server-express");
+import apollo from "apollo-server-express";
+const { gql } = apollo;
 
-module.exports = gql`
+export default gql`
   type Blog {
     date: String!
     author: User!
@@ -17,13 +18,15 @@ module.exports = gql`
   }
 
   extend type Query {
-    allBlogs(category: String, search: String, all: Boolean): [Blog]
-    blogDetail(slug: String!): Blog!
-    featuredBlogDetail(top: Int!, field: String!, order: String!): [Blog!]
+    getBlogs(category: String, search: String, all: Boolean): [Blog]
+
+    getBlog(slug: String!): Blog!
+
+    getFeaturedBlogs(top: Int!, field: String!, order: String!): [Blog!]
   }
 
   extend type Mutation {
-    addBlog(
+    createBlog(
       title: String!
       slug: String!
       category: String!
@@ -33,7 +36,7 @@ module.exports = gql`
       similarBlogs: [ID]
     ): Blog
 
-    editBlog(
+    updateBlog(
       _id: ID!
       title: String!
       slug: String!
@@ -44,9 +47,9 @@ module.exports = gql`
       similarBlogs: [ID]
     ): Blog
 
-    saveBlog(blogId: ID!): Blog
+    favoriteBlog(blogId: ID!): Blog
 
-    removeBlogs(blogId: ID!): Boolean
+    deleteBlog(blogId: ID!): Boolean
 
     featureBlogs(blogId: [ID!], type: String!): Boolean
   }

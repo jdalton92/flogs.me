@@ -2,18 +2,19 @@ import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import Context from "../../context/Context";
 import { useMutation } from "@apollo/client";
-import { ADD_COMMENT, GET_COMMENTS } from "../../queries/commentQueries";
+import { CREATE_COMMENT, GET_COMMENTS } from "../../queries/commentQueries";
 
 const BlogAddComment = ({ id, commentRef }) => {
   const slug = useParams().slug;
   const { setNotification, meData } = useContext(Context);
   const [title, setTitle] = useState("");
   const [comment, setComment] = useState("");
-  const [addComment, { error: addCommentError }] = useMutation(ADD_COMMENT);
+  const [createComment, { error: addCommentError }] =
+    useMutation(CREATE_COMMENT);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!meData.me) {
+    if (!meData.getMe) {
       setNotification({
         type: "fail",
         title: "¯\\_(ツ)_/¯",
@@ -22,7 +23,7 @@ const BlogAddComment = ({ id, commentRef }) => {
       return;
     }
     try {
-      addComment({
+      createComment({
         variables: {
           blogId: id,
           title,

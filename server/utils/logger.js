@@ -1,5 +1,7 @@
+import config from "./config.js";
+
 const info = (...params) => {
-  if (process.env.NODE_ENV !== "test") {
+  if (config.NODE_ENV !== "test") {
     console.log(...params);
   }
 };
@@ -8,7 +10,7 @@ const error = (...params) => {
   console.error(...params);
 };
 
-module.exports = {
+export default {
   info,
-  error
+  error,
 };

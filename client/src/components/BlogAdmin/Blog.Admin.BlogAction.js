@@ -32,15 +32,15 @@ const BlogAdminBlogAction = ({
   useEffect(() => {
     if (blogData !== undefined && !blogLoading && !blogError) {
       setBlogForm({
-        title: blogData.blogDetail.title,
-        slug: blogData.blogDetail.slug,
-        category: blogData.blogDetail.category,
-        content: blogData.blogDetail.content,
-        img: blogData.blogDetail.img,
+        title: blogData.getBlog.title,
+        slug: blogData.getBlog.slug,
+        category: blogData.getBlog.category,
+        content: blogData.getBlog.content,
+        img: blogData.getBlog.img,
       });
-      setSimilarBlogs(blogData.blogDetail.similarBlogs.map((b) => b._id));
+      setSimilarBlogs(blogData.getBlog.similarBlogs.map((b) => b._id));
       setTags(
-        blogData.blogDetail.tags.map((tag) => ({
+        blogData.getBlog.tags.map((tag) => ({
           tag,
           _id: uuid(),
         }))
@@ -223,7 +223,7 @@ const BlogAdminBlogAction = ({
             name="similarBlogs"
             multiple
           >
-            {blogsData.allBlogs.map((b, i) => (
+            {blogsData.getBlogs.map((b, i) => (
               <option key={i} value={b._id}>
                 title: {b.title} | author: {b.author.name} | date:{" "}
                 {new Intl.DateTimeFormat("en-GB").format(b.date)}

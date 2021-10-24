@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 import { useParams, useHistory } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { useQuery, useMutation } from "@apollo/client";
-import { GET_BLOG, SAVE_BLOG } from "../../queries/blogQueries";
+import { GET_BLOG, FAVORITE_BLOG } from "../../queries/blogQueries";
 import { GET_COMMENTS } from "../../queries/commentQueries";
 import ToTopBtn from "../ToTopBtn";
 import CodeBlock from "./CodeBlock";
@@ -19,7 +19,8 @@ const Blog = () => {
   const history = useHistory();
   const { setNotification, meData } = useContext(Context);
   const [viewButton, setViewButton] = useState(false);
-  const [saveBlog, { error: saveBlogError }] = useMutation(SAVE_BLOG);
+  const [favoriteBlog, { error: favoriteBlogError }] =
+    useMutation(FAVORITE_BLOG);
   const {
     data: blogData,
     error: blogError,
@@ -36,13 +37,11 @@ const Blog = () => {
     variables: { slug },
   });
 
-  // Get new blog when slug changes
   useEffect(() => {
     blogRefetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug]);
 
-  // Show "to top" btn when scroll past blog image
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 350) {
@@ -54,7 +53,6 @@ const Blog = () => {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
 
-    // Remove on clean up
     return () => window.removeEventListener("scroll", handleScroll);
   }, [viewButton]);
 
@@ -70,16 +68,16 @@ const Blog = () => {
   let similarBlogs;
 
   if (!blogLoading && !blogError) {
-    blogId = blogData.blogDetail._id;
-    title = blogData.blogDetail.title;
-    category = blogData.blogDetail.category;
-    date = new Intl.DateTimeFormat("en-GB").format(blogData.blogDetail.date);
-    author = blogData.blogDetail.author;
-    comments = blogData.blogDetail.comments;
-    tags = blogData.blogDetail.tags;
-    content = blogData.blogDetail.content;
-    img = blogData.blogDetail.img;
-    similarBlogs = blogData.blogDetail.similarBlogs;
+    blogId = blogData.getBlog._id;
+    title = blogData.getBlog.title;
+    category = blogData.getBlog.category;
+    date = new Intl.DateTimeFormat("en-GB").format(blogData.getBlog.date);
+    author = blogData.getBlog.author;
+    comments = blogData.getBlog.comments;
+    tags = blogData.getBlog.tags;
+    content = blogData.getBlog.content;
+    img = blogData.getBlog.img;
+    similarBlogs = blogData.getBlog.similarBlogs;
   }
 
   const handleLink = (link) => {
@@ -88,7 +86,7 @@ const Blog = () => {
 
   const handleSave = async (e) => {
     e.preventDefault();
-    if (!meData.me) {
+    if (!meData.getMe) {
       setNotification({
         type: "fail",
         title: "¯\\_(ツ)_/¯",
@@ -97,7 +95,7 @@ const Blog = () => {
       return;
     }
     try {
-      await saveBlog({
+      await favoriteBlog({
         variables: {
           blogId,
         },
@@ -108,7 +106,7 @@ const Blog = () => {
         message: "blog saved, view account summary for saved blog list",
       });
     } catch (e) {
-      console.log(saveBlogError);
+      console.log(favoriteBlogError);
       setNotification({
         type: "fail",
         title: "¯\\_(ツ)_/¯",
@@ -220,10 +218,16 @@ const Blog = () => {
                 </div>
                 <div className="blog-author-description">{authorType}</div>
                 <div className="flex-row blog-author-btn-wrapper">
-                  <button onClick={handleSave} className="primary-btn box-shadow-3">
+                  <button
+                    onClick={handleSave}
+                    className="primary-btn box-shadow-3"
+                  >
                     save
                   </button>
-                  <button onClick={handleAddComment} className="secondary-btn box-shadow-3">
+                  <button
+                    onClick={handleAddComment}
+                    className="secondary-btn box-shadow-3"
+                  >
                     comment
                   </button>
                 </div>

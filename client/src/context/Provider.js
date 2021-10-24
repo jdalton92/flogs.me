@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useQuery, useLazyQuery } from "@apollo/client";
-import { ME } from "../queries/userQueries";
-import { ALL_BLOGS } from "../queries/blogQueries";
+import { GET_ME } from "../queries/userQueries";
+import { GET_BLOGS } from "../queries/blogQueries";
 import Context from "./Context";
 import { v4 as uuid } from "uuid";
 
@@ -12,13 +12,13 @@ const Provider = ({ children }) => {
     error: meError,
     data: meData,
     refetch: meRefetch,
-  } = useQuery(ME);
+  } = useQuery(GET_ME);
 
   //Blogs data and search query
   const [
     blogsSearch,
     { data: blogsData, error: blogsError, loading: blogsLoading },
-  ] = useLazyQuery(ALL_BLOGS);
+  ] = useLazyQuery(GET_BLOGS);
 
   // Notifications state
   const [notifications, setMessage] = useState([]);

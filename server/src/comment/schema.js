@@ -1,6 +1,7 @@
-const { gql } = require("apollo-server-express");
+import apollo from "apollo-server-express";
+const { gql } = apollo;
 
-module.exports = gql`
+export default gql`
   type Comment {
     date: String!
     author: User!
@@ -13,15 +14,17 @@ module.exports = gql`
   }
 
   extend type Query {
-    commentDetail(slug: String!): [Comment]
+    getComments(slug: String!): [Comment]
   }
 
   extend type Mutation {
-    addComment(blogId: ID!, title: String!, comment: String!): Comment
+    createComment(blogId: ID!, title: String!, comment: String!): Comment
 
     likeComment(commentId: ID!): Comment
 
     dislikeComment(commentId: ID!): Comment
+
+    deleteComment(commentId: ID!): Boolean
   }
 
   extend type Subscription {
