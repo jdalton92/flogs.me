@@ -51,24 +51,52 @@ const createComment = async (
   return returnComment;
 };
 
+const deleteComment = async (root, { commentId }, { currentUser }) => {
+  if (!currentUser) {
+    throw new AuthenticationError("not authenticated");
+  }
+  const comment = await Comment.findById(commentId);
+
+  if (!comment) {
+    throw new UserInputError("comment does not exist");
+  }
+
+  if (currentUser._id.toString() !== comment.author.toString()) {
+    throw new AuthenticationError(
+      "Only comment authors can their delete comments"
+    );
+  }
+
+  try {
+    await Blog.findByIdAndUpdate(comment.blog, {
+      $pull: { comments: commentId },
+    });
+
+    await User.findByIdAndUpdate(
+      { _id: comment.author },
+      { $pull: { comments: commentId } }
+    );
+
+    await Comment.findByIdAndDelete(commentId);
+  } catch (e) {
+    throw new UserInputError(e.message, {
+      invalidArgs: { commentId },
+    });
+  }
+
+  return true;
+};
+
 const likeComment = async (root, { commentId }, { currentUser }) => {
   if (!currentUser) {
     throw new AuthenticationError("not authenticated");
   }
 
-  let comment = await Comment.findById(commentId);
+  const comment = await Comment.findByIdAndUpdate(commentId, {
+    $inc: { likes: 1 },
+  });
 
-  const updatedComment = { likes: comment.likes + 1 };
-
-  const newComment = await Comment.findByIdAndUpdate(
-    commentId,
-    updatedComment,
-    {
-      new: true,
-    }
-  );
-
-  return newComment;
+  return comment;
 };
 
 const dislikeComment = async (root, { commentId }, { currentUser }) => {
@@ -76,19 +104,11 @@ const dislikeComment = async (root, { commentId }, { currentUser }) => {
     throw new AuthenticationError("not authenticated");
   }
 
-  let comment = await Comment.findById(commentId);
+  const comment = await Comment.findByIdAndUpdate(commentId, {
+    $inc: { dislikes: 1 },
+  });
 
-  const updatedComment = { dislikes: comment.dislikes + 1 };
-
-  const newComment = await Comment.findByIdAndUpdate(
-    commentId,
-    updatedComment,
-    {
-      new: true,
-    }
-  );
-
-  return newComment;
+  return comment;
 };
 
-export default { createComment, likeComment, dislikeComment };
+export default { createComment, likeComment, dislikeComment, deleteComment };

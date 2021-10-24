@@ -6,17 +6,54 @@ import {
   GET_COMMENTS,
   LIKE_COMMENT,
   DISLIKE_COMMENT,
+  DELETE_COMMENT,
 } from "../../queries/commentQueries";
 import like from "../../styles/images/like.png";
 import dislike from "../../styles/images/dislike.png";
+import deleteImage from "../../styles/images/delete.png";
 
-const BlogCommentLike = ({ id }) => {
+const BlogCommentLikeDelete = ({ id, isAuthor }) => {
   const slug = useParams().slug;
   const { setNotification, meData } = useContext(Context);
+  const [deleteComment, { loading: deleteLoading, error: deleteError }] =
+    useMutation(DELETE_COMMENT);
   const [likeComment, { loading: likeLoading, error: likeError }] =
     useMutation(LIKE_COMMENT);
   const [dislikeComment, { loading: dislikeLoading, error: dislikeError }] =
     useMutation(DISLIKE_COMMENT);
+
+  const handleDelete = (id) => {
+    if (!meData.getMe) {
+      setNotification({
+        type: "fail",
+        title: "¯\\_(ツ)_/¯",
+        message: "log in to delete",
+      });
+      return;
+    }
+    try {
+      deleteComment({
+        variables: {
+          commentId: id,
+        },
+        refetchQueries: [
+          {
+            query: GET_COMMENTS,
+            variables: { slug },
+          },
+        ],
+        awaitRefetchQueries: true,
+      });
+    } catch (e) {
+      console.log(e);
+      console.log(deleteError);
+      setNotification({
+        type: "fail",
+        title: "¯\\_(ツ)_/¯",
+        message: e.message,
+      });
+    }
+  };
 
   const handleLike = (id) => {
     if (!meData.getMe) {
@@ -84,10 +121,19 @@ const BlogCommentLike = ({ id }) => {
 
   return (
     <div className="blog-like-wrapper">
-      {likeLoading || dislikeLoading ? (
+      {deleteLoading || likeLoading || dislikeLoading ? (
         <div className="loader-spinner blog-comment-loader">loading...</div>
       ) : (
         <>
+          {isAuthor && (
+            <img
+              alt="delete"
+              className="blog-comment-delete"
+              onClick={() => handleDelete(id)}
+              title="delete"
+              src={deleteImage}
+            />
+          )}
           <img
             alt="like"
             className="blog-comment-like"
@@ -108,4 +154,4 @@ const BlogCommentLike = ({ id }) => {
   );
 };
 
-export default BlogCommentLike;
+export default BlogCommentLikeDelete;

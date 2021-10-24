@@ -23,6 +23,8 @@ export default gql`
     likeComment(commentId: ID!): Comment
 
     dislikeComment(commentId: ID!): Comment
+
+    deleteComment(commentId: ID!): Boolean
   }
 
   extend type Subscription {
