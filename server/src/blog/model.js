@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import uniqueValidator from "mongoose-unique-validator";
+import { paginate } from "../../utils/paginate.js";
 
 const schema = new mongoose.Schema({
   title: {
@@ -69,5 +70,7 @@ schema.index({
   category: "text",
   tags: "text",
 });
+
+schema.statics.paginate = paginate;
 
 export default mongoose.model("Blog", schema);

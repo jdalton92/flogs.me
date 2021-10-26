@@ -17,8 +17,19 @@ export default gql`
     _id: ID!
   }
 
+  type BlogPaginated {
+    pagesCount: Int!
+    resultsCount: Int!
+    currentPage: Int
+    nextPage: Int
+    previousPage: Int
+    results: [Blog]
+  }
+
   extend type Query {
-    getBlogs(category: String, search: String, all: Boolean): [Blog]
+    getBlogs(category: String, offset: Int, limit: Int): BlogPaginated
+
+    searchBlogs(searchTerm: String): BlogPaginated
 
     getBlog(slug: String!): Blog!
 

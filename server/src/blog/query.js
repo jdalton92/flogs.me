@@ -4,17 +4,31 @@ import mongoose from "mongoose";
 
 import Blog from "./model.js";
 
-const getBlogs = async (root, { category, search, all }) => {
-  let blogs = [];
-  if (category) {
-    blogs = await Blog.find({ category }).populate("author");
-  } else if (search) {
-    blogs = await Blog.find({
-      $text: { $search: search, $caseSensitive: false },
-    }).populate("author");
-  } else if (all) {
-    blogs = await Blog.find({}).populate("author");
-  }
+const getBlogs = async (root, { category, sort, limit, page }) => {
+  const query = category ? { category } : {};
+  const populate = "author";
+  const paginationOptions = {
+    sort,
+    limit,
+    page,
+  };
+
+  const blogs = await Blog.paginate(query, populate, paginationOptions);
+
+  return blogs;
+};
+
+const searchBlogs = async (root, { searchTerm, limit, page }) => {
+  const query = {
+    $text: { $search: searchTerm, $caseSensitive: false },
+  };
+  const populate = "author";
+  const paginationOptions = {
+    page,
+    limit,
+  };
+
+  const blogs = await Blog.paginate(query, populate, paginationOptions);
 
   return blogs;
 };
@@ -81,4 +95,4 @@ const getFeaturedBlogs = async (root, { top, field, order }) => {
   return blogs;
 };
 
-export default { getBlogs, getBlog, getFeaturedBlogs };
+export default { getBlogs, searchBlogs, getBlog, getFeaturedBlogs };

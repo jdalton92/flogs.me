@@ -18,8 +18,21 @@ const BLOG_DETAILS = gql`
 `;
 
 export const GET_BLOGS = gql`
-  query getBlogs($category: String, $search: String, $all: Boolean) {
-    getBlogs(category: $category, search: $search, all: $all) {
+  query getBlogs($category: String) {
+    getBlogs(category: $category) {
+      ...BlogDetails
+      _id
+      comments {
+        _id
+      }
+    }
+  }
+  ${BLOG_DETAILS}
+`;
+
+export const SEARCH_BLOGS = gql`
+  query searchBlogs($searchTerm: String) {
+    searchBlogs(searchTerm: $searchTerm) {
       ...BlogDetails
       _id
       comments {
