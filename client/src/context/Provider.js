@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useQuery, useLazyQuery } from "@apollo/client";
 import { GET_ME } from "../queries/userQueries";
-import { GET_BLOGS } from "../queries/blogQueries";
+import { GET_BLOGS, SEARCH_BLOGS } from "../queries/blogQueries";
 import Context from "./Context";
 import { v4 as uuid } from "uuid";
 
 const Provider = ({ children }) => {
-  //User login info
+  // User login info
   const {
     loading: meLoading,
     error: meError,
@@ -14,10 +14,18 @@ const Provider = ({ children }) => {
     refetch: meRefetch,
   } = useQuery(GET_ME);
 
-  //Blogs data and search query
+  // Blogs data and search query
   const [
-    blogsSearch,
-    { data: blogsData, error: blogsError, loading: blogsLoading },
+    searchBlogs,
+    {
+      data: searchBlogsData,
+      error: searchBlogsError,
+      loading: searchBlogsLoading,
+    },
+  ] = useLazyQuery(SEARCH_BLOGS);
+  const [
+    getBlogs,
+    { data: getBlogsData, error: getBlogsError, loading: getBlogsLoading },
   ] = useLazyQuery(GET_BLOGS);
 
   // Notifications state
@@ -66,10 +74,14 @@ const Provider = ({ children }) => {
         meError,
         meData,
         meRefetch,
-        blogsSearch,
-        blogsData,
-        blogsError,
-        blogsLoading,
+        searchBlogs,
+        searchBlogsData,
+        searchBlogsError,
+        searchBlogsLoading,
+        getBlogs,
+        getBlogsData,
+        getBlogsError,
+        getBlogsLoading,
         showEditBlogModal,
         setShowEditBlogModal,
       }}

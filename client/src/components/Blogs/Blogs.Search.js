@@ -1,14 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 
 const BlogsSearch = () => {
   const history = useHistory();
   const [search, setSearch] = useState("");
+  const locationSearch = history.location.search;
+  const params = new URLSearchParams(locationSearch);
+
+  useEffect(() => {
+    const searchParam = params.get("search");
+    if (searchParam) {
+      setSearch(searchParam);
+    }
+    // eslint-disable-next-line
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    history.push({ pathname: "/blogs", search: `?search=${search}` });
-    setSearch("");
+    if (search) {
+      history.push({ pathname: "/blogs", search: `?search=${search}` });
+    } else {
+      setSearch("");
+      history.push("/blogs");
+    }
   };
 
   return (
@@ -23,7 +37,6 @@ const BlogsSearch = () => {
             type="text"
             onChange={({ target }) => setSearch(target.value)}
             maxLength={50}
-            required
           ></input>
           <button className="primary-btn box-shadow-3" type="submit">
             search

@@ -2,88 +2,86 @@ import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import Context from "../../context/Context";
 import BlogsSearch from "./Blogs.Search";
+import BlogsPaginator from "./Blogs.Paginator";
 import BlogsCard from "./Blogs.Card";
 import "../../styles/Blogs.css";
 
 const Blogs = ({ topic }) => {
-  const { blogsSearch, blogsData, blogsLoading, blogsError } =
-    useContext(Context);
+  const {
+    searchBlogs,
+    searchBlogsData,
+    searchBlogsLoading,
+    searchBlogsError,
+    getBlogs,
+    getBlogsData,
+    getBlogsLoading,
+    getBlogsError,
+  } = useContext(Context);
   const history = useHistory();
-  const [sort, setSort] = useState("newest");
+  const [sort, setSort] = useState("-date");
   const search = history.location.search;
   const params = new URLSearchParams(search);
+  let page = 0;
+  let limit = 10;
 
-  //Update blogsData if category is clicked
   useEffect(() => {
+    let queryParams = {
+      variables: { sort, page, limit },
+    };
     if (topic) {
-      blogsSearch({ variables: { category: topic } });
+      queryParams.variables.category = topic;
+      getBlogs(queryParams);
     } else if (search) {
-      blogsSearch({ variables: { search: params.get("search") } });
+      queryParams.variables.searchTerm = params.get("search");
+      searchBlogs(queryParams);
     } else {
-      blogsSearch({ variables: { all: true } });
+      getBlogs(queryParams);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topic, search]);
+    // eslint-disable-next-line
+  }, [topic, search, sort]);
 
   const handleSort = (e) => {
     e.preventDefault();
     setSort(e.target.value);
   };
 
-  let sortedBlogs = [];
-  if (!blogsLoading && !blogsError && blogsData !== undefined) {
-    sortedBlogs = [...blogsData.getBlogs];
-  }
+  const loading = getBlogsLoading || searchBlogsLoading;
+  const invalidState =
+    getBlogsError ||
+    searchBlogsError ||
+    (getBlogsData === undefined && searchBlogsData === undefined);
 
-  switch (sort) {
-    case "newest":
-      sortedBlogs.sort((a, b) => b.date - a.date);
-      break;
-    case "oldest":
-      sortedBlogs.sort((a, b) => a.date - b.date);
-      break;
-    case "comments":
-      sortedBlogs.sort((a, b) => b.comments.length - a.comments.length);
-      break;
-    default:
-      sortedBlogs = [];
-      break;
-  }
+  const blogs = () => {
+    return search ? searchBlogsData?.searchBlogs : getBlogsData?.getBlogs;
+  };
 
   return (
     <section className="blogs-section flex-row">
       <div className="flex-col m-auto blogs-wrapper">
-        <BlogsSearch topic={{ topic }} />
+        <BlogsSearch />
         <div className="blogs-result-wrapper">
-          {blogsLoading || blogsError || blogsData === undefined ? (
+          {loading && <div className="loader-spinner">loading...</div>}
+          {invalidState && (
+            <div style={{ marginTop: "10px", textAlign: "center" }}>
+              error loading blog data...
+            </div>
+          )}
+          {!loading && !invalidState && (
             <>
-              {blogsLoading && <div className="loader-spinner">loading...</div>}
-              {blogsError && (
-                <div style={{ marginTop: "10px", textAlign: "center" }}>
-                  error loading blog data...
-                </div>
-              )}
-            </>
-          ) : (
-            <>
-              {blogsData.getBlogs.length === 0 && (
+              {blogs()?.resultsCount === 0 && (
                 <div style={{ paddingTop: "25px" }}>no results...</div>
               )}
-              {blogsData.getBlogs.length > 0 && (
+              {blogs()?.resultsCount > 0 && (
                 <>
-                  <div className="blogs-sort">
-                    <select
-                      className="box-shadow-3"
-                      defaultValue="newest"
-                      onChange={handleSort}
-                    >
-                      <option value="newest">newest</option>
-                      <option value="oldest">oldest</option>
-                      <option value="comments">most comments</option>
+                  <div className="blogs-sort flex-row-between">
+                    <select className="box-shadow-3" onChange={handleSort}>
+                      <option value="-date">newest</option>
+                      <option value="date">oldest</option>
                     </select>
+                    <BlogsPaginator />
                   </div>
                   <div className="blogcards-wrapper">
-                    {sortedBlogs.map((b) => (
+                    {blogs().results.map((b) => (
                       <BlogsCard key={b._id} blog={b} />
                     ))}
                   </div>

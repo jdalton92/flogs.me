@@ -17,13 +17,30 @@ const BLOG_DETAILS = gql`
   }
 `;
 
+const PAGINATED_BLOGS = gql`
+  fragment PaginatedBlogs on Blog {
+    pagesCount
+    resultsCount
+    currentPage
+    nextPage
+    previousPage
+  }
+  ${BLOG_DETAILS}
+`;
+
 export const GET_BLOGS = gql`
-  query getBlogs($category: String) {
-    getBlogs(category: $category) {
-      ...BlogDetails
-      _id
-      comments {
-        _id
+  query getBlogs($category: String, $sort: String, $page: Int, $limit: Int) {
+    getBlogs(category: $category, sort: $sort, page: $page, limit: $limit) {
+      pagesCount
+      resultsCount
+      currentPage
+      nextPage
+      previousPage
+      results {
+        ...BlogDetails
+        comments {
+          _id
+        }
       }
     }
   }
@@ -31,12 +48,28 @@ export const GET_BLOGS = gql`
 `;
 
 export const SEARCH_BLOGS = gql`
-  query searchBlogs($searchTerm: String) {
-    searchBlogs(searchTerm: $searchTerm) {
-      ...BlogDetails
-      _id
-      comments {
-        _id
+  query searchBlogs(
+    $searchTerm: String
+    $sort: String
+    $page: Int
+    $limit: Int
+  ) {
+    searchBlogs(
+      searchTerm: $searchTerm
+      sort: $sort
+      page: $page
+      limit: $limit
+    ) {
+      pagesCount
+      resultsCount
+      currentPage
+      nextPage
+      previousPage
+      results {
+        ...BlogDetails
+        comments {
+          _id
+        }
       }
     }
   }

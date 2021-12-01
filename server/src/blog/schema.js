@@ -27,9 +27,19 @@ export default gql`
   }
 
   extend type Query {
-    getBlogs(category: String, offset: Int, limit: Int): BlogPaginated
+    getBlogs(
+      category: String
+      sort: String
+      limit: Int
+      page: Int
+    ): BlogPaginated
 
-    searchBlogs(searchTerm: String): BlogPaginated
+    searchBlogs(
+      searchTerm: String
+      sort: String
+      limit: Int
+      page: Int
+    ): BlogPaginated
 
     getBlog(slug: String!): Blog!
 
