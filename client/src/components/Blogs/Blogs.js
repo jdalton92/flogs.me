@@ -21,12 +21,15 @@ const Blogs = ({ topic }) => {
   const search = history.location.search;
   let page = 0;
   let limit = 10;
+  let queryParams = {
+    variables: {
+      sort,
+      page,
+      limit,
+    },
+  };
 
   useEffect(() => {
-    let queryParams = {
-      variables: { sort, page, limit },
-    };
-
     if (topic) {
       queryParams.variables.category = topic;
       getBlogs(queryParams);
@@ -76,7 +79,11 @@ const Blogs = ({ topic }) => {
                       <option value="-date">newest</option>
                       <option value="date">oldest</option>
                     </select>
-                    <BlogsPaginator />
+                    <BlogsPaginator
+                      page={blogs().currentPage}
+                      count={blogs().resultsCount}
+                      queryParams={queryParams}
+                    />
                   </div>
                   <div className="blogcards-wrapper">
                     {blogs().results.map((b) => (
