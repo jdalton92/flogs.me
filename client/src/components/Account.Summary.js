@@ -3,8 +3,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { GET_USER } from "../queries/userQueries";
 import FeaturedList from "./FeaturedList";
-import { Divider } from "../styles/StyledComponents";
-import "../styles/User.css";
+import { Divider } from "../styles/styled/StyledComponents";
 
 const AccountSummary = () => {
   const id = useParams().id;

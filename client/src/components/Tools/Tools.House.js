@@ -9,7 +9,7 @@ import {
 } from "recharts";
 import Context from "../../context/Context";
 import ToTopBtn from "../ToTopBtn";
-import { Divider } from "../../styles/StyledComponents";
+import { Divider } from "../../styles/styled/StyledComponents";
 
 const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
   const { setNotification } = useContext(Context);
@@ -303,7 +303,10 @@ const ToolsHouse = ({ handleFloatBlur, handleIntBlur }) => {
           />
           <span>{growth > 0 ? "% p.a." : null}</span>
         </div>
-        <button onClick={handleClear} className="tool-clear-btn secondary-btn box-shadow-3">
+        <button
+          onClick={handleClear}
+          className="tool-clear-btn secondary-btn box-shadow-3"
+        >
           clear
         </button>
       </div>

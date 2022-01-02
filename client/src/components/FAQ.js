@@ -1,6 +1,5 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import "../styles/FAQ.css";
 
 const FAQ = () => {
   const history = useHistory();

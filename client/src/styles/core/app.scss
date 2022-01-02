@@ -10,6 +10,10 @@
   outline: none;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .flex-row {
   display: flex;
 }
@@ -38,132 +42,10 @@
   justify-content: space-between;
 }
 
-.flex-1 {
-  flex: 1;
-}
-
-.flex-2 {
-  flex: 2;
-}
-
-.flex-3 {
-  flex: 3;
-}
-
-.flex-4 {
-  flex: 4;
-}
-
-.flex-5 {
-  flex: 5;
-}
-
-.flex-6 {
-  flex: 6;
-}
-
-.flex-7 {
-  flex: 7;
-}
-
-.flex-8 {
-  flex: 8;
-}
-
-.flex-9 {
-  flex: 9;
-}
-
-.flex-10 {
-  flex: 10;
-}
-
-.w100 {
-  width: 100%;
-}
-
-.w90 {
-  width: 90%;
-}
-
-.w100 {
-  width: 100%;
-}
-
-.w90 {
-  height: 90%;
-}
-
-.w80 {
-  width: 80%;
-}
-
-.w70 {
-  height: 70%;
-}
-
-.w60 {
-  width: 60%;
-}
-
-.w50 {
-  width: 50%;
-}
-
-.w40 {
-  width: 40%;
-}
-
-.w30 {
-  width: 30%;
-}
-
-.w20 {
-  width: 20%;
-}
-
-.w10 {
-  width: 10%;
-}
-
-.h100 {
-  height: 100%;
-}
-
-.h90 {
-  height: 90%;
-}
-
-.h80 {
-  height: 80%;
-}
-
-.h70 {
-  height: 70%;
-}
-
-.h60 {
-  height: 60%;
-}
-
-.h50 {
-  height: 50%;
-}
-
-.h40 {
-  height: 40%;
-}
-
-.h30 {
-  height: 30%;
-}
-
-.h20 {
-  height: 20%;
-}
-
-.h10 {
-  height: 10%;
+@for $i from 1 to 10 {
+  .flex-#{$i} {
+    flex: #{$i}
+  }
 }
 
 .img-cover {
@@ -187,92 +69,32 @@
   margin-right: auto;
 }
 
-.m0 {
-  margin: 0px;
+@each $spacer, $symbol in (height: h, width:w ) {
+  @each $size, $percentage in $percentages {
+    .#{$symbol}#{$size} {
+      #{$spacer}: #{$percentage}
+    }
+  }
 }
 
-.m5 {
-  margin: 5px;
-}
-
-.m10 {
-  margin: 10px;
-}
-
-.m15 {
-  margin: 15px;
-}
-
-.m20 {
-  margin: 20px;
-}
-
-.m25 {
-  margin: 25px;
-}
-
-.m30 {
-  margin: 30px;
-}
-
-.m35 {
-  margin: 35px;
-}
-
-.m40 {
-  margin: 40px;
-}
-
-.m45 {
-  margin: 45px;
-}
-
-.m50 {
-  margin: 50px;
-}
-
-.p0 {
-  padding: 0px;
-}
-
-.p5 {
-  padding: 5px;
-}
-
-.p10 {
-  padding: 10px;
-}
-
-.p15 {
-  padding: 15px;
-}
-
-.p20 {
-  padding: 20px;
-}
-
-.p25 {
-  padding: 25px;
-}
-
-.p30 {
-  padding: 30px;
-}
-
-.p35 {
-  padding: 35px;
-}
-
-.p40 {
-  padding: 40px;
-}
-
-.p45 {
-  padding: 45px;
-}
-
-.p50 {
-  padding: 50px;
+@each $spacer, $symbol in (margin: m, padding: p) {
+  @each $size, $length in $spacers {
+    .#{$symbol}#{$size} {
+      #{$spacer}: $length;
+    }
+    .#{$symbol}t#{$size} {
+      #{$spacer}-top: $length;
+    }
+    .#{$symbol}r#{$size} {
+      #{$spacer}-right: $length;
+    }
+    .#{$symbol}b#{$size} {
+      #{$spacer}-bottom: $length;
+    }
+    .#{$symbol}l#{$size} {
+      #{$spacer}-left: $length;
+    }
+  }
 }
 
 .primary-btn,

@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import { useMutation } from "@apollo/client";
 import { CONTACT } from "../queries/contactQueries";
 import Context from "../context/Context";
-import "../styles/Contact.scss";
 
 const Contact = () => {
   const [variables, setVariables] = useState({});

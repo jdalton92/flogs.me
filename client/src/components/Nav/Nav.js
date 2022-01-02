@@ -5,9 +5,8 @@ import NavBurger from "./Nav.Burger";
 import NavLogin from "./Nav.Login";
 import NavLanding from "./Nav.Landing";
 import NavSignUp from "./Nav.SignUp";
-import { Menu } from "../../styles/StyledComponents";
+import { Menu } from "../../styles/styled/StyledComponents";
 import Context from "../../context/Context";
-import "../../styles/Nav.css";
 
 const Nav = () => {
   const { open, loginView, meData } = useContext(Context);

@@ -1,7 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Divider } from "../styles/StyledComponents";
-import "../styles/FeaturedList.css";
+import { Divider } from "../styles/styled/StyledComponents";
 
 const FeaturedList = ({ title, dataObject, loading, error, noDataMessage }) => {
   const history = useHistory();
@@ -12,7 +11,7 @@ const FeaturedList = ({ title, dataObject, loading, error, noDataMessage }) => {
 
   const Body = ({ data }) => {
     if (data.length === 0) {
-      return <div>{ noDataMessage }</div>;
+      return <div>{noDataMessage}</div>;
     } else if (Object.keys(dataObject)[0].toLowerCase().includes("blog")) {
       return (
         <>

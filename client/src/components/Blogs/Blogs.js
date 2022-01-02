@@ -4,7 +4,6 @@ import Context from "../../context/Context";
 import BlogsSearch from "./Blogs.Search";
 import BlogsPaginator from "./Blogs.Paginator";
 import BlogsCard from "./Blogs.Card";
-import "../../styles/Blogs.css";
 
 const Blogs = ({ topic }) => {
   const {
@@ -20,7 +19,6 @@ const Blogs = ({ topic }) => {
   const history = useHistory();
   const [sort, setSort] = useState("-date");
   const search = history.location.search;
-  const params = new URLSearchParams(search);
   let page = 0;
   let limit = 10;
 
@@ -28,10 +26,12 @@ const Blogs = ({ topic }) => {
     let queryParams = {
       variables: { sort, page, limit },
     };
+
     if (topic) {
       queryParams.variables.category = topic;
       getBlogs(queryParams);
     } else if (search) {
+      const params = new URLSearchParams(search);
       queryParams.variables.searchTerm = params.get("search");
       searchBlogs(queryParams);
     } else {
@@ -62,14 +62,12 @@ const Blogs = ({ topic }) => {
         <div className="blogs-result-wrapper">
           {loading && <div className="loader-spinner">loading...</div>}
           {invalidState && (
-            <div style={{ marginTop: "10px", textAlign: "center" }}>
-              error loading blog data...
-            </div>
+            <div className="mt10 text-center">error loading blog data...</div>
           )}
           {!loading && !invalidState && (
             <>
               {blogs()?.resultsCount === 0 && (
-                <div style={{ paddingTop: "25px" }}>no results...</div>
+                <div className="pt25">no results...</div>
               )}
               {blogs()?.resultsCount > 0 && (
                 <>

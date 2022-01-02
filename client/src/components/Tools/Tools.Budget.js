@@ -10,7 +10,7 @@ import {
 import ToTopBtn from "../ToTopBtn";
 import ToolsBudgetTable from "./Tools.Budget.Table";
 import Context from "../../context/Context";
-import { Divider } from "../../styles/StyledComponents";
+import { Divider } from "../../styles/styled/StyledComponents";
 
 const ToolsBudget = ({ handleIntBlur }) => {
   const { setNotification } = useContext(Context);

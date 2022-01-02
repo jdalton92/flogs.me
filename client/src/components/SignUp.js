@@ -2,32 +2,31 @@ import React, { useState, useContext } from "react";
 import { useMutation } from "@apollo/client";
 import { SUBSCRIBE } from "../queries/subscribeQueries";
 import Context from "../context/Context";
-import "../styles/SignUp.css";
 
 const SignUp = ({ type }) => {
   const [form, setForm] = useState({});
   const { setNotification } = useContext(Context);
   const [subscribe, { loading: subscribeLoading }] = useMutation(SUBSCRIBE);
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await subscribe({ variables: form });
       setNotification({
         type: "success",
         title: "ヽ(ヅ)ノ",
-        message: "subscribed"
+        message: "subscribed",
       });
     } catch (e) {
       setNotification({
         type: "fail",
         title: "¯\\_(ツ)_/¯",
-        message: "subscription failed"
+        message: "subscription failed",
       });
     }
   };
 
-  const formHandler = e => {
+  const formHandler = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -53,7 +52,10 @@ const SignUp = ({ type }) => {
               onChange={formHandler}
               required
             />
-            <button className="subscribe-form-btn primary-btn box-shadow-3" type="submit">
+            <button
+              className="subscribe-form-btn primary-btn box-shadow-3"
+              type="submit"
+            >
               subscribe
             </button>
           </>

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Context from "../../context/Context";
-import { Burger } from "../../styles/StyledComponents";
+import { Burger } from "../../styles/styled/StyledComponents";
 
 const NavBurger = () => {
   const { open, setOpen } = useContext(Context);

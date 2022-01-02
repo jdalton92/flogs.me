@@ -3,8 +3,7 @@ import { useHistory } from "react-router-dom";
 import ToolsCompounding from "./Tools.Compounding";
 import ToolsHouse from "./Tools.House";
 import ToolsBudget from "./Tools.Budget";
-import { Divider } from "../../styles/StyledComponents";
-import "../../styles/Tools.css";
+import { Divider } from "../../styles/styled/StyledComponents";
 
 const Tools = () => {
   const history = useHistory();

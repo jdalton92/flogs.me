@@ -5,8 +5,7 @@ import flogs from "../styles/images/flogs.jpg";
 import unhappy from "../styles/images/unhappy-stick-figure.png";
 import happy from "../styles/images/happy-stick-figure.png";
 import FeaturedList from "./FeaturedList.js";
-import { Divider } from "../styles/StyledComponents";
-import "../styles/Home.css";
+import { Divider } from "../styles/styled/StyledComponents";
 
 const Home = () => {
   const {

@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import ToTopBtn from "../ToTopBtn";
-import { Divider } from "../../styles/StyledComponents";
+import { Divider } from "../../styles/styled/StyledComponents";
 
 const ToolsCompounding = ({ handleFloatBlur, handleIntBlur }) => {
   const [annualContribution, setAnnualContribution] = useState("");
@@ -130,7 +130,10 @@ const ToolsCompounding = ({ handleFloatBlur, handleIntBlur }) => {
           />
           <span>{growth > 0 ? "% p.a." : null}</span>
         </div>
-        <button onClick={handleClear} className="tool-clear-btn secondary-btn box-shadow-3">
+        <button
+          onClick={handleClear}
+          className="tool-clear-btn secondary-btn box-shadow-3"
+        >
           clear
         </button>
       </div>

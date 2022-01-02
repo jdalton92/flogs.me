@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import Context from "../../context/Context";
-import "../../styles/Blogs.Card.css";
 
 const BlogCard = ({ blog }) => {
   const { setNotification } = useContext(Context);

@@ -20,12 +20,11 @@ import AccountSummary from "./components/Account.Summary";
 import AccountSettings from "./components/Account.Settings";
 import Footer from "./components/Footer";
 
-import "./styles/App.css";
+import "./styles/main.scss";
 
 const App = () => {
   const { meRefetch } = useContext(Context);
 
-  //Init user on page render if logged in previously
   useEffect(() => {
     const existingToken = localStorage.getItem("flogsToken");
     if (existingToken) {

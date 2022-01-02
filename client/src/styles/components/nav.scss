@@ -70,8 +70,8 @@
 }
 
 .user-icon {
-  -webkit-mask: url(../styles/images/user.svg) no-repeat center;
-  mask: url(../styles/images/user.svg) no-repeat center;
+  -webkit-mask: url(../images/user.svg) no-repeat center;
+  mask: url(../images/user.svg) no-repeat center;
   height: 30px;
   width: 30px;
   background-color: black;
@@ -200,8 +200,8 @@
 .nav-search-icon {
   position: absolute;
   right: 30px;
-  -webkit-mask: url(../styles/images/search.svg) no-repeat center;
-  mask: url(../styles/images/search.svg) no-repeat center;
+  -webkit-mask: url(../images/search.svg) no-repeat center;
+  mask: url(../images/search.svg) no-repeat center;
   height: 30px;
   width: 30px;
   background-color: black;

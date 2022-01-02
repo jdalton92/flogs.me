@@ -7,7 +7,7 @@ import {
   CHANGE_PASSWORD,
   CHANGE_EMAIL,
 } from "../queries/userQueries";
-import { Divider } from "../styles/StyledComponents";
+import { Divider } from "../styles/styled/StyledComponents";
 
 const AccountSettings = () => {
   const { setNotification, meData, meLoading, meError } = useContext(Context);

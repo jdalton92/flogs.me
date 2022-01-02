@@ -10,8 +10,6 @@ import ToTopBtn from "../ToTopBtn";
 import CodeBlock from "./CodeBlock";
 import BlogComments from "./Blog.Comments";
 import BlogAddComment from "./Blog.AddComment";
-import "../../styles/Blog.css";
-import "../../styles/Blog.Content.css";
 
 const Blog = () => {
   const commentRef = useRef(null);

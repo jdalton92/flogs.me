@@ -11,8 +11,7 @@ import {
 } from "../../queries/blogQueries";
 import BlogAdminBlogAction from "./Blog.Admin.BlogAction";
 import BlogAdminModal from "./Blog.Admin.Modal";
-import { Divider } from "../../styles/StyledComponents";
-import "../../styles/Blog.Admin.css";
+import { Divider } from "../../styles/styled/StyledComponents";
 
 const BlogAdmin = () => {
   const {

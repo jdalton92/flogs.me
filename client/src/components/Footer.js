@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import Context from "../context/Context";
 import { useHistory } from "react-router-dom";
 import SignUp from "./SignUp";
-import "../styles/Footer.css";
 
 const Footer = () => {
   const { setNotification, showEditBlogModal } = useContext(Context);

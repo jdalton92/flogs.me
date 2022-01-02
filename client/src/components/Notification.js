@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import Context from "../context/Context";
 import NotificationAlert from "./Notification.Alert";
-import "../styles/Notification.css";
 
 const Notification = () => {
   const { notifications } = useContext(Context);
