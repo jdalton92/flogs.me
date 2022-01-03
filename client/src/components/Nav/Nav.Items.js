@@ -15,7 +15,7 @@ const NavItems = ({ viewType }) => {
     <ul className={`nav-items-${viewType}`}>
       <li onClick={() => handleLink("/money")}>money</li>
       <li onClick={() => handleLink("/lifestyle")}>lifestyle</li>
-      <li onClick={() => handleLink("/other-shit")}>other shit</li>
+      <li onClick={() => handleLink("/technology")}>technology</li>
       <li onClick={() => handleLink("/tools")}>tools</li>
       <li onClick={() => handleLink("/faq")}>faq</li>
       <li onClick={() => handleLink("/contact")}>contact</li>

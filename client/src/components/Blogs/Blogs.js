@@ -34,6 +34,7 @@ const Blogs = ({ topic }) => {
 
   useEffect(() => {
     queryParams.variables.category = topic;
+    queryParams.variables.sort = sort;
     if (search) {
       const encodedSearchTerm = new URLSearchParams(search).get("search");
       queryParams.variables.searchTerm = decodeURI(encodedSearchTerm);

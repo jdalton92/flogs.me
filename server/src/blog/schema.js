@@ -27,6 +27,8 @@ export default gql`
   }
 
   extend type Query {
+    getAllBlogs(sort: String): [Blog]
+
     getBlogs(
       category: String
       sort: String

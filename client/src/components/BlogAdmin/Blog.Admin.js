@@ -3,6 +3,7 @@ import Context from "../../context/Context";
 import { useMutation, useLazyQuery } from "@apollo/client";
 import {
   GET_BLOGS,
+  GET_ALL_BLOGS,
   GET_BLOG,
   CREATE_BLOG,
   DELETE_BLOG,
@@ -14,15 +15,8 @@ import BlogAdminModal from "./Blog.Admin.Modal";
 import { Divider } from "../../styles/styled/StyledComponents";
 
 const BlogAdmin = () => {
-  const {
-    setNotification,
-    blogsSearch,
-    blogsData,
-    blogsLoading,
-    blogsError,
-    showEditBlogModal,
-    setShowEditBlogModal,
-  } = useContext(Context);
+  const { setNotification, showEditBlogModal, setShowEditBlogModal } =
+    useContext(Context);
   const [editBlogSlug, setEditBlogSlug] = useState("");
   const [deletedBlogs, setDeletedBlogsForm] = useState([]);
   const [featuredBlogs, setFeaturedBlogs] = useState([]);
@@ -37,13 +31,17 @@ const BlogAdmin = () => {
   ] = useMutation(FEATURE_BLOGS);
   const [getBlog, { data: blogData, error: blogError, loading: blogLoading }] =
     useLazyQuery(GET_BLOG);
+  const [
+    getAllBlogs,
+    { data: blogsData, error: blogsError, loading: blogsLoading },
+  ] = useLazyQuery(GET_ALL_BLOGS);
 
   useEffect(() => {
-    blogsSearch({ variables: { all: true } });
+    getAllBlogs();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  //Handle multi select options
+  // Handle multi select options
   const multiSelectHandler = (e) => {
     let options = e.target.options;
     let value = [];
@@ -130,7 +128,7 @@ const BlogAdmin = () => {
     }
   };
 
-  //Handle featured blogs actions
+  // Handle featured blogs actions
   const featuredBlogsHandler = (e) => {
     const value = multiSelectHandler(e);
     setFeaturedBlogs(value);
@@ -213,11 +211,13 @@ const BlogAdmin = () => {
               blogsData === undefined) && (
               <div className="loader-spinner">loading...</div>
             )}
-            {(blogsError || featuredBlogsError) && (
-              <div style={{ marginTop: "10px", textAlign: "center" }}>
-                error updating blogs...
-              </div>
-            )}
+            {!blogsLoading &&
+              !featuredBlogsLoading &&
+              (blogsError || featuredBlogsError) && (
+                <div style={{ marginTop: "10px", textAlign: "center" }}>
+                  error updating blogs...
+                </div>
+              )}
           </>
         ) : (
           <form className="w100 flex-col blog-featured-form">
@@ -231,7 +231,7 @@ const BlogAdmin = () => {
                   multiple
                   required
                 >
-                  {blogsData.getBlogs
+                  {blogsData?.getAllBlogs
                     .filter((b) => !b.featured)
                     .map((b, i) => (
                       <option key={i} value={b._id}>
@@ -257,7 +257,7 @@ const BlogAdmin = () => {
                   multiple
                   required
                 >
-                  {blogsData.getBlogs
+                  {blogsData?.getAllBlogs
                     .filter((b) => b.featured)
                     .map((b, i) => (
                       <option key={i} value={b._id}>
@@ -298,7 +298,7 @@ const BlogAdmin = () => {
             {(blogsLoading || blogsData === undefined) && (
               <div className="loader-spinner">loading...</div>
             )}
-            {blogsError && (
+            {!blogsLoading && blogsError && (
               <div style={{ marginTop: "10px", textAlign: "center" }}>
                 error loading blogs...
               </div>
@@ -319,7 +319,7 @@ const BlogAdmin = () => {
               <option value="default" disabled>
                 select blog
               </option>
-              {blogsData.getBlogs.map((b, i) => (
+              {blogsData?.getAllBlogs.map((b, i) => (
                 <option key={i} value={b.slug}>
                   title: {b.title} | author: {b.author.name} | comments:{" "}
                   {b.comments.length} | date:{" "}
@@ -358,11 +358,13 @@ const BlogAdmin = () => {
             {(blogsLoading || deleteBlogLoading || blogsData === undefined) && (
               <div className="loader-spinner">loading...</div>
             )}
-            {(blogsError || deleteBlogError) && (
-              <div style={{ marginTop: "10px", textAlign: "center" }}>
-                error deleting blog...
-              </div>
-            )}
+            {!blogsLoading &&
+              !deleteBlogLoading &&
+              (blogsError || deleteBlogError) && (
+                <div style={{ marginTop: "10px", textAlign: "center" }}>
+                  error deleting blog...
+                </div>
+              )}
           </>
         ) : (
           <form
@@ -379,7 +381,7 @@ const BlogAdmin = () => {
               <option value="default" disabled>
                 select blog
               </option>
-              {blogsData.getBlogs.map((b, i) => (
+              {blogsData?.getAllBlogs.map((b, i) => (
                 <option key={i} value={b._id}>
                   title: {b.title} | author: {b.author.name} | comments:{" "}
                   {b.comments.length} | date:{" "}

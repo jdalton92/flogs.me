@@ -50,8 +50,8 @@ const App = () => {
             render={() => <Blogs topic={"lifestyle"} />}
           />
           <Route
-            path="/other-shit"
-            render={() => <Blogs topic={"other-shit"} />}
+            path="/technology"
+            render={() => <Blogs topic={"technology"} />}
           />
           <Route path="/blog/:slug" render={() => <Blog />} />
           <Route exact path="/tools" render={() => <Tools />} />

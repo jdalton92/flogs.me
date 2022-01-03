@@ -11,7 +11,7 @@ export function paginate(query, populate, options) {
     if (options.limit && options.limit <= 0) {
       throw new UserInputError("Limit must be greater than 0");
     }
-    if (options.page && options.page < 0) {
+    if (options.page && options.page <= 0) {
       throw new UserInputError("Page must be greater than 0");
     }
 

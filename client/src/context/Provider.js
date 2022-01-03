@@ -23,6 +23,7 @@ const Provider = ({ children }) => {
       loading: searchBlogsLoading,
     },
   ] = useLazyQuery(SEARCH_BLOGS);
+  // Paginated blogs
   const [
     getBlogs,
     { data: getBlogsData, error: getBlogsError, loading: getBlogsLoading },

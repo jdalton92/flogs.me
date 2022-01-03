@@ -28,6 +28,18 @@ const BLOG_DETAILS = gql`
 //   ${BLOG_DETAILS}
 // `;
 
+export const GET_ALL_BLOGS = gql`
+  query getAllBlogs($sort: String) {
+    getAllBlogs(sort: $sort) {
+      ...BlogDetails
+      comments {
+        _id
+      }
+    }
+  }
+  ${BLOG_DETAILS}
+`;
+
 export const GET_BLOGS = gql`
   query getBlogs($category: String, $sort: String, $page: Int, $limit: Int) {
     getBlogs(category: $category, sort: $sort, page: $page, limit: $limit) {

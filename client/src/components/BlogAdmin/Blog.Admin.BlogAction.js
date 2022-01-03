@@ -28,7 +28,7 @@ const BlogAdminBlogAction = ({
   const [tag, setTag] = useState("");
   const [tags, setTags] = useState([]);
 
-  //Set default values for edit blog view
+  // Set default values for edit blog view
   useEffect(() => {
     if (blogData !== undefined && !blogLoading && !blogError) {
       setBlogForm({
@@ -117,11 +117,14 @@ const BlogAdminBlogAction = ({
             blogsData === undefined) && (
             <div className="loader-spinner">loading...</div>
           )}
-          {(blogActionError || blogsError || blogError) && (
-            <div style={{ marginTop: "10px", textAlign: "center" }}>
-              error...
-            </div>
-          )}
+          {!blogsLoading &&
+            !blogActionLoading &&
+            !blogLoading &&
+            (blogActionError || blogsError || blogError) && (
+              <div style={{ marginTop: "10px", textAlign: "center" }}>
+                error...
+              </div>
+            )}
         </>
       ) : (
         <form
@@ -158,7 +161,7 @@ const BlogAdminBlogAction = ({
             </option>
             <option value="money">money</option>
             <option value="lifestyle">lifestyle</option>
-            <option value="other-shit">other shit</option>
+            <option value="technology">technology</option>
           </select>
           <div className="flex-row blog-action-input blog-action-tags-wrapper">
             <input
@@ -223,7 +226,7 @@ const BlogAdminBlogAction = ({
             name="similarBlogs"
             multiple
           >
-            {blogsData.getBlogs.map((b, i) => (
+            {blogsData?.getAllBlogs.map((b, i) => (
               <option key={i} value={b._id}>
                 title: {b.title} | author: {b.author.name} | date:{" "}
                 {new Intl.DateTimeFormat("en-GB").format(b.date)}

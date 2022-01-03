@@ -18,7 +18,7 @@ const schema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 3,
-    enum: ["money", "lifestyle", "other-shit"],
+    enum: ["money", "lifestyle", "technology"],
   },
   tags: [
     {

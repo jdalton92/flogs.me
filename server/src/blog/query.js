@@ -4,6 +4,14 @@ import mongoose from "mongoose";
 
 import Blog from "./model.js";
 
+const getAllBlogs = async (root, { sort }) => {
+  const blogs = await Blog.find({})
+    .sort(sort || "-date")
+    .populate("author");
+
+  return blogs;
+};
+
 const getBlogs = async (root, { category, sort, limit, page }) => {
   const query = category ? { category } : {};
   const populate = "author";
@@ -95,4 +103,10 @@ const getFeaturedBlogs = async (root, { top, field, order }) => {
   return blogs;
 };
 
-export default { getBlogs, searchBlogs, getBlog, getFeaturedBlogs };
+export default {
+  getBlogs,
+  getAllBlogs,
+  searchBlogs,
+  getBlog,
+  getFeaturedBlogs,
+};
