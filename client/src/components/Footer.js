@@ -40,7 +40,6 @@ const Footer = () => {
           <h4 className="footer-header" onClick={() => handleLink("/")}>
             flogs.me
           </h4>
-          <div className="footer-info">made for your face</div>
         </div>
         <div className="flex-1 h100 flex-row-center footer-col-right">
           <div className="flex-col-center footer-right-wrapper">

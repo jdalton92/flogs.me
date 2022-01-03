@@ -33,6 +33,11 @@ const Blogs = ({ topic }) => {
   };
 
   useEffect(() => {
+    fetchBlogs();
+    // eslint-disable-next-line
+  }, [topic, search, sort]);
+
+  const fetchBlogs = () => {
     queryParams.variables.category = topic;
     queryParams.variables.sort = sort;
     if (search) {
@@ -42,11 +47,9 @@ const Blogs = ({ topic }) => {
     } else {
       getBlogs(queryParams);
     }
-    // eslint-disable-next-line
-  }, [topic, search, sort]);
+  };
 
   const handleSort = (e) => {
-    e.preventDefault();
     setSort(e.target.value);
   };
 
@@ -75,7 +78,11 @@ const Blogs = ({ topic }) => {
               {blogs?.resultsCount > 0 && (
                 <>
                   <div className="blogs-sort flex-row justify-space-between align-start">
-                    <select className="box-shadow-3" onChange={handleSort}>
+                    <select
+                      className="box-shadow-3"
+                      onChange={handleSort}
+                      defaultValue={sort}
+                    >
                       <option value="-date">newest</option>
                       <option value="date">oldest</option>
                     </select>

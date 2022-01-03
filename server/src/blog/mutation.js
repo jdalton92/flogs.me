@@ -154,7 +154,7 @@ const deleteBlog = async (root, { blogId }, { currentUser }) => {
     // Remove blog from author
     await User.updateMany({ _id: blog.author }, { $pull: { blogs: blogId } });
 
-    // Remove comments from blog
+    // Delete comments
     await Comment.deleteMany({ blog: blogId });
 
     // Remove blog from saved blogs list for each user

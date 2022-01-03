@@ -26,12 +26,13 @@ const getBlogs = async (root, { category, sort, limit, page }) => {
   return blogs;
 };
 
-const searchBlogs = async (root, { searchTerm, limit, page }) => {
+const searchBlogs = async (root, { searchTerm, sort, limit, page }) => {
   const query = {
     $text: { $search: searchTerm, $caseSensitive: false },
   };
   const populate = "author";
   const paginationOptions = {
+    sort,
     page,
     limit,
   };

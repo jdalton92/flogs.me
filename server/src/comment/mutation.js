@@ -18,6 +18,10 @@ const createComment = async (
 
   const blog = await Blog.findById(blogId);
 
+  if (!blog) {
+    throw new UserInputError("blog does not exist");
+  }
+
   let newComment = new Comment({
     author: currentUser._id,
     likes: 0,
@@ -28,13 +32,14 @@ const createComment = async (
   });
 
   try {
-    const user = await User.findById(currentUser._id);
-    user.comments = user.comments.concat(newComment._id);
-    blog.comments = blog.comments.concat(newComment._id);
-
     await newComment.save();
-    await user.save();
-    await blog.save();
+    await User.findByIdAndUpdate(currentUser._id, {
+      $push: { comments: newComment._id },
+    });
+    await Blog.findByIdAndUpdate(
+      { _id: blogId },
+      { $push: { comments: newComment._id } }
+    );
   } catch (e) {
     throw new UserInputError(e.message, {
       invalidArgs: { blogId, title, comment },

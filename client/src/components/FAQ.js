@@ -12,7 +12,7 @@ const FAQ = () => {
     <section className="FAQ-section w100 flex-col">
       <div className="flex-col FAQ-wrapper">
         <div className="p10 FAQ-item-wrapper">
-          <h2> what is flogs.me</h2>
+          <h2>what is flogs.me</h2>
           <p>website</p>
         </div>
         <div className="p10 FAQ-item-wrapper">
@@ -20,16 +20,12 @@ const FAQ = () => {
           <p>bored</p>
         </div>
         <div className="p10 FAQ-item-wrapper">
-          <h2> what are flogs</h2>
-          <p>you</p>
+          <h2>what are flogs</h2>
+          <p>started as an abbreviation for finance blogs</p>
         </div>
         <div className="p10 FAQ-item-wrapper">
           <h2>is flogs.me financial advise</h2>
-          <p>nah</p>
-        </div>
-        <div className="p10 FAQ-item-wrapper">
-          <h2>what are your qualifications</h2>
-          <p>literally none</p>
+          <p>nope</p>
         </div>
         <div className="p10 FAQ-item-wrapper">
           <h2> can I contribute</h2>
