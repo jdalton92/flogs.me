@@ -21,7 +21,7 @@ export function paginate(query, populate, options) {
     const sort = options.sort || "";
     const exclude = options.exclude || "";
 
-    const skip = (page - 1) * (limit - 1);
+    const skip = (page - 1) * limit;
     let resultsCount;
     let pagesCount;
     this.countDocuments(query, (error, result) => {

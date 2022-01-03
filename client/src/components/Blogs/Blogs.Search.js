@@ -5,12 +5,13 @@ const BlogsSearch = () => {
   const history = useHistory();
   const [search, setSearch] = useState("");
   const locationSearch = history.location.search;
-  const params = new URLSearchParams(locationSearch);
 
   useEffect(() => {
-    const searchParam = params.get("search");
-    if (searchParam) {
-      setSearch(searchParam);
+    const encodedSearchTerm = new URLSearchParams(locationSearch)?.get(
+      "search"
+    );
+    if (encodedSearchTerm) {
+      setSearch(decodeURI(encodedSearchTerm));
     }
     // eslint-disable-next-line
   }, []);
@@ -18,7 +19,10 @@ const BlogsSearch = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (search) {
-      history.push({ pathname: "/blogs", search: `?search=${search}` });
+      history.push({
+        pathname: "/blogs",
+        search: `?search=${encodeURI(search)}`,
+      });
     } else {
       setSearch("");
       history.push("/blogs");

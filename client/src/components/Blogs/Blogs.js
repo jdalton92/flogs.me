@@ -19,6 +19,7 @@ const Blogs = ({ topic }) => {
   const history = useHistory();
   const [sort, setSort] = useState("-date");
   const search = history.location.search;
+  const searchTerm = new URLSearchParams(search)?.get("search");
   let page = 0;
   let limit = 10;
   let queryParams = {
@@ -26,16 +27,16 @@ const Blogs = ({ topic }) => {
       sort,
       page,
       limit,
+      category: topic,
+      searchTerm: decodeURI(searchTerm),
     },
   };
 
   useEffect(() => {
-    if (topic) {
-      queryParams.variables.category = topic;
-      getBlogs(queryParams);
-    } else if (search) {
-      const params = new URLSearchParams(search);
-      queryParams.variables.searchTerm = params.get("search");
+    queryParams.variables.category = topic;
+    if (search) {
+      const encodedSearchTerm = new URLSearchParams(search).get("search");
+      queryParams.variables.searchTerm = decodeURI(encodedSearchTerm);
       searchBlogs(queryParams);
     } else {
       getBlogs(queryParams);
@@ -54,9 +55,7 @@ const Blogs = ({ topic }) => {
     searchBlogsError ||
     (getBlogsData === undefined && searchBlogsData === undefined);
 
-  const blogs = () => {
-    return search ? searchBlogsData?.searchBlogs : getBlogsData?.getBlogs;
-  };
+  const blogs = search ? searchBlogsData?.searchBlogs : getBlogsData?.getBlogs;
 
   return (
     <section className="blogs-section flex-row">
@@ -64,29 +63,25 @@ const Blogs = ({ topic }) => {
         <BlogsSearch />
         <div className="blogs-result-wrapper">
           {loading && <div className="loader-spinner">loading...</div>}
-          {invalidState && (
+          {!loading && invalidState && (
             <div className="mt10 text-center">error loading blog data...</div>
           )}
           {!loading && !invalidState && (
             <>
-              {blogs()?.resultsCount === 0 && (
+              {blogs?.resultsCount === 0 && (
                 <div className="pt25">no results...</div>
               )}
-              {blogs()?.resultsCount > 0 && (
+              {blogs?.resultsCount > 0 && (
                 <>
-                  <div className="blogs-sort flex-row-between">
+                  <div className="blogs-sort flex-row justify-space-between align-start">
                     <select className="box-shadow-3" onChange={handleSort}>
                       <option value="-date">newest</option>
                       <option value="date">oldest</option>
                     </select>
-                    <BlogsPaginator
-                      page={blogs().currentPage}
-                      count={blogs().resultsCount}
-                      queryParams={queryParams}
-                    />
+                    <BlogsPaginator blogs={blogs} queryParams={queryParams} />
                   </div>
                   <div className="blogcards-wrapper">
-                    {blogs().results.map((b) => (
+                    {blogs.results.map((b) => (
                       <BlogsCard key={b._id} blog={b} />
                     ))}
                   </div>

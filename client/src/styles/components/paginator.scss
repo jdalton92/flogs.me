@@ -1,0 +1,19 @@
+.paginator {
+  display: flex;
+}
+
+.paginator-text {
+  margin-right: 10px;
+  margin-top: 0;
+}
+
+@media screen and (max-width: 500px) {
+  .paginator {
+    flex-direction: column-reverse;
+  }
+
+  .paginator-text {
+    margin-right: 0;
+    margin-top: 10px;
+  }
+}

@@ -36,15 +36,21 @@
   justify-content: center;
 }
 
-.flex-row-between {
-  display: flex;
-  align-items: center;
+.align-start {
+  align-items: flex-start;
+}
+
+.align-end {
+  align-items: flex-end;
+}
+
+.justify-space-between {
   justify-content: space-between;
 }
 
 @for $i from 1 to 10 {
   .flex-#{$i} {
-    flex: #{$i}
+    flex: #{$i};
   }
 }
 
@@ -69,10 +75,10 @@
   margin-right: auto;
 }
 
-@each $spacer, $symbol in (height: h, width:w ) {
+@each $spacer, $symbol in (height: h, width: w) {
   @each $size, $percentage in $percentages {
     .#{$symbol}#{$size} {
-      #{$spacer}: #{$percentage}
+      #{$spacer}: #{$percentage};
     }
   }
 }
