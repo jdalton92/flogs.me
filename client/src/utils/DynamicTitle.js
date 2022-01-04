@@ -1,28 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
+import { useLocation } from "react-router-dom";
+import Context from "../context/Context";
 
 const DynamicTitle = () => {
-  const [url, setUrl] = useState("");
-  const history = useHistory();
-
-  const pathname = history.location.pathname;
-
+  const { blog } = useContext(Context);
+  const [title, setTitle] = useState("flogs.me");
+  const { pathname } = useLocation();
   useEffect(() => {
-    setUrl(pathname);
+    const blogTitle = blog?.getBlog?.title;
+    setTitle(
+      `flogs.me${
+        blogTitle && pathname.includes("/blog/") ? ` | ${blogTitle}` : ""
+      }`
+    );
+    // eslint-disable-next-line
   }, [pathname]);
 
-  //Revert to default title unless on blog view
-  //Assigning dynamic title done in Blog.js component
-  if (url.toLowerCase().includes("/blog/")) {
-    return null;
-  } else {
-    return (
-      <Helmet>
-        <title>flogs.me</title>
-      </Helmet>
-    );
-  }
+  return (
+    <Helmet>
+      <title>{title}</title>
+    </Helmet>
+  );
 };
 
 export default DynamicTitle;

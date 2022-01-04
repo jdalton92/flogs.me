@@ -14,6 +14,9 @@ const Provider = ({ children }) => {
     refetch: meRefetch,
   } = useQuery(GET_ME);
 
+  // Blog data
+  const [blog, setBlog] = useState({});
+
   // Blogs data and search query
   const [
     searchBlogs,
@@ -79,6 +82,8 @@ const Provider = ({ children }) => {
         searchBlogsData,
         searchBlogsError,
         searchBlogsLoading,
+        blog,
+        setBlog,
         getBlogs,
         getBlogsData,
         getBlogsError,

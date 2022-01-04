@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
 import Context from "../../context/Context";
-import { Helmet } from "react-helmet";
 import { useParams, useHistory } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { useQuery, useMutation } from "@apollo/client";
@@ -15,7 +14,7 @@ const Blog = () => {
   const commentRef = useRef(null);
   const slug = useParams().slug;
   const history = useHistory();
-  const { setNotification, meData } = useContext(Context);
+  const { setNotification, meData, setBlog } = useContext(Context);
   const [viewButton, setViewButton] = useState(false);
   const [favoriteBlog, { error: favoriteBlogError }] =
     useMutation(FAVORITE_BLOG);
@@ -26,6 +25,9 @@ const Blog = () => {
     refetch: blogRefetch,
   } = useQuery(GET_BLOG, {
     variables: { slug },
+    onCompleted: (blog) => {
+      setBlog(blog);
+    },
   });
   const {
     data: commentData,
@@ -128,7 +130,6 @@ const Blog = () => {
       break;
     default:
       authorType = "flogs contributor";
-      break;
   }
 
   return (
@@ -144,15 +145,10 @@ const Blog = () => {
         {blogLoading || blogError ? (
           <>
             {blogLoading && <div className="loader-spinner">loading...</div>}
-            {blogError && (
-              <div style={{ marginTop: "10px" }}>error loading blog...</div>
-            )}
+            {blogError && <div className="mt10">error loading blog...</div>}
           </>
         ) : (
           <>
-            <Helmet>
-              <title>flogs.me | {title}</title>
-            </Helmet>
             <div className="w100 blog-header-wrapper">
               <h2 className="blog-title">{title}</h2>
               <div className="m-auto blog-details">
