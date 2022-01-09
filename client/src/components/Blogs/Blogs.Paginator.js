@@ -1,13 +1,15 @@
 import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import Context from "../../context/Context";
 import { getPaginateOptions } from "../../utils/helpers";
 
 const BlogsPaginator = ({ blogs, queryParams }) => {
+  const history = useHistory();
   const { currentPage, pagesCount, resultsCount } = blogs;
   const { getBlogs, searchBlogs } = useContext(Context);
   const setPage = (pageNumber) => {
     queryParams.variables.page = pageNumber;
-    if (queryParams.variables.searchTerm) {
+    if (history.location.search) {
       searchBlogs(queryParams);
     } else {
       getBlogs(queryParams);

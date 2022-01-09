@@ -133,6 +133,11 @@
   background-color: black;
 }
 
+.primary-btn:disabled,
+.secondary-btn:disabled {
+  cursor: initial;
+}
+
 .box-shadow-on-hover:hover,
 .box-shadow-hover,
 .box-shadow-1 {

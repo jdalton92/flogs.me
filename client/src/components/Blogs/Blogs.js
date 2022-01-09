@@ -7,6 +7,7 @@ import BlogsCard from "./Blogs.Card";
 
 const Blogs = ({ topic }) => {
   const {
+    setSearch,
     searchBlogs,
     searchBlogsData,
     searchBlogsLoading,
@@ -21,7 +22,7 @@ const Blogs = ({ topic }) => {
   const search = history.location.search;
   const searchTerm = new URLSearchParams(search)?.get("search");
   let page = 0;
-  let limit = 10;
+  let limit = 5;
   let queryParams = {
     variables: {
       sort,
@@ -33,6 +34,9 @@ const Blogs = ({ topic }) => {
   };
 
   useEffect(() => {
+    if (!search) {
+      setSearch("");
+    }
     fetchBlogs();
     // eslint-disable-next-line
   }, [topic, search, sort]);

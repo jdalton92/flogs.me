@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useContext } from "react";
+import Context from "../../context/Context";
 import { useHistory } from "react-router-dom";
 
 const BlogsSearch = () => {
   const history = useHistory();
-  const [search, setSearch] = useState("");
+  const { search, setSearch } = useContext(Context);
   const locationSearch = history.location.search;
 
   useEffect(() => {
@@ -12,21 +13,21 @@ const BlogsSearch = () => {
     );
     if (encodedSearchTerm) {
       setSearch(decodeURI(encodedSearchTerm));
+    } else {
+      setSearch("");
     }
     // eslint-disable-next-line
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (search) {
-      history.push({
-        pathname: "/blogs",
-        search: `?search=${encodeURI(search)}`,
-      });
-    } else {
-      setSearch("");
-      history.push("/blogs");
+    if (!search) {
+      return;
     }
+    history.push({
+      pathname: "/blogs",
+      search: `?search=${encodeURI(search)}`,
+    });
   };
 
   return (
@@ -42,7 +43,11 @@ const BlogsSearch = () => {
             onChange={({ target }) => setSearch(target.value)}
             maxLength={50}
           ></input>
-          <button className="primary-btn box-shadow-3" type="submit">
+          <button
+            className="primary-btn box-shadow-3"
+            type="submit"
+            disabled={!search}
+          >
             search
           </button>
         </div>

@@ -32,6 +32,9 @@ const Provider = ({ children }) => {
     { data: getBlogsData, error: getBlogsError, loading: getBlogsLoading },
   ] = useLazyQuery(GET_BLOGS);
 
+  // Search term
+  const [search, setSearch] = useState("");
+
   // Notifications state
   const [notifications, setMessage] = useState([]);
   const setNotification = ({ type, title, message }) =>
@@ -78,6 +81,8 @@ const Provider = ({ children }) => {
         meError,
         meData,
         meRefetch,
+        search,
+        setSearch,
         searchBlogs,
         searchBlogsData,
         searchBlogsError,
