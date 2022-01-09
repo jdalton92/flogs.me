@@ -1,9 +1,10 @@
 import apollo from "apollo-server-express";
 const { ApolloServer } = apollo;
 import express from "express";
-import path from "path";
-const app = express();
+import { dirname, resolve } from "path";
+import { fileURLToPath } from "url";
 import jwt from "jsonwebtoken";
+const app = express();
 
 import config from "./utils/config.js";
 import { connectDatabase } from "./utils/database.js";
@@ -27,12 +28,12 @@ const server = new ApolloServer({
   },
 });
 
-if (config.NODE_ENV === "production") {
-  app.use(express.static("build"));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "build", "index.html"));
-  });
-}
+app.use(express.static("build"));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+app.get("*", (req, res) => {
+  res.sendFile(resolve(__dirname, "build", "index.html"));
+});
 app.use(errorHandler);
 server.start().then(() => {
   server.applyMiddleware({ app });
