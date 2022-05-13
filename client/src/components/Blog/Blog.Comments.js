@@ -9,7 +9,7 @@ const BlogComments = ({ commentData }) => {
   const [sort, setSort] = useState("newest");
 
   const isAuthor = (comment) => {
-    return comment.author._id === meData.getMe._id;
+    return comment.author._id === meData.getMe?._id;
   };
 
   const handleSort = (e) => {

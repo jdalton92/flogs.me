@@ -51,11 +51,11 @@ export const CHANGE_SUBSCRIPTION = gql`
 export const GET_ME = gql`
   query {
     getMe {
+      _id
       name
       email
       userType
       subscribed
-      _id
     }
   }
 `;
