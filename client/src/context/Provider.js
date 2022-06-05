@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useQuery, useLazyQuery } from "@apollo/client";
 import { GET_ME } from "../queries/userQueries";
 import { GET_BLOGS, SEARCH_BLOGS } from "../queries/blogQueries";
+import { GET_COMMENTS } from "../queries/commentQueries";
 import Context from "./Context";
 import { v4 as uuid } from "uuid";
 
@@ -31,6 +32,11 @@ const Provider = ({ children }) => {
     getBlogs,
     { data: getBlogsData, error: getBlogsError, loading: getBlogsLoading },
   ] = useLazyQuery(GET_BLOGS);
+  // Paginated comments
+  const [
+    getComments,
+    { data: commentsData, error: commentsError, loading: commentsLoading },
+  ] = useLazyQuery(GET_COMMENTS);
 
   // Search term
   const [search, setSearch] = useState("");
@@ -93,6 +99,10 @@ const Provider = ({ children }) => {
         getBlogsData,
         getBlogsError,
         getBlogsLoading,
+        getComments,
+        commentsData,
+        commentsLoading,
+        commentsError,
         showEditBlogModal,
         setShowEditBlogModal,
       }}

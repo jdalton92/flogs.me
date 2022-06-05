@@ -1,12 +1,36 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Context from "../../context/Context";
-import { useHistory } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import BlogCommentLikeDelete from "./Blog.CommentLikeDelete";
+import Paginator from "../Paginator";
 
-const BlogComments = ({ commentData }) => {
-  const { meData } = useContext(Context);
+const BlogComments = () => {
+  const slug = useParams().slug;
   const history = useHistory();
-  const [sort, setSort] = useState("newest");
+  const { meData, getComments, commentsData, commentsLoading, commentsError } =
+    useContext(Context);
+  const [sort, setSort] = useState("-date");
+  const [page, setPage] = useState(0);
+  const limit = 5;
+  let queryParams = {
+    variables: {
+      slug,
+      sort,
+      page,
+      limit,
+    },
+  };
+  useEffect(() => {
+    fetchComments(page);
+    // eslint-disable-next-line
+  }, [slug, sort, page]);
+
+  const fetchComments = (pageNumber) => {
+    queryParams.variables.slug = slug;
+    queryParams.variables.sort = sort;
+    queryParams.variables.page = pageNumber;
+    getComments(queryParams);
+  };
 
   const isAuthor = (comment) => {
     return comment.author._id === meData.getMe?._id;
@@ -15,47 +39,51 @@ const BlogComments = ({ commentData }) => {
   const handleSort = (e) => {
     e.preventDefault();
     setSort(e.target.value);
+    setPage(0);
+    fetchComments(page);
   };
 
   const handleClick = (id) => {
     history.push(`/user/${id}`);
   };
 
-  let sortedComments = [...commentData.getComments];
-
-  switch (sort) {
-    case "newest":
-      sortedComments.sort((a, b) => b.date - a.date);
-      break;
-    case "oldest":
-      sortedComments.sort((a, b) => a.date - b.date);
-      break;
-    case "likes":
-      sortedComments.sort((a, b) => b.likes - a.likes);
-      break;
-    case "dislikes":
-      sortedComments.sort((a, b) => b.dislikes - a.dislikes);
-      break;
-    default:
-      sortedComments = [...commentData.getComments];
-      break;
+  if (commentsLoading) {
+    return <div className="loader-spinner">loading...</div>;
   }
-
-  if (sortedComments.length === 0) {
+  if (commentsError) {
+    return (
+      <div style={{ marginTop: "10px", textAlign: "center" }}>
+        error loading comments...
+      </div>
+    );
+  }
+  if (
+    commentsData === undefined ||
+    commentsData?.getComments.resultsCount === 0
+  ) {
     return <div>no comments...</div>;
   }
   return (
     <>
       <div className="blog-comments-sort">
-        <select defaultValue="newest" onChange={handleSort}>
-          <option value="newest">newest</option>
-          <option value="oldest">oldest</option>
-          <option value="likes">most likes</option>
-          <option value="dislikes">most dislikes</option>
+        <select
+          className="box-shadow-3"
+          onChange={handleSort}
+          defaultValue={sort}
+        >
+          <option value="-date">newest</option>
+          <option value="date">oldest</option>
         </select>
+        <Paginator
+          currentPage={commentsData.getComments.currentPage}
+          pagesCount={commentsData.getComments.pagesCount}
+          resultsCount={commentsData.getComments.resultsCount}
+          limit={limit}
+          setPage={fetchComments}
+        />
       </div>
       <div className="blog-comments-list-wrapper">
-        {sortedComments.map((c) => (
+        {commentsData.getComments.results.map((c) => (
           <div key={c._id} className="p10 blog-comment-wrapper">
             <div className="flex-col">
               <div className="flex-row blog-comment-header">

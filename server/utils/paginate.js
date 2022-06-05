@@ -2,7 +2,7 @@ import apollo from "apollo-server-express";
 const { UserInputError } = apollo;
 
 /**
- * Minimal pagination for mongoose
+ * Minimal implementation of pagination for mongoose-server-express
  *
  * Must be standard function (not arrow function)
  */
@@ -43,12 +43,17 @@ export function paginate(query, populate, options) {
         });
       }
 
+      // Allow passing single field name (str) and covert to iterable
+      if (!Array.isArray(populate)) {
+        populate = [populate];
+      }
+
       this.find(query)
         .select(exclude)
         .sort(sort)
         .skip(skip)
         .limit(limit)
-        .populate(populate)
+        .populate(...populate)
         .exec(function (error, results) {
           if (error) {
             reject(new UserInputError("Error paginating results"));

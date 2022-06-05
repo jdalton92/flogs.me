@@ -17,17 +17,6 @@ const BLOG_DETAILS = gql`
   }
 `;
 
-// const PAGINATED_BLOGS = gql`
-//   fragment PaginatedBlogs on Blog {
-//     pagesCount
-//     resultsCount
-//     currentPage
-//     nextPage
-//     previousPage
-//   }
-//   ${BLOG_DETAILS}
-// `;
-
 export const GET_ALL_BLOGS = gql`
   query getAllBlogs($sort: String) {
     getAllBlogs(sort: $sort) {

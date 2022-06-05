@@ -32,7 +32,12 @@ const BlogAddComment = ({ id, commentRef }) => {
         refetchQueries: [
           {
             query: GET_COMMENTS,
-            variables: { slug },
+            variables: {
+              slug,
+              sort: "-date",
+              page: 0,
+              limit: 5,
+            },
           },
         ],
         awaitRefetchQueries: true,

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { paginate } from "../../utils/paginate.js";
 
 const schema = new mongoose.Schema({
   date: {
@@ -31,5 +32,7 @@ const schema = new mongoose.Schema({
     type: Number,
   },
 });
+
+schema.statics.paginate = paginate;
 
 export default mongoose.model("Comment", schema);

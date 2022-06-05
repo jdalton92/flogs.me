@@ -22,6 +22,18 @@ const BlogCommentLikeDelete = ({ id, isAuthor }) => {
   const [dislikeComment, { loading: dislikeLoading, error: dislikeError }] =
     useMutation(DISLIKE_COMMENT);
 
+  const refetchQueries = [
+    {
+      query: GET_COMMENTS,
+      variables: {
+        slug,
+        sort: "-date",
+        page: 0,
+        limit: 5,
+      },
+    },
+  ];
+
   const handleDelete = (id) => {
     if (!meData.getMe) {
       setNotification({
@@ -36,12 +48,7 @@ const BlogCommentLikeDelete = ({ id, isAuthor }) => {
         variables: {
           commentId: id,
         },
-        refetchQueries: [
-          {
-            query: GET_COMMENTS,
-            variables: { slug },
-          },
-        ],
+        refetchQueries,
         awaitRefetchQueries: true,
       });
     } catch (e) {
@@ -69,12 +76,7 @@ const BlogCommentLikeDelete = ({ id, isAuthor }) => {
         variables: {
           commentId: id,
         },
-        refetchQueries: [
-          {
-            query: GET_COMMENTS,
-            variables: { slug },
-          },
-        ],
+        refetchQueries,
         awaitRefetchQueries: true,
       });
     } catch (e) {
@@ -101,12 +103,7 @@ const BlogCommentLikeDelete = ({ id, isAuthor }) => {
         variables: {
           commentId: id,
         },
-        refetchQueries: [
-          {
-            query: GET_COMMENTS,
-            variables: { slug },
-          },
-        ],
+        refetchQueries,
         awaitRefetchQueries: true,
       });
     } catch (e) {

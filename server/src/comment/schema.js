@@ -13,8 +13,22 @@ export default gql`
     _id: ID!
   }
 
+  type CommentPaginated {
+    pagesCount: Int!
+    resultsCount: Int!
+    currentPage: Int
+    nextPage: Int
+    previousPage: Int
+    results: [Comment]
+  }
+
   extend type Query {
-    getComments(slug: String!): [Comment]
+    getComments(
+      slug: String!
+      sort: String
+      limit: Int
+      page: Int
+    ): CommentPaginated
   }
 
   extend type Mutation {

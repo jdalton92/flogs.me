@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import Context from "../../context/Context";
 import BlogsSearch from "./Blogs.Search";
-import BlogsPaginator from "./Blogs.Paginator";
+import Paginator from "../Paginator";
 import BlogsCard from "./Blogs.Card";
 
 const Blogs = ({ topic }) => {
@@ -37,11 +37,12 @@ const Blogs = ({ topic }) => {
     if (!search) {
       setSearch("");
     }
-    fetchBlogs();
+    fetchBlogs(page);
     // eslint-disable-next-line
   }, [topic, search, sort]);
 
-  const fetchBlogs = () => {
+  const fetchBlogs = (pageNumber) => {
+    queryParams.variables.page = pageNumber;
     queryParams.variables.category = topic;
     queryParams.variables.sort = sort;
     if (search) {
@@ -90,7 +91,13 @@ const Blogs = ({ topic }) => {
                       <option value="-date">newest</option>
                       <option value="date">oldest</option>
                     </select>
-                    <BlogsPaginator blogs={blogs} queryParams={queryParams} />
+                    <Paginator
+                      currentPage={blogs.currentPage}
+                      pagesCount={blogs.pagesCount}
+                      resultsCount={blogs.resultsCount}
+                      limit={limit}
+                      setPage={fetchBlogs}
+                    />
                   </div>
                   <div className="blogcards-wrapper">
                     {blogs.results.map((b) => (

@@ -187,8 +187,8 @@
 .blog-comments-sort {
   margin-top: 5px;
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
 .blog-comments-sort select {

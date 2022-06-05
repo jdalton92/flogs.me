@@ -4,7 +4,6 @@ import { useParams, useHistory } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { useQuery, useMutation } from "@apollo/client";
 import { GET_BLOG, FAVORITE_BLOG } from "../../queries/blogQueries";
-import { GET_COMMENTS } from "../../queries/commentQueries";
 import ToTopBtn from "../ToTopBtn";
 import CodeBlock from "./CodeBlock";
 import BlogComments from "./Blog.Comments";
@@ -28,13 +27,6 @@ const Blog = () => {
     onCompleted: (blog) => {
       setBlog(blog);
     },
-  });
-  const {
-    data: commentData,
-    error: commentError,
-    loading: commentLoading,
-  } = useQuery(GET_COMMENTS, {
-    variables: { slug },
   });
 
   useEffect(() => {
@@ -281,20 +273,7 @@ const Blog = () => {
               <div className="blog-comments-header">
                 <h2>comments</h2>
               </div>
-              {commentLoading || commentError ? (
-                <>
-                  {commentLoading && (
-                    <div className="loader-spinner">loading...</div>
-                  )}
-                  {commentError && (
-                    <div style={{ marginTop: "10px", textAlign: "center" }}>
-                      error loading comments...
-                    </div>
-                  )}
-                </>
-              ) : (
-                <BlogComments commentData={commentData} />
-              )}
+              <BlogComments />
             </div>
           </>
         )}

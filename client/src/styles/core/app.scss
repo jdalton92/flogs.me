@@ -115,7 +115,7 @@
   border: solid 1px black;
 }
 
-.primary-btn:hover {
+.primary-btn:not(:disabled):hover {
   cursor: pointer;
   color: black;
   background-color: white;
@@ -127,7 +127,7 @@
   border: solid 1px black;
 }
 
-.secondary-btn:hover {
+.secondary-btn:not(:disabled):hover {
   cursor: pointer;
   color: white;
   background-color: black;
@@ -136,6 +136,7 @@
 .primary-btn:disabled,
 .secondary-btn:disabled {
   cursor: initial;
+  opacity: 0.7;
 }
 
 .box-shadow-on-hover:hover,

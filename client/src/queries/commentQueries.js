@@ -1,18 +1,25 @@
 import { gql } from "@apollo/client";
 
 export const GET_COMMENTS = gql`
-  query getComments($slug: String!) {
-    getComments(slug: $slug) {
-      _id
-      author {
+  query getComments($slug: String!, $limit: Int, $page: Int, $sort: String) {
+    getComments(slug: $slug, limit: $limit, page: $page, sort: $sort) {
+      pagesCount
+      resultsCount
+      currentPage
+      nextPage
+      previousPage
+      results {
         _id
-        name
+        author {
+          _id
+          name
+        }
+        title
+        comment
+        date
+        likes
+        dislikes
       }
-      title
-      comment
-      date
-      likes
-      dislikes
     }
   }
 `;
